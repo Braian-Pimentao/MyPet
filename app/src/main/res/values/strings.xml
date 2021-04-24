@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MyPet</string>
+    <string name="recyclerview">RecyclerView</string>
+    <string name="textview">TextView</string>
+    <string name="desc_img_animal">Imagen del animal</string>
+    <string name="nombre_animal">Nombre</string>
+    <string name="raza_animal">raza del animal</string>
+    <string name="tipo_animal">tipo de animal</string>
 </resources>
