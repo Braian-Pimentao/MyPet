@@ -11,4 +11,6 @@
     <string name="iniciar">Iniciar Sesión</string>
     <string name="pregunta">¿No tienes cuenta?</string>
     <string name="regristrate">REGISTRATE AQUI</string>
+    <string name="facebook">Iniciar con Facebook</string>
+    <string name="google">Iniciar con Google</string>
 </resources>
