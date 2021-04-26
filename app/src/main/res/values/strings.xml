@@ -6,4 +6,9 @@
     <string name="nombre_animal">Nombre</string>
     <string name="raza_animal">raza del animal</string>
     <string name="tipo_animal">tipo de animal</string>
+    <string name="correo_electronico">Correo Electronico</string>
+    <string name="pssword">Contraseña</string>
+    <string name="iniciar">Iniciar Sesión</string>
+    <string name="pregunta">¿No tienes cuenta?</string>
+    <string name="regristrate">REGISTRATE AQUI</string>
 </resources>

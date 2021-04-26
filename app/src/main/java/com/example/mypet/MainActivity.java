@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
+import com.example.mypet.sesion.IniciarSesion;
 
 import java.util.ArrayList;
 
@@ -16,16 +20,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.lista_anuncios);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        recyclerView = findViewById(R.id.lista_anuncios);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//
+//        listaDatos = new ArrayList<>();
+//
+//        for (int i = 0; i <=50 ; i++) {
+//            listaDatos.add("Dato: " +i);
+//        }
+//
+//        AdaptadorDatos adaptadorDatos = new AdaptadorDatos(listaDatos);
+//        recyclerView.setAdapter(adaptadorDatos);
 
-        listaDatos = new ArrayList<>();
 
-        for (int i = 0; i <=50 ; i++) {
-            listaDatos.add("Dato: " +i);
-        }
+    }
 
-        AdaptadorDatos adaptadorDatos = new AdaptadorDatos(listaDatos);
-        recyclerView.setAdapter(adaptadorDatos);
+    public void pulsarBoton(View v) {
+        Intent items = new Intent(this, IniciarSesion.class);
+        startActivity(items);
     }
 }
