@@ -1,4 +1,4 @@
-package com.example.mypet;
+package com.aplicacion.mypet;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

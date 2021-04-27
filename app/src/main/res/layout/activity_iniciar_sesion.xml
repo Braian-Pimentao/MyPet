@@ -17,7 +17,8 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/logo"
+            android:contentDescription="@string/logo" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,20 +28,28 @@
             android:layout_marginRight="30dp"
             android:layout_marginTop="40dp">
 
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_email"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="5dp"
+                android:contentDescription="@string/ic_email" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/editTextWhite">
+                android:theme="@style/estiloCampoDeTexto">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    style="@style/editTextWhite"
+                    android:id="@+id/inicio_sesion_email"
+                    style="@style/estiloCampoDeTexto"
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
                     android:hint="@string/correo_electronico"
                     android:inputType="textEmailAddress" />
-
             </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
 
 
@@ -50,11 +59,21 @@
             android:orientation="horizontal"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_candado"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="5dp"
+                android:contentDescription="@string/ic_candado" />
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/editTextWhite">
+                android:theme="@style/estiloCampoDeTexto">
+
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inicio_sesion_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/pssword"
@@ -63,19 +82,24 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/boton_inicio_sesion"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/pulsar_boton_app"
             android:layout_marginRight="20dp"
-            android:textColor="@color/white"
-            android:text="@string/iniciar" />
+            android:background="@drawable/pulsar_boton_app"
+            android:drawableStart="@drawable/ic_hueso"
+            android:onClick="pulsarIniciarSesion"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="@string/iniciar"
+            android:textColor="@color/white" />
 
         <Button
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:drawableStart="@drawable/ic_google"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
@@ -87,7 +111,7 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="35dp"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -97,26 +121,32 @@
             android:textColor="@color/white"
             android:background="@drawable/pulsar_boton_facebook"
             android:text="@string/facebook" />
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginEnd="5dp"
+            android:text="@string/pregunta"
+            android:textSize="17sp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:text="@string/pregunta" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/regristrate" />
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/textViewRegistro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="registrarUsuario"
+            android:text="@string/regristrate"
+            android:textSize="17sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

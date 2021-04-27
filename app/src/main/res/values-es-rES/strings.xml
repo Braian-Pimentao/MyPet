@@ -1,7 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MyPet</string>
-    <string name="recyclerview" translatable="false">RecyclerView</string>
-    <string name="textview" translatable="false">TextView</string>
     <string name="desc_img_animal">Imagen del animal</string>
     <string name="nombre_animal">Nombre</string>
     <string name="raza_animal">raza del animal</string>
@@ -13,15 +12,10 @@
     <string name="regristrate">REGISTRATE AQUI</string>
     <string name="facebook">Iniciar con Facebook</string>
     <string name="google">Iniciar con Google</string>
-    <string name="ic_email" translatable="false">ic_email</string>
-    <string name="ic_candado" translatable="false">ic_candado</string>
     <string name="registro">REGISTRO</string>
-    <string name="ic_person" translatable="false">ic_person</string>
-    <string name="logo" translatable="false">logo</string>
-    <string name="nombre_de_usuario">Nombre de usuario</string>
     <string name="confir_password">Confirmar Contraseña</string>
-    <string name="registrase">REGISTRASE</string>
-    <string name="ic_person_2" translatable="false">ic_person_2</string>
+    <string name="nombre_de_usuario">Nombre de usuario</string>
+    <string name="registrase">REGISTRO</string>
     <string name="password_corta">La contraseña es demasiado corta</string>
     <string name="password_diferente">La contraseña no coincide</string>
     <string name="email_no_valido">El email no es válido</string>

@@ -1,4 +1,4 @@
-package com.example.mypet;
+package com.aplicacion.mypet;
 
 public class Animal {
     private String nombre;

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyPet</string>
+    <string name="desc_img_animal">animal picture</string>
+    <string name="nombre_animal">Name</string>
+    <string name="raza_animal">animal breed</string>
+    <string name="tipo_animal">tipe animal</string>
+    <string name="correo_electronico">Email</string>
+    <string name="pssword">Passsword</string>
+    <string name="iniciar">Log in</string>
+    <string name="pregunta">You do not have an account?</string>
+    <string name="regristrate">REGISTER NOW</string>
+    <string name="facebook">Log in Facebook</string>
+    <string name="google">Log in Google</string>
+    <string name="registro">REGISTER</string>
+    <string name="nombre_de_usuario">Name of user</string>
+    <string name="confir_password">Confirm password</string>
+    <string name="registrase">REGISTER</string>
+    <string name="password_corta">The password is too short</string>
+    <string name="password_diferente">Password does not match</string>
+    <string name="email_no_valido">The email is not valid</string>
+    <string name="campos_vacios">Fill in all the fields</string>
+    <string name="register_complete">Registered user</string>
+    <string name="register_incomplete">Failed to register</string>
+</resources>
