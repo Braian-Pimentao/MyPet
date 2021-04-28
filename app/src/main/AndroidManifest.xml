@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPet">
-        <activity android:name="com.aplicacion.mypet.sesion.RegistroActivity"></activity>
-        <activity android:name="com.aplicacion.mypet.sesion.IniciarSesion" />
-        <activity android:name="com.aplicacion.mypet.MainActivity">
+        <activity android:name="com.aplicacion.mypet.activities.sesion.RegistroActivity"></activity>
+        <activity android:name="com.aplicacion.mypet.activities.sesion.IniciarSesion" />
+        <activity android:name="com.aplicacion.mypet.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

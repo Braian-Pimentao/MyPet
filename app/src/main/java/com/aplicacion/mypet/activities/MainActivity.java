@@ -1,13 +1,14 @@
-package com.aplicacion.mypet;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
+package com.aplicacion.mypet.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.aplicacion.mypet.sesion.IniciarSesion;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.aplicacion.mypet.R;
+import com.aplicacion.mypet.activities.sesion.IniciarSesion;
 
 import java.util.ArrayList;
 
