@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.aplicacion.mypet.R;
+import com.aplicacion.mypet.models.User;
+import com.aplicacion.mypet.providers.AuthProvider;
+import com.aplicacion.mypet.providers.UserProvider;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -20,24 +23,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class IniciarSesion extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     private static final String TAG = "INFO_SING_IN";
     private TextInputEditText textInputEmail;
     private TextInputEditText textInputPassword;
-    private FirebaseAuth auth;
+    private AuthProvider auth;
     private GoogleSignInClient googleSignInClient;
-    private FirebaseFirestore firestore;
+    private UserProvider userProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +43,7 @@ public class IniciarSesion extends AppCompatActivity {
         textInputEmail = findViewById(R.id.inicio_sesion_email);
         textInputPassword = findViewById(R.id.inicio_sesion_password);
 
-        auth = FirebaseAuth.getInstance();
+        auth = new AuthProvider();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -55,7 +51,7 @@ public class IniciarSesion extends AppCompatActivity {
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        firestore = FirebaseFirestore.getInstance();
+        userProvider = new UserProvider();
     }
 
     public void registrarUsuario(View view) {
@@ -75,7 +71,7 @@ public class IniciarSesion extends AppCompatActivity {
     private void loginNormal(){
         String email = textInputEmail.getText().toString();
         String password = textInputPassword.getText().toString();
-        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        auth.login(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
@@ -113,15 +109,14 @@ public class IniciarSesion extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        auth.signInWithCredential(credential)
+        auth.loginGoogle(idToken)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            checkUserExist(auth.getCurrentUser().getUid());
+                            checkUserExist(auth.getUid());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -132,16 +127,19 @@ public class IniciarSesion extends AppCompatActivity {
     }
 
     private void checkUserExist(String id) {
-        firestore.collection("Users").document("id").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        userProvider.getUser(id).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (!documentSnapshot.exists()){
-                    String email = auth.getCurrentUser().getEmail();
-                    String nombreUsuario = auth.getCurrentUser().getDisplayName();
-                    Map<String,Object> datosUsuario = new HashMap<>();
-                    datosUsuario.put("email", email);
-                    datosUsuario.put("nombreUsuario",nombreUsuario);
-                    firestore.collection("Users").document(id).set(datosUsuario);
+                    String email = auth.getEmail();
+                    String nombreUsuario = auth.getNombreUsuario();
+
+                    User user= new User();
+                    user.setId(id);
+                    user.setEmail(email);
+                    user.setUsername(nombreUsuario);
+
+                    userProvider.create(user);
                 }
 
                 Toast.makeText(IniciarSesion.this, getString(R.string.inicio_correcto_google), Toast.LENGTH_LONG).show();

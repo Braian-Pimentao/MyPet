@@ -8,15 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.aplicacion.mypet.R;
+import com.aplicacion.mypet.models.User;
+import com.aplicacion.mypet.providers.AuthProvider;
+import com.aplicacion.mypet.providers.UserProvider;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,8 +24,8 @@ public class RegistroActivity extends AppCompatActivity {
     private TextInputEditText textEmail;
     private TextInputEditText textPassword;
     private TextInputEditText textConfirmPassword;
-    private FirebaseAuth auth;
-    private FirebaseFirestore firestore;
+    private AuthProvider auth;
+    private UserProvider userProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +37,8 @@ public class RegistroActivity extends AppCompatActivity {
         textPassword = findViewById(R.id.campo_password);
         textConfirmPassword = findViewById(R.id.campo_confirmar_password);
 
-        auth=FirebaseAuth.getInstance();
-        firestore=FirebaseFirestore.getInstance();
+        auth = new AuthProvider();
+        userProvider = new UserProvider();
     }
 
     public void irAtras(View view) {
@@ -75,7 +74,7 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     private void createUser(final String nombreUsuario,final String email, String password) {
-        auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        auth.registerUser(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
@@ -88,11 +87,14 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     private void addDataUser(String email,String nombreUsuario){
-        String id = auth.getCurrentUser().getUid();
-        Map<String,Object> datosUsuario = new HashMap<>();
-        datosUsuario.put("email",email);
-        datosUsuario.put("nombreUsuario",nombreUsuario);
-        firestore.collection("Users").document(id).set(datosUsuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+        String id = auth.getUid();
+
+        User user = new User();
+        user.setId(id);
+        user.setEmail(email);
+        user.setUsername(nombreUsuario);
+
+        userProvider.create(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
