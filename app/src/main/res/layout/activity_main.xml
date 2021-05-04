@@ -35,7 +35,7 @@
             android:src="@drawable/ic_publicar"
             android:background="@drawable/pulsar_publicar"
             android:contentDescription="@string/boton_publicar"
-            android:onClick="prueba"
+            android:onClick="botonPublicar"
             android:scaleType="center"/>
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 

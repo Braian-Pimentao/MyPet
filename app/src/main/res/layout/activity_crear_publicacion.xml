@@ -46,7 +46,7 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -72,10 +72,12 @@
                             app:cardCornerRadius="10dp">
 
                             <ImageView
+                                android:id="@+id/imagen_publicar_1"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:onClick="elegirImagen"
                                 android:padding="10dp"
-                                android:scaleType="centerInside"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/ic_camara" />
                         </androidx.cardview.widget.CardView>
 
@@ -89,10 +91,12 @@
                             app:cardCornerRadius="10dp">
 
                             <ImageView
+                                android:id="@+id/imagen_publicar_2"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:onClick="elegirImagen"
                                 android:padding="10dp"
-                                android:scaleType="centerInside"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/ic_camara" />
                         </androidx.cardview.widget.CardView>
 
@@ -106,10 +110,12 @@
                             app:cardCornerRadius="10dp">
 
                             <ImageView
+                                android:id="@+id/imagen_publicar_3"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:onClick="elegirImagen"
                                 android:padding="10dp"
-                                android:scaleType="centerInside"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/ic_camara" />
                         </androidx.cardview.widget.CardView>
 
@@ -123,10 +129,12 @@
                             app:cardCornerRadius="10dp">
 
                             <ImageView
+                                android:id="@+id/imagen_publicar_4"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:onClick="elegirImagen"
                                 android:padding="10dp"
-                                android:scaleType="centerInside"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/ic_camara" />
                         </androidx.cardview.widget.CardView>
 
@@ -140,10 +148,12 @@
                             app:cardCornerRadius="10dp">
 
                             <ImageView
+                                android:id="@+id/imagen_publicar_5"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:onClick="elegirImagen"
                                 android:padding="10dp"
-                                android:scaleType="centerInside"
+                                android:scaleType="centerCrop"
                                 android:src="@drawable/ic_camara" />
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
@@ -246,25 +256,34 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/sexo_masculino"
                         android:layout_width="0dp"
-                        android:layout_height="90dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
                         android:layout_weight="1"
+                        android:contentDescription="@string/desc_masculino"
+                        android:onClick="seleccionarSexo"
                         android:orientation="vertical">
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/card_masculino"
                             android:layout_width="match_parent"
+
                             android:layout_height="70dp">
 
                             <ImageView
+                                android:id="@+id/masculino"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/ic_masculino" />
+                                android:padding="10dp"
+                                android:src="@drawable/ic_masculino"
+                                android:contentDescription="@string/desc_masculino" />
 
                         </androidx.cardview.widget.CardView>
 
                         <TextView
+
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -276,24 +295,30 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/sexo_femenino"
                         android:layout_width="0dp"
-                        android:layout_height="90dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
                         android:layout_weight="1"
+                        android:contentDescription="@string/desc_femenino"
+                        android:onClick="seleccionarSexo"
                         android:background="@color/opaco"
                         android:orientation="vertical">
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:background="@color/opaco">
+                            android:id="@+id/card_femenino"
+                            android:layout_height="70dp">
 
                             <ImageView
+                                android:id="@+id/femenino"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:padding="10dp"
                                 android:background="@color/opaco"
-                                android:src="@drawable/ic_femenine" />
+                                android:src="@drawable/ic_femenine"
+                                android:contentDescription="@string/desc_femenino" />
 
                         </androidx.cardview.widget.CardView>
 
@@ -310,6 +335,7 @@
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
+
     <Button
         android:id="@+id/boton_registro"
         android:layout_width="match_parent"
@@ -318,6 +344,7 @@
         android:layout_margin="20dp"
         android:background="@drawable/pulsar_boton_app"
 
+        android:onClick="subirPublicacion"
         android:text="@string/publicar_anuncio"
         android:textColor="@color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

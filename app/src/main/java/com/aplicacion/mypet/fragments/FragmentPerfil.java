@@ -1,6 +1,5 @@
 package com.aplicacion.mypet.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.aplicacion.mypet.R;
-import com.aplicacion.mypet.activities.sesion.IniciarSesion;
 
 public class FragmentPerfil extends Fragment {
     private View vista;
@@ -27,7 +25,10 @@ public class FragmentPerfil extends Fragment {
     }
 
     public void pulsarBotonPrueba(View v) {
-        Intent items = new Intent(getActivity(), IniciarSesion.class);
-        startActivity(items);
+
+    }
+
+    public void cerrarSesion(View v) {
+
     }
 }

@@ -18,20 +18,24 @@ import com.aplicacion.mypet.fragments.FragmentChats;
 import com.aplicacion.mypet.fragments.FragmentFavorito;
 import com.aplicacion.mypet.fragments.FragmentHome;
 import com.aplicacion.mypet.fragments.FragmentPerfil;
+import com.aplicacion.mypet.providers.AuthProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigation;
+    private AuthProvider auth;
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         bottomNavigation = findViewById(R.id.nav_view);
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
         openFragment(new FragmentHome());
+        auth = new AuthProvider();
     }
 
     public void openFragment(Fragment fragment) {
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.addToBackStack(null);
         transaction.commit();
+
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
@@ -68,9 +73,22 @@ public class MainActivity extends AppCompatActivity {
         startActivity(items);
     }
 
-    public void prueba(View v){
-        Intent publicar = new Intent(this, ActivityCrearPublicacion.class);
-        startActivity(publicar);
+    public void cerrarSesion(View v) {
+        auth.getAuth().signOut();
+
+    }
+
+    public void botonPublicar(View v){
+        if (auth.getAuth().getCurrentUser()!=null) {
+            System.out.println(auth.getEmail());
+            System.out.println(auth.getNombreUsuario());
+            Intent publicar = new Intent(this, ActivityCrearPublicacion.class);
+            startActivity(publicar);
+        } else {
+            Intent items = new Intent(this, IniciarSesion.class);
+            startActivity(items);
+        }
     }
 
 }
+

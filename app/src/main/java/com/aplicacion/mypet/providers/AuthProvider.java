@@ -46,4 +46,8 @@ public class AuthProvider {
     public Task<AuthResult> registerUser(String email, String password){
         return auth.createUserWithEmailAndPassword(email,password);
     }
+
+    public FirebaseAuth getAuth() {
+        return auth;
+    }
 }

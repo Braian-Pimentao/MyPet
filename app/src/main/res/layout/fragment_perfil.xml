@@ -15,4 +15,12 @@
         android:onClick="pulsarBotonPrueba"
         android:text="Button" />
 
+    <Button
+        android:layout_marginTop="100dp"
+        android:id="@+id/cerrar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="cerrarSesion"
+        android:text="Cerrar Sesion" />
+
 </FrameLayout>

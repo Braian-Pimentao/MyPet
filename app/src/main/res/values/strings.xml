@@ -4,7 +4,7 @@
     <string name="textview" translatable="false">TextView</string>
     <string name="desc_img_animal">Imagen del animal</string>
     <string name="nombre_animal">Nombre</string>
-    <string name="raza_animal">Raza</string>
+    <string name="raza_animal">Raza/Especie</string>
     <string name="tipo_animal">Tipo</string>
     <string name="correo_electronico">Correo Electronico</string>
     <string name="pssword">Contraseña</string>
@@ -46,6 +46,10 @@
     <string name="masculino">Masculino</string>
     <string name="femenino">Femenino</string>
     <string name="publicar_anuncio">Publicar anuncio</string>
+    <string name="subir_imagen_correcta">Imagen subida</string>
+    <string name="error_subir_imagen">No se ha podido subir la imagen</string>
+    <string name="desc_masculino">masculino</string>
+    <string name="desc_femenino">femenino</string>
 
     <string-array name="lista_animales">
         <item>Perro</item>
