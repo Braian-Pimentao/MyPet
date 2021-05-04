@@ -1,5 +1,6 @@
 package com.aplicacion.mypet.activities.sesion;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -19,6 +20,8 @@ import com.google.firebase.auth.AuthResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import dmax.dialog.SpotsDialog;
+
 public class RegistroActivity extends AppCompatActivity {
     private TextInputEditText textNombre;
     private TextInputEditText textEmail;
@@ -26,6 +29,7 @@ public class RegistroActivity extends AppCompatActivity {
     private TextInputEditText textConfirmPassword;
     private AuthProvider auth;
     private UserProvider userProvider;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,11 @@ public class RegistroActivity extends AppCompatActivity {
 
         auth = new AuthProvider();
         userProvider = new UserProvider();
+
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage(R.string.cargando_registro)
+                .setCancelable(false).build();
     }
 
     public void irAtras(View view) {
@@ -74,7 +83,9 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     private void createUser(final String nombreUsuario,final String email, String password) {
+        dialog.show();
         auth.registerUser(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
@@ -98,6 +109,7 @@ public class RegistroActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
+                    dialog.dismiss();
                     Toast.makeText(RegistroActivity.this, getString(R.string.register_complete), Toast.LENGTH_LONG).show();
                     finish();
                 }

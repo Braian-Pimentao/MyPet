@@ -4,14 +4,13 @@
     <string name="textview" translatable="false">TextView</string>
     <string name="desc_img_animal">Imagen del animal</string>
     <string name="nombre_animal">Nombre</string>
-    <string name="raza_animal">raza del animal</string>
-    <string name="tipo_animal">tipo de animal</string>
+    <string name="raza_animal">Raza</string>
+    <string name="tipo_animal">Tipo</string>
     <string name="correo_electronico">Correo Electronico</string>
     <string name="pssword">Contraseña</string>
     <string name="iniciar">Iniciar Sesión</string>
     <string name="pregunta">¿No tienes cuenta?</string>
     <string name="regristrate">REGISTRATE AQUI</string>
-    <string name="facebook">Iniciar con Facebook</string>
     <string name="google">Iniciar con Google</string>
     <string name="ic_email" translatable="false">ic_email</string>
     <string name="ic_candado" translatable="false">ic_candado</string>
@@ -32,4 +31,31 @@
     <string name="inicio_incorrecto">El email o contraseña incorrectos</string>
     <string name="inicio_correcto_google">Se ha iniciado sesión con google</string>
     <string name="inicio_incorrecto_google">Sesión no iniciada con google</string>
+    <string name="cargando_iniciar">Iniciando sesión…</string>
+    <string name="cargando_registro">Creando usuario…</string>
+    <string name="inicio">Inicio</string>
+    <string name="favoritos">Favoritos</string>
+    <string name="publicar">Publicar</string>
+    <string name="mensajes">Mensajes</string>
+    <string name="perfil">Perfil</string>
+    <string name="boton_publicar" translatable="false">boton_publicar</string>
+    <string name="nueva_mascota">Nueva mascota</string>
+    <string name="edad_animal">Edad</string>
+    <string name="descripcion">Descripción</string>
+    <string name="sexo">Sexo</string>
+    <string name="masculino">Masculino</string>
+    <string name="femenino">Femenino</string>
+    <string name="publicar_anuncio">Publicar anuncio</string>
+
+    <string-array name="lista_animales">
+        <item>Perro</item>
+        <item>Gato</item>
+        <item>Conejo</item>
+        <item>Roedor</item>
+        <item>Tortuga</item>
+        <item>Pez</item>
+        <item>Pajaros</item>
+        <item>Reptil</item>
+    </string-array>
+
 </resources>

@@ -43,11 +43,11 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/inicio_sesion_email"
-                    style="@style/estiloCampoDeTexto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/correo_electronico"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:textSize="18sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -111,19 +111,6 @@
             android:text="@string/google"
             android:textColor="@color/white" />
 
-        <Button
-            android:id="@+id/boton_inicio_sesion_facebook"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:drawableStart="@drawable/ic_facebook"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:textColor="@color/white"
-            android:background="@drawable/pulsar_boton_facebook"
-            android:text="@string/facebook" />
     </LinearLayout>
 
     <LinearLayout

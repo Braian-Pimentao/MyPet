@@ -7,6 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="opaco">#00000000</color>
+    <color name="gris">#A1A1A1</color>
+
+
 
 
     <!--Colores de botones-->
@@ -21,6 +25,7 @@
     <!--Paleta de colores de la app-->
     <color name="principal_app">#881db5</color>
     <color name="secundario_app">#ba0063</color>
+    <color name="terciario_app">#6200ee</color>
 
 
 </resources>

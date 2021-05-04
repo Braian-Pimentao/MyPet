@@ -3,14 +3,13 @@
     <string name="app_name">MyPet</string>
     <string name="desc_img_animal">animal picture</string>
     <string name="nombre_animal">Name</string>
-    <string name="raza_animal">animal breed</string>
-    <string name="tipo_animal">tipe animal</string>
+    <string name="raza_animal">breed</string>
+    <string name="tipo_animal">tipe</string>
     <string name="correo_electronico">Email</string>
     <string name="pssword">Passsword</string>
     <string name="iniciar">Log in</string>
     <string name="pregunta">You do not have an account?</string>
     <string name="regristrate">REGISTER NOW</string>
-    <string name="facebook">Log in Facebook</string>
     <string name="google">Log in Google</string>
     <string name="registro">REGISTER</string>
     <string name="nombre_de_usuario">Name of user</string>
@@ -26,4 +25,23 @@
     <string name="inicio_incorrecto">Incorrect mail or password</string>
     <string name="inicio_correcto_google">Login with google</string>
     <string name="inicio_incorrecto_google">Login failed with google</string>
+    <string name="cargando_iniciar">Login session…</string>
+    <string name="cargando_registro">Creating user…</string>
+    <string name="inicio">Home</string>
+    <string name="favoritos">Favorites</string>
+    <string name="publicar">Publish</string>
+    <string name="mensajes">Chats</string>
+    <string name="perfil">Profile</string>
+    <string-array name="lista_animales">
+        <item>Dog</item>
+        <item>Cat</item>
+        <item>Rabbit</item>
+        <item>Rodent</item>
+        <item>Turtle</item>
+        <item>Fish</item>
+        <item>Bird</item>
+        <item>Reptile</item>
+    </string-array>
+    <string name="nueva_mascota">New Pet</string>
+    <string name="edad_animal">Age</string>
 </resources>

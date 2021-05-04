@@ -1,5 +1,6 @@
 package com.aplicacion.mypet.activities.sesion;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import dmax.dialog.SpotsDialog;
+
 public class IniciarSesion extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     private static final String TAG = "INFO_SING_IN";
@@ -34,6 +37,7 @@ public class IniciarSesion extends AppCompatActivity {
     private AuthProvider auth;
     private GoogleSignInClient googleSignInClient;
     private UserProvider userProvider;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,10 @@ public class IniciarSesion extends AppCompatActivity {
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
         userProvider = new UserProvider();
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage(R.string.cargando_iniciar)
+                .setCancelable(false).build();
     }
 
     public void registrarUsuario(View view) {
@@ -71,17 +79,23 @@ public class IniciarSesion extends AppCompatActivity {
     private void loginNormal(){
         String email = textInputEmail.getText().toString();
         String password = textInputPassword.getText().toString();
-        auth.login(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    Toast.makeText(IniciarSesion.this, getString(R.string.inicio_correcto), Toast.LENGTH_LONG).show();
-                    finish();
-                } else {
-                    Toast.makeText(IniciarSesion.this, getString(R.string.inicio_incorrecto), Toast.LENGTH_LONG).show();
+        if(!email.isEmpty() && !password.isEmpty()) {
+            dialog.show();
+            auth.login(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    dialog.dismiss();
+                    if (task.isSuccessful()) {
+                        Toast.makeText(IniciarSesion.this, getString(R.string.inicio_correcto), Toast.LENGTH_LONG).show();
+                        finish();
+                    } else {
+                        Toast.makeText(IniciarSesion.this, getString(R.string.inicio_incorrecto), Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            Toast.makeText(this, getString(R.string.campos_vacios), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void signInGoogle() {
@@ -92,7 +106,6 @@ public class IniciarSesion extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -109,10 +122,12 @@ public class IniciarSesion extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(String idToken) {
+        dialog.show();
         auth.loginGoogle(idToken)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        dialog.dismiss();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
