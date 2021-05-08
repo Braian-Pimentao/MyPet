@@ -50,6 +50,12 @@
     <string name="error_subir_imagen">No se ha podido subir la imagen</string>
     <string name="desc_masculino">masculino</string>
     <string name="desc_femenino">femenino</string>
+    <string name="camara">Cámara</string>
+    <string name="galeria">Galería</string>
+    <string name="permisos">Debes habilitar los permisos de cámara</string>
+    <string name="borrar_imagen">Borrar imagen</string>
+    <string name="animal_publicado">Se ha publicado el anuncio</string>
+    <string name="error_animal_publicado">No se ha publicado el anuncio</string>
 
     <string-array name="lista_animales">
         <item>Perro</item>

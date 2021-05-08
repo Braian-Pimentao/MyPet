@@ -3,6 +3,7 @@ package com.aplicacion.mypet.utils;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
@@ -12,6 +13,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Optic on 24/01/2018.
@@ -27,6 +31,7 @@ public class FileUtil {
     }
 
     public static File from(Context context, Uri uri) throws IOException {
+
         InputStream inputStream = context.getContentResolver().openInputStream(uri);
         String fileName = getFileName(context, uri);
         String[] splitName = splitFileName(fileName);
@@ -42,6 +47,7 @@ public class FileUtil {
         if (inputStream != null) {
             copy(inputStream, out);
             inputStream.close();
+
         }
 
         if (out != null) {
@@ -49,6 +55,20 @@ public class FileUtil {
         }
         return tempFile;
     }
+
+    public static File fileCamera(Context context) throws IOException {
+        String timesTamp = new SimpleDateFormat("yyyyMMdd_HH-mm-ss", Locale.getDefault()).format(new Date());
+        String imgFileName = "IMG_" + timesTamp + "_";
+
+        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imgFileName, ".jpg",storageDir);
+
+        return image;
+
+
+    }
+
+
 
     private static String[] splitFileName(String fileName) {
         String name = fileName;

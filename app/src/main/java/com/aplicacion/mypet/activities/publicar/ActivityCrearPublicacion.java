@@ -1,10 +1,13 @@
 package com.aplicacion.mypet.activities.publicar;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +20,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import com.aplicacion.mypet.R;
+import com.aplicacion.mypet.fragments.BottomSheetFragmentPersonalizado;
 import com.aplicacion.mypet.models.Publicacion;
+import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.ImageProvider;
 import com.aplicacion.mypet.providers.PublicarProvider;
 import com.aplicacion.mypet.utils.FileUtil;
@@ -30,16 +37,25 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class ActivityCrearPublicacion extends AppCompatActivity {
+public class ActivityCrearPublicacion extends AppCompatActivity implements BottomSheetFragmentPersonalizado.BottomSheetListener {
     private final int GALLERY_REQUEST_CODE=1;
-    private PublicarProvider publicarProvider;
+    private final int CAMARA_REQUEST_CODE=2;
+    private final int REQUEST_PERMISSION_CAMERA=100;
+    private final int REQUEST_PERMISSION_GALLERY=101;
 
+    private AuthProvider authProvider;
+    private int contador=0;
+
+
+    private PublicarProvider publicarProvider;
     private File[] imagenes;
-    private ImageView[] imagenesAnimal;
+    private ArrayList<File> imagenesAlmacenadas;
     private ImageProvider imageProvider;
     private ImageView imagenSeleccionada;
+    private File fotoCamaraArchivo;
 
     private Button boton_tipo;
     private TextInputEditText inputTextNombre;
@@ -73,6 +89,10 @@ public class ActivityCrearPublicacion extends AppCompatActivity {
 
         urlImagenes = new ArrayList<>();
         publicarProvider = new PublicarProvider();
+
+        authProvider = new AuthProvider();
+
+
     }
 
     public void cancelarPublicacion(View v) {
@@ -99,8 +119,12 @@ public class ActivityCrearPublicacion extends AppCompatActivity {
 
     public void elegirImagen(View view) {
         imagenSeleccionada = (ImageView) view;
-        openGallery();
+        BottomSheetFragmentPersonalizado bottomSheet = new BottomSheetFragmentPersonalizado();
+        bottomSheet.show(getSupportFragmentManager(),"TAG");
     }
+
+
+
 
     public void subirPublicacion(View view) {
         nombre = inputTextNombre.getText().toString();
@@ -110,23 +134,20 @@ public class ActivityCrearPublicacion extends AppCompatActivity {
         descripcion = inputTextDescripcion.getText().toString();
 
 
-        if (!nombre.isEmpty() && !edad.isEmpty() && !tipo.equals(getString(R.string.tipo_animal))
-            && !raza.isEmpty() && !descripcion.isEmpty() && !comprobarImagenes()) {
-            saveImage();
 
+
+
+        if (!nombre.isEmpty() && !edad.isEmpty() && !tipo.equals(getString(R.string.tipo_animal))
+            && !raza.isEmpty() && !descripcion.isEmpty() && imagenesAlmacenadas.size()>0) {
+
+            saveImage();
         } else {
             Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.campos_vacios), Toast.LENGTH_LONG).show();
         }
+
     }
 
-    private boolean comprobarImagenes() {
-        for (int i = 0; i < imagenes.length ; i++) {
-            if (imagenes[i]!= null){
-                return false;
-            }
-        }
-        return true;
-    }
+
 
     public void seleccionarSexo(View view) {
         CardView cardViewMasculono = findViewById(R.id.card_masculino);
@@ -134,48 +155,144 @@ public class ActivityCrearPublicacion extends AppCompatActivity {
         LinearLayout linearSexo = (LinearLayout) view;
         if (linearSexo.getId() == R.id.sexo_masculino) {
             cardViewFemenino.setCardBackgroundColor(getResources().getColor(R.color.white));
-            cardViewMasculono.setCardBackgroundColor(getResources().getColor(R.color.negro_opaco));
+            cardViewMasculono.setCardBackgroundColor(getResources().getColor(R.color.principal_app));
         } else if (linearSexo.getId() == R.id.sexo_femenino) {
             cardViewMasculono.setCardBackgroundColor(getResources().getColor(R.color.white));
-            cardViewFemenino.setCardBackgroundColor(getResources().getColor(R.color.negro_opaco));
+            cardViewFemenino.setCardBackgroundColor(getResources().getColor(R.color.principal_app));
         }
         sexo = (String) linearSexo.getContentDescription();
         System.out.println(sexo);
     }
 
     private void saveImage() {
-        for (int i = 0; i < imagenes.length; i++) {
-            if (imagenes[i] != null) {
-                imageProvider.save(this,imagenes[i]).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            imageProvider.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    urlImagenes.add(uri.toString());
-                                }
-                            });
-                        } else {
-                            Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.error_subir_imagen), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        System.out.println(contador);
+        if (contador < imagenesAlmacenadas.size()) {
+            contador++;
+            imageProvider = new ImageProvider();
+            imageProvider.save(this,imagenesAlmacenadas.get(contador-1),contador-1).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imageProvider.getStorage().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            urlImagenes.add(uri.toString());
+                            System.out.println("_______________________________________Imagenes_____________________________________________________" + urlImagenes.toString());
+                            //System.out.println("-----------------------------------------------------"+ contador +"-" + (imagenesAlmacenadas.size()-1) + "-----------------------------------------------------");
+                            if (contador == imagenesAlmacenadas.size()) {
+                                Publicacion publicacion = new Publicacion();
+                                publicacion.setNombre(nombre);
+                                publicacion.setEdad(edad);
+                                publicacion.setTipo(tipo);
+                                publicacion.setRaza(raza);
+                                publicacion.setDescripcion(descripcion);
+                                publicacion.setSexo(sexo);
+                                publicacion.setIdUser(authProvider.getUid());
+                                publicacion.setImagenes(urlImagenes);
 
-        Publicacion publicacion = new Publicacion();
+                                System.out.println("__________________________________Imagenes 2_____________________________________________________"+ publicacion.getImagenes().toString());
+
+                                publicarProvider.save(publicacion).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> taskSave) {
+                                        if (taskSave.isSuccessful()) {
+                                            Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.animal_publicado), Toast.LENGTH_LONG).show();
+                                        }else {
+                                            Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.error_animal_publicado), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
+                            saveImage();
+                        }
+                    });
+                }
+            });
+
+
+        }
     }
+
+    /*
+    private void saveImage() {
+        for (int i = 0; i < imagenesAlmacenadas.size(); i++) {
+            int finalI = i;
+            System.out.println( finalI + "--------------------------------------------------------------------------------------"+ imagenesAlmacenadas.size());
+            imageProvider.save(this,imagenesAlmacenadas.get(i),i).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        imageProvider.getStorage().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                urlImagenes.add(uri.toString());
+                                System.out.println("_______________________________________Imagenes_____________________________________________________" + urlImagenes.toString());
+                                System.out.println("-----------------------------------------------------"+ finalI +"-" + (imagenesAlmacenadas.size()-1) + "-----------------------------------------------------");
+
+                                if (finalI == imagenesAlmacenadas.size()-1) {
+
+                                    Publicacion publicacion = new Publicacion();
+                                    publicacion.setNombre(nombre);
+                                    publicacion.setEdad(edad);
+                                    publicacion.setTipo(tipo);
+                                    publicacion.setRaza(raza);
+                                    publicacion.setDescripcion(descripcion);
+                                    publicacion.setSexo(sexo);
+                                    publicacion.setIdUser(authProvider.getUid());
+                                    publicacion.setImagenes(urlImagenes);
+
+                                    System.out.println("__________________________________Imagenes 2_____________________________________________________"+ publicacion.getImagenes().toString());
+
+                                    publicarProvider.save(publicacion).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> taskSave) {
+                                            if (taskSave.isSuccessful()) {
+                                                Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.animal_publicado), Toast.LENGTH_LONG).show();
+                                            }else {
+                                                Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.error_animal_publicado), Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.error_subir_imagen), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+    }
+
+     */
+
+
 
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
         startActivityForResult(galleryIntent,GALLERY_REQUEST_CODE);
+    }
+
+    private void openCamera() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(cameraIntent.resolveActivity(getPackageManager())!=null){
+
+            fotoCamaraArchivo = null;
+            try {
+                fotoCamaraArchivo = FileUtil.fileCamera(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (fotoCamaraArchivo != null) {
+                Uri fotoUri = FileProvider.getUriForFile(
+                        this,
+                        "com.aplicacion.mypet",
+                        fotoCamaraArchivo);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fotoUri);
+                startActivityForResult(cameraIntent,CAMARA_REQUEST_CODE);
+            }
+        }
     }
 
     @Override
@@ -184,16 +301,20 @@ public class ActivityCrearPublicacion extends AppCompatActivity {
         if(requestCode==GALLERY_REQUEST_CODE && resultCode == RESULT_OK) {
             try {
                 File imagen = FileUtil.from(this,data.getData());
-                asignarImaginasArray(imagen);
+                asignarImagenesArray(imagen);
                 imagenSeleccionada.setImageBitmap(BitmapFactory.decodeFile(imagen.getAbsolutePath()));
             }catch (Exception e){
                 Log.d("ERROR: ", e.getMessage());
                 Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == CAMARA_REQUEST_CODE && resultCode == RESULT_OK){
+            asignarImagenesArray(fotoCamaraArchivo);
+
+            imagenSeleccionada.setImageBitmap(BitmapFactory.decodeFile(fotoCamaraArchivo.getAbsolutePath()));
         }
     }
 
-    private void asignarImaginasArray(File file) {
+    private void asignarImagenesArray(File file) {
         if (imagenSeleccionada.getId() == R.id.imagen_publicar_1){
             imagenes[0] = file;
         } else if (imagenSeleccionada.getId() == R.id.imagen_publicar_2){
@@ -205,5 +326,68 @@ public class ActivityCrearPublicacion extends AppCompatActivity {
         } else if (imagenSeleccionada.getId() == R.id.imagen_publicar_5){
             imagenes[4] = file;
         }
+
+        actualizarArrayListImagenes();
+    }
+
+    private void eliminarImagenesArray() {
+        if (imagenSeleccionada.getId() == R.id.imagen_publicar_1){
+            imagenes[0] = null;
+        } else if (imagenSeleccionada.getId() == R.id.imagen_publicar_2){
+            imagenes[1] = null;
+        } else if (imagenSeleccionada.getId() == R.id.imagen_publicar_3){
+            imagenes[2] = null;
+        } else if (imagenSeleccionada.getId() == R.id.imagen_publicar_4){
+            imagenes[3] = null;
+        } else if (imagenSeleccionada.getId() == R.id.imagen_publicar_5){
+            imagenes[4] = null;
+        }
+        actualizarArrayListImagenes();
+    }
+
+    private void actualizarArrayListImagenes() {
+        imagenesAlmacenadas = new ArrayList<>();
+        for (File imagen : imagenes) {
+            if (imagen!= null)
+                imagenesAlmacenadas.add(imagen);
+        }
+    }
+
+    @Override
+    public void onButtonClicked(int numero) {
+        if (numero == 0){
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+                openCamera();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},REQUEST_PERMISSION_CAMERA);
+            }
+        } else if (numero == 1) {
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                openGallery();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_PERMISSION_GALLERY);
+            }
+        } else if (numero == 2) {
+            imagenSeleccionada.setImageDrawable(getDrawable(R.drawable.ic_camara));
+            eliminarImagenesArray();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == REQUEST_PERMISSION_CAMERA) {
+            if (permissions.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                openCamera();
+            } else {
+                Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.permisos), Toast.LENGTH_LONG).show();
+            }
+        } else if(requestCode == REQUEST_PERMISSION_GALLERY) {
+            if (permissions.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                openGallery();
+            } else {
+                Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.permisos), Toast.LENGTH_LONG).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

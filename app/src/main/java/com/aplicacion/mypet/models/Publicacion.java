@@ -1,5 +1,7 @@
 package com.aplicacion.mypet.models;
 
+import java.util.ArrayList;
+
 public class Publicacion {
     private String idUser;
     private String id;
@@ -9,13 +11,13 @@ public class Publicacion {
     private String raza;
     private String descripcion;
     private String sexo;
-    private String[] imagenes;
+    private ArrayList<String> imagenes;
 
     public Publicacion() {
 
     }
 
-    public Publicacion(String idUser, String id, String nombre, String edad, String tipo, String raza, String descripcion, String sexo, String[] imagenes) {
+    public Publicacion(String idUser, String id, String nombre, String edad, String tipo, String raza, String descripcion, String sexo, ArrayList<String> imagenes) {
         this.idUser = idUser;
         this.id = id;
         this.nombre = nombre;
@@ -91,11 +93,11 @@ public class Publicacion {
         this.sexo = sexo;
     }
 
-    public String[] getImagenes() {
+    public ArrayList<String> getImagenes() {
         return imagenes;
     }
 
-    public void setImagenes(String[] imagenes) {
+    public void setImagenes(ArrayList<String> imagenes) {
         this.imagenes = imagenes;
     }
 }

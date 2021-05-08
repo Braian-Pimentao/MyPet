@@ -43,7 +43,6 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="624dp">
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -76,7 +75,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:onClick="elegirImagen"
-                                android:padding="10dp"
+
                                 android:scaleType="centerCrop"
                                 android:src="@drawable/ic_camara" />
                         </androidx.cardview.widget.CardView>
@@ -276,9 +275,9 @@
                                 android:id="@+id/masculino"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:contentDescription="@string/desc_masculino"
                                 android:padding="10dp"
-                                android:src="@drawable/ic_masculino"
-                                android:contentDescription="@string/desc_masculino" />
+                                android:src="@drawable/ic_masculino" />
 
                         </androidx.cardview.widget.CardView>
 
@@ -301,24 +300,24 @@
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"
                         android:layout_weight="1"
+                        android:background="@color/opaco"
                         android:contentDescription="@string/desc_femenino"
                         android:onClick="seleccionarSexo"
-                        android:background="@color/opaco"
                         android:orientation="vertical">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_width="match_parent"
                             android:id="@+id/card_femenino"
+                            android:layout_width="match_parent"
                             android:layout_height="70dp">
 
                             <ImageView
                                 android:id="@+id/femenino"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:padding="10dp"
                                 android:background="@color/opaco"
-                                android:src="@drawable/ic_femenine"
-                                android:contentDescription="@string/desc_femenino" />
+                                android:contentDescription="@string/desc_femenino"
+                                android:padding="10dp"
+                                android:src="@drawable/ic_femenine" />
 
                         </androidx.cardview.widget.CardView>
 
@@ -336,15 +335,23 @@
         </ScrollView>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/boton_registro"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_gravity="bottom"
-        android:layout_margin="20dp"
-        android:background="@drawable/pulsar_boton_app"
 
-        android:onClick="subirPublicacion"
-        android:text="@string/publicar_anuncio"
-        android:textColor="@color/white" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/boton_registro"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/pulsar_boton_app"
+            android:onClick="subirPublicacion"
+            android:text="@string/publicar_anuncio"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,7 +3,7 @@
     <string name="app_name">MyPet</string>
     <string name="desc_img_animal">Imagen del animal</string>
     <string name="nombre_animal">Nombre</string>
-    <string name="raza_animal">raza del animal</string>
+    <string name="raza_animal">Raza/Especie</string>
     <string name="tipo_animal">tipo de animal</string>
     <string name="correo_electronico">Correo Electronico</string>
     <string name="pssword">Contraseña</string>
