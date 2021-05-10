@@ -21,8 +21,8 @@ public class ImageProvider {
 
     public UploadTask save(Context context, File file, int numero) {
         byte[] imageByte = CompressorBitmapImage.getImage(context,file.getPath(),500,500);
-        StorageReference storageReference = storage.child(new Date() + "-"+ numero + ".jpg");
-        storage =storageReference;
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(new Date() + "-"+ numero + ".jpg");
+        storage = storageReference;
         return storageReference.putBytes(imageByte);
     }
 

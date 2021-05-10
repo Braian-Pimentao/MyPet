@@ -56,6 +56,8 @@
     <string name="borrar_imagen">Borrar imagen</string>
     <string name="animal_publicado">Se ha publicado el anuncio</string>
     <string name="error_animal_publicado">No se ha publicado el anuncio</string>
+    <string name="subiendo_publicacion">Subiendo anuncio...</string>
+    <string name="elegirimagen">elegirImagen</string>
 
     <string-array name="lista_animales">
         <item>Perro</item>

@@ -14,10 +14,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.app.AlertDialog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -28,7 +28,7 @@ import com.aplicacion.mypet.fragments.BottomSheetFragmentPersonalizado;
 import com.aplicacion.mypet.models.Publicacion;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.ImageProvider;
-import com.aplicacion.mypet.providers.PublicarProvider;
+import com.aplicacion.mypet.providers.PublicacionProvider;
 import com.aplicacion.mypet.utils.FileUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,6 +40,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import dmax.dialog.SpotsDialog;
+
 public class ActivityCrearPublicacion extends AppCompatActivity implements BottomSheetFragmentPersonalizado.BottomSheetListener {
     private final int GALLERY_REQUEST_CODE=1;
     private final int CAMARA_REQUEST_CODE=2;
@@ -50,7 +52,7 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
     private int contador=0;
 
 
-    private PublicarProvider publicarProvider;
+    private PublicacionProvider publicacionProvider;
     private File[] imagenes;
     private ArrayList<File> imagenesAlmacenadas;
     private ImageProvider imageProvider;
@@ -71,6 +73,8 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
     private String sexo;
     private ArrayList<String> urlImagenes;
 
+    private AlertDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,11 +92,14 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
 
 
         urlImagenes = new ArrayList<>();
-        publicarProvider = new PublicarProvider();
+        publicacionProvider = new PublicacionProvider();
 
         authProvider = new AuthProvider();
 
-
+        dialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage(R.string.subiendo_publicacion)
+                .setCancelable(false).build();
     }
 
     public void cancelarPublicacion(View v) {
@@ -134,12 +141,9 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
         descripcion = inputTextDescripcion.getText().toString();
 
 
-
-
-
         if (!nombre.isEmpty() && !edad.isEmpty() && !tipo.equals(getString(R.string.tipo_animal))
-            && !raza.isEmpty() && !descripcion.isEmpty() && imagenesAlmacenadas.size()>0) {
-
+            && !raza.isEmpty() && !sexo.isEmpty() && !descripcion.isEmpty() && imagenesAlmacenadas.size()>0) {
+            dialog.show();
             saveImage();
         } else {
             Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.campos_vacios), Toast.LENGTH_LONG).show();
@@ -165,10 +169,8 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
     }
 
     private void saveImage() {
-        System.out.println(contador);
         if (contador < imagenesAlmacenadas.size()) {
             contador++;
-            imageProvider = new ImageProvider();
             imageProvider.save(this,imagenesAlmacenadas.get(contador-1),contador-1).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -176,26 +178,25 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
                         @Override
                         public void onSuccess(Uri uri) {
                             urlImagenes.add(uri.toString());
-                            System.out.println("_______________________________________Imagenes_____________________________________________________" + urlImagenes.toString());
-                            //System.out.println("-----------------------------------------------------"+ contador +"-" + (imagenesAlmacenadas.size()-1) + "-----------------------------------------------------");
                             if (contador == imagenesAlmacenadas.size()) {
+
                                 Publicacion publicacion = new Publicacion();
-                                publicacion.setNombre(nombre);
-                                publicacion.setEdad(edad);
-                                publicacion.setTipo(tipo);
-                                publicacion.setRaza(raza);
-                                publicacion.setDescripcion(descripcion);
-                                publicacion.setSexo(sexo);
+                                publicacion.setNombre(nombre.trim());
+                                publicacion.setEdad(edad.trim());
+                                publicacion.setTipo(tipo.trim());
+                                publicacion.setRaza(raza.trim());
+                                publicacion.setDescripcion(descripcion.trim());
+                                publicacion.setSexo(sexo.trim());
                                 publicacion.setIdUser(authProvider.getUid());
                                 publicacion.setImagenes(urlImagenes);
 
-                                System.out.println("__________________________________Imagenes 2_____________________________________________________"+ publicacion.getImagenes().toString());
-
-                                publicarProvider.save(publicacion).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                publicacionProvider.save(publicacion).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> taskSave) {
                                         if (taskSave.isSuccessful()) {
+                                            dialog.dismiss();
                                             Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.animal_publicado), Toast.LENGTH_LONG).show();
+                                            finish();
                                         }else {
                                             Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.error_animal_publicado), Toast.LENGTH_LONG).show();
                                         }
@@ -207,65 +208,8 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
                     });
                 }
             });
-
-
         }
     }
-
-    /*
-    private void saveImage() {
-        for (int i = 0; i < imagenesAlmacenadas.size(); i++) {
-            int finalI = i;
-            System.out.println( finalI + "--------------------------------------------------------------------------------------"+ imagenesAlmacenadas.size());
-            imageProvider.save(this,imagenesAlmacenadas.get(i),i).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        imageProvider.getStorage().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                urlImagenes.add(uri.toString());
-                                System.out.println("_______________________________________Imagenes_____________________________________________________" + urlImagenes.toString());
-                                System.out.println("-----------------------------------------------------"+ finalI +"-" + (imagenesAlmacenadas.size()-1) + "-----------------------------------------------------");
-
-                                if (finalI == imagenesAlmacenadas.size()-1) {
-
-                                    Publicacion publicacion = new Publicacion();
-                                    publicacion.setNombre(nombre);
-                                    publicacion.setEdad(edad);
-                                    publicacion.setTipo(tipo);
-                                    publicacion.setRaza(raza);
-                                    publicacion.setDescripcion(descripcion);
-                                    publicacion.setSexo(sexo);
-                                    publicacion.setIdUser(authProvider.getUid());
-                                    publicacion.setImagenes(urlImagenes);
-
-                                    System.out.println("__________________________________Imagenes 2_____________________________________________________"+ publicacion.getImagenes().toString());
-
-                                    publicarProvider.save(publicacion).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> taskSave) {
-                                            if (taskSave.isSuccessful()) {
-                                                Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.animal_publicado), Toast.LENGTH_LONG).show();
-                                            }else {
-                                                Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.error_animal_publicado), Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                    } else {
-                        Toast.makeText(ActivityCrearPublicacion.this, getString(R.string.error_subir_imagen), Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-        }
-    }
-
-     */
-
-
 
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -326,7 +270,6 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
         } else if (imagenSeleccionada.getId() == R.id.imagen_publicar_5){
             imagenes[4] = file;
         }
-
         actualizarArrayListImagenes();
     }
 
@@ -368,7 +311,7 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_PERMISSION_GALLERY);
             }
         } else if (numero == 2) {
-            imagenSeleccionada.setImageDrawable(getDrawable(R.drawable.ic_camara));
+            imagenSeleccionada.setImageResource(R.drawable.ic_camara);
             eliminarImagenesArray();
         }
     }

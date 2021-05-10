@@ -45,7 +45,7 @@
             android:layout_height="624dp">
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -54,108 +54,120 @@
                     android:background="@color/principal_app"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="15dp"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent">
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="60dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="1"
-                            android:background="@color/white"
-                            app:cardCornerRadius="10dp">
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                            <ImageView
-                                android:id="@+id/imagen_publicar_1"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:onClick="elegirImagen"
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="0dp"
+                                android:layout_height="60dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                app:cardCornerRadius="10dp">
 
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ic_camara" />
-                        </androidx.cardview.widget.CardView>
+                                <ImageView
+                                    android:id="@+id/imagen_publicar_1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="@string/elegirimagen"
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="0dp"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="1"
-                            android:background="@color/white"
-                            app:cardCornerRadius="10dp">
+                                    android:onClick="elegirImagen"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_camara" />
+                            </androidx.cardview.widget.CardView>
 
-                            <ImageView
-                                android:id="@+id/imagen_publicar_2"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:onClick="elegirImagen"
-                                android:padding="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ic_camara" />
-                        </androidx.cardview.widget.CardView>
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="0dp"
+                                android:layout_height="60dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                app:cardCornerRadius="10dp">
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="0dp"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="1"
-                            android:background="@color/white"
-                            app:cardCornerRadius="10dp">
+                                <ImageView
+                                    android:id="@+id/imagen_publicar_2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="@string/elegirimagen"
 
-                            <ImageView
-                                android:id="@+id/imagen_publicar_3"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:onClick="elegirImagen"
-                                android:padding="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ic_camara" />
-                        </androidx.cardview.widget.CardView>
+                                    android:onClick="elegirImagen"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_camara" />
+                            </androidx.cardview.widget.CardView>
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="0dp"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="1"
-                            android:background="@color/white"
-                            app:cardCornerRadius="10dp">
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="0dp"
+                                android:layout_height="60dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                app:cardCornerRadius="10dp">
 
-                            <ImageView
-                                android:id="@+id/imagen_publicar_4"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:onClick="elegirImagen"
-                                android:padding="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ic_camara" />
-                        </androidx.cardview.widget.CardView>
+                                <ImageView
+                                    android:id="@+id/imagen_publicar_3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="@string/elegirimagen"
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="0dp"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="1"
-                            android:background="@color/white"
-                            app:cardCornerRadius="10dp">
+                                    android:onClick="elegirImagen"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_camara" />
+                            </androidx.cardview.widget.CardView>
 
-                            <ImageView
-                                android:id="@+id/imagen_publicar_5"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:onClick="elegirImagen"
-                                android:padding="10dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/ic_camara" />
-                        </androidx.cardview.widget.CardView>
-                    </LinearLayout>
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="0dp"
+                                android:layout_height="60dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                app:cardCornerRadius="10dp">
+
+                                <ImageView
+                                    android:id="@+id/imagen_publicar_4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="@string/elegirimagen"
+                                    android:onClick="elegirImagen"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_camara" />
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="0dp"
+                                android:layout_height="60dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_weight="1"
+                                android:background="@color/white"
+                                app:cardCornerRadius="10dp">
+
+                                <ImageView
+                                    android:id="@+id/imagen_publicar_5"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="@string/elegirimagen"
+                                    android:onClick="elegirImagen"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/ic_camara" />
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 </LinearLayout>
 
@@ -252,7 +264,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
                     <LinearLayout
                         android:id="@+id/sexo_masculino"
