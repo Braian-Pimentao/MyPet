@@ -16,5 +16,6 @@
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
     </LinearLayout>
+
     <!-- TODO: Update blank fragment layout -->
 </FrameLayout>

@@ -115,7 +115,7 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         boton_tipo.setText(array[which]);
-                        boton_tipo.setTextColor(getResources().getColor(R.color.black));
+                        //boton_tipo.setTextColor(getResources().getColor(R.color.black));
                         dialog.cancel();
                     }
                 });
@@ -154,18 +154,25 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
 
 
     public void seleccionarSexo(View view) {
+        ImageView imagenMasculino = findViewById(R.id.masculino);
+        ImageView imagenFemenino = findViewById(R.id.femenino);
         CardView cardViewMasculono = findViewById(R.id.card_masculino);
         CardView cardViewFemenino = findViewById(R.id.card_femenino);
         LinearLayout linearSexo = (LinearLayout) view;
         if (linearSexo.getId() == R.id.sexo_masculino) {
-            cardViewFemenino.setCardBackgroundColor(getResources().getColor(R.color.white));
-            cardViewMasculono.setCardBackgroundColor(getResources().getColor(R.color.principal_app));
+            //cardViewFemenino.setCardBackgroundColor(getResources().getColor(R.color.white));
+            //cardViewMasculono.setCardBackgroundColor(getResources().getColor(R.color.principal_app));
+
+            imagenFemenino.setBackgroundColor(getResources().getColor(R.color.white));
+            imagenMasculino.setBackgroundColor(getResources().getColor(R.color.principal_app));
+
         } else if (linearSexo.getId() == R.id.sexo_femenino) {
-            cardViewMasculono.setCardBackgroundColor(getResources().getColor(R.color.white));
-            cardViewFemenino.setCardBackgroundColor(getResources().getColor(R.color.principal_app));
+            //cardViewMasculono.setCardBackgroundColor(getResources().getColor(R.color.white));
+            //cardViewFemenino.setCardBackgroundColor(getResources().getColor(R.color.principal_app));
+            imagenMasculino.setBackgroundColor(getResources().getColor(R.color.white));
+            imagenFemenino.setBackgroundColor(getResources().getColor(R.color.principal_app));
         }
         sexo = (String) linearSexo.getContentDescription();
-        System.out.println(sexo);
     }
 
     private void saveImage() {

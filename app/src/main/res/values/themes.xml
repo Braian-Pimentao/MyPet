@@ -8,10 +8,31 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="estiloCampoDeTexto" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="estiloCampoDeTexto" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorHint">@color/gris</item>
         <item name="colorAccent">@color/principal_app</item>
         <item name="colorControlNormal">@color/principal_app</item>
         <item name="colorControlActivated">@color/principal_app</item>
     </style>
 
+    <style name="colorDeTexto" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="colorDeCardView" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="colorLinea" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/black</item>
+    </style>
+
+    <style name="estiloMenuElegir" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/white</item>
+    </style>
+
+
+    <style name="estiloIconos" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">@color/black</item>
+    </style>
 </resources>

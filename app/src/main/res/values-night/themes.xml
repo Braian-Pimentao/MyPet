@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MyPet" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.MyPet" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/principal_app</item>
         <item name="colorPrimaryDark">@color/principal_app</item>
@@ -8,10 +8,30 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="estiloCampoDeTexto" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="estiloCampoDeTexto" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:textColorHint">@color/white</item>
         <item name="colorAccent">@color/principal_app</item>
         <item name="colorControlNormal">@color/principal_app</item>
         <item name="colorControlActivated">@color/principal_app</item>
+    </style>
+
+    <style name="colorDeTexto" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="colorDeCardView" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:background">@color/blanco</item>
+    </style>
+
+    <style name="colorLinea" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="estiloMenuElegir" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:background">@color/gris</item>
+    </style>
+
+    <style name="estiloIconos" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorControlNormal">@color/white</item>
     </style>
 </resources>
