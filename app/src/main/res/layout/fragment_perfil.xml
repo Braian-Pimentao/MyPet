@@ -1,13 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FragmentPerfil">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.FragmentPerfil"
+    android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->
 
+        <LinearLayout
+            android:background="@color/principal_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+            <androidx.cardview.widget.CardView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:cardCornerRadius="10dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center">
+                <ImageView
+                    android:id="@+id/imagen_perfil"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:contentDescription="@string/desc_img_animal"
+                    android:scaleType="centerCrop"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_person_2" />
+            </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:theme="@style/colorDeTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_marginStart="10dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:text="@string/nombre_animal"
+                app:drawableEndCompat="@drawable/ic_flecha" />
+        </LinearLayout>
+
+        <Button
+            android:theme="@style/colorDeTexto"
+            android:background="@color/opaco"
+            android:id="@+id/prueba"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="pulsarBotonPrueba"
+            android:textAlignment="textStart"
+            app:drawableEndCompat="@drawable/ic_flecha"
+            android:text="@string/configuration" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/principal_app"/>
+        <Button
+            android:theme="@style/colorDeTexto"
+            android:background="@color/opaco"
+            android:id="@+id/prueba2"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="pulsarBotonPrueba"
+            android:textAlignment="textStart"
+            app:drawableEndCompat="@drawable/ic_flecha"
+            android:text="@string/configuration" />
+    <!--
     <Button
         android:id="@+id/prueba"
         android:layout_width="match_parent"
@@ -22,5 +87,6 @@
         android:layout_height="wrap_content"
         android:onClick="cerrarSesion"
         android:text="Cerrar Sesion" />
+    -->
 
-</FrameLayout>
+</LinearLayout>

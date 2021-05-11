@@ -1,6 +1,7 @@
 package com.aplicacion.mypet.activities.publicar;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,12 +15,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.app.AlertDialog;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
@@ -156,19 +155,11 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
     public void seleccionarSexo(View view) {
         ImageView imagenMasculino = findViewById(R.id.masculino);
         ImageView imagenFemenino = findViewById(R.id.femenino);
-        CardView cardViewMasculono = findViewById(R.id.card_masculino);
-        CardView cardViewFemenino = findViewById(R.id.card_femenino);
         LinearLayout linearSexo = (LinearLayout) view;
         if (linearSexo.getId() == R.id.sexo_masculino) {
-            //cardViewFemenino.setCardBackgroundColor(getResources().getColor(R.color.white));
-            //cardViewMasculono.setCardBackgroundColor(getResources().getColor(R.color.principal_app));
-
             imagenFemenino.setBackgroundColor(getResources().getColor(R.color.white));
             imagenMasculino.setBackgroundColor(getResources().getColor(R.color.principal_app));
-
         } else if (linearSexo.getId() == R.id.sexo_femenino) {
-            //cardViewMasculono.setCardBackgroundColor(getResources().getColor(R.color.white));
-            //cardViewFemenino.setCardBackgroundColor(getResources().getColor(R.color.principal_app));
             imagenMasculino.setBackgroundColor(getResources().getColor(R.color.white));
             imagenFemenino.setBackgroundColor(getResources().getColor(R.color.principal_app));
         }
