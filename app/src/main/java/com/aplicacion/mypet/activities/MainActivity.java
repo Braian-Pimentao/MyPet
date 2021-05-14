@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
@@ -68,16 +67,6 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
-    public void pulsarBotonPrueba(View v) {
-        Intent items = new Intent(this, IniciarSesion.class);
-        startActivity(items);
-    }
-
-    public void cerrarSesion(View v) {
-        auth.getAuth().signOut();
-
-    }
-
     public void botonPublicar(View v){
         if (auth.getAuth().getCurrentUser()!=null) {
             System.out.println(auth.getEmail());

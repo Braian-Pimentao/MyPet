@@ -59,6 +59,7 @@
     <string name="subiendo_publicacion">Subiendo anuncio...</string>
     <string name="elegirimagen">elegirImagen</string>
     <string name="configuration">Configuración</string>
+    <string name="publicaciones">Publicaciones:</string>
 
     <string-array name="lista_animales">
         <item>Perro</item>

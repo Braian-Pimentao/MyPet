@@ -35,4 +35,8 @@
     <style name="estiloIconos" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorControlNormal">@color/black</item>
     </style>
+
+    <style name="estiloBotonAtras" parent="Theme.AppCompat.Light.NoActionBar">
+
+    </style>
 </resources>

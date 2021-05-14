@@ -10,48 +10,41 @@
     <!-- TODO: Update blank fragment layout -->
 
         <LinearLayout
+            android:id="@+id/banner_perfil"
             android:background="@color/principal_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal">
-            <androidx.cardview.widget.CardView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:cardCornerRadius="10dp"
-                android:layout_margin="10dp"
-                android:layout_gravity="center">
-                <ImageView
-                    android:id="@+id/imagen_perfil"
+            <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:contentDescription="@string/desc_img_animal"
-                    android:scaleType="centerCrop"
-                    android:background="@color/white"
-                    android:src="@drawable/ic_person_2" />
-            </androidx.cardview.widget.CardView>
+                    app:civ_circle_background_color="@color/white"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_person_2"
+                    android:layout_gravity="center|end"/>
 
             <TextView
-                android:theme="@style/colorDeTexto"
+                android:id="@+id/nombre_perfil"
+                android:textColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
                 android:layout_marginStart="10dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="10dp"
-                android:text="@string/nombre_animal"
+                android:text="@string/iniciar"
                 app:drawableEndCompat="@drawable/ic_flecha" />
         </LinearLayout>
 
         <Button
             android:theme="@style/colorDeTexto"
-            android:background="@color/opaco"
-            android:id="@+id/prueba"
+            android:background="@drawable/pulsar_publicar"
+            android:id="@+id/configuracion"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="pulsarBotonPrueba"
             android:textAlignment="textStart"
             app:drawableEndCompat="@drawable/ic_flecha"
             android:text="@string/configuration" />
@@ -68,10 +61,10 @@
             android:paddingEnd="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="pulsarBotonPrueba"
             android:textAlignment="textStart"
             app:drawableEndCompat="@drawable/ic_flecha"
             android:text="@string/configuration" />
+    
     <!--
     <Button
         android:id="@+id/prueba"

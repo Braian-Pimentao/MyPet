@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,6 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPet">
+        <activity android:name=".activities.ActivityUsuario"></activity>
+        <activity android:name=".activities.configuracion.ActivityConfiguracion" />
         <activity android:name=".activities.publicar.ActivityCrearPublicacion" />
         <activity android:name=".activities.sesion.RegistroActivity" />
         <activity android:name=".activities.sesion.IniciarSesion" />
@@ -26,13 +27,13 @@
         </activity>
 
         <provider
-            android:authorities="com.aplicacion.mypet"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.aplicacion.mypet"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
-
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 
