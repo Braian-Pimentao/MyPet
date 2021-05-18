@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
             <TextView
+                android:theme="@style/colorDeTexto"
                 android:id="@+id/nombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,7 +69,7 @@
                     android:textSize="15sp" />
 
                 <View
-                    android:theme="@style/colorLinea"
+                    android:background="@color/principal_app"
                     android:layout_width="1dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"

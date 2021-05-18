@@ -12,8 +12,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.aplicacion.mypet.R;
-import com.aplicacion.mypet.activities.ActivityUsuario;
 import com.aplicacion.mypet.activities.configuracion.ActivityConfiguracion;
+import com.aplicacion.mypet.activities.perfil.ActivityUsuario;
+import com.aplicacion.mypet.activities.sesion.IniciarSesion;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.UserProvider;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,6 +35,7 @@ public class FragmentPerfil extends Fragment {
         // Required empty public constructor
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,8 +50,13 @@ public class FragmentPerfil extends Fragment {
         layoutPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent perfil = new Intent(getContext(), ActivityUsuario.class);
-                startActivity(perfil);
+                if (auth.getAuth().getCurrentUser()!=null){
+                    Intent perfil = new Intent(getContext(), ActivityUsuario.class);
+                    startActivity(perfil);
+                } else {
+                    Intent iniciarSesion = new Intent(getContext(), IniciarSesion.class);
+                    startActivity(iniciarSesion);
+                }
             }
         });
 

@@ -21,17 +21,19 @@ import com.aplicacion.mypet.fragments.FragmentPerfil;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     private BottomNavigationView bottomNavigation;
     private AuthProvider auth;
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_MyPet);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
         bottomNavigation = findViewById(R.id.nav_view);
+
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
         openFragment(new FragmentHome());
@@ -44,6 +46,22 @@ public class MainActivity extends AppCompatActivity {
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        BottomNavigationView mBottomNavigationView = findViewById(R.id.nav_view);
+        if (mBottomNavigationView.getSelectedItemId() == R.id.navigation_home) {
+            super.onBackPressed();
+            finish();
+        }else {
+            mBottomNavigationView.setSelectedItemId(R.id.navigation_home);
+        }
     }
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =

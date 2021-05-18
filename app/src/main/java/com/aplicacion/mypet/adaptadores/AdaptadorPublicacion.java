@@ -35,16 +35,12 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position,  @NonNull Publicacion publicacion) {
         holder.nombre.setText(publicacion.getNombre());
-        //holder.tipo.setText(publicacion.getTipo());
+        holder.tipo.setText(publicacion.getTipo());
 
         BidiFormatter myBidiFormatter = BidiFormatter.getInstance();
-        holder.tipo.setText(String.format(myBidiFormatter.unicodeWrap(publicacion.getTipo()),
-                (Object) context.getResources().getStringArray(R.array.lista_animales)));
 
-        //traduccionTipoAnimal(holder,publicacion);
         holder.raza.setText(publicacion.getRaza());
         holder.edad.setText(publicacion.getEdad());
-        System.out.println("--------------------------------------------------------------------------------"+publicacion.getImagenes().size());
         Picasso.get().load(publicacion.getImagenes().get(0)).into(holder.foto);
 
         if (publicacion.getSexo().equalsIgnoreCase(context.getString(R.string.femenino))) {

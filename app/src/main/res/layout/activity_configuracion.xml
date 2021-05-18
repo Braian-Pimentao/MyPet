@@ -7,35 +7,105 @@
     tools:context=".activities.configuracion.ActivityConfiguracion">
 
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageButton
-            android:theme="@style/estiloBotonAtras"
-            android:id="@+id/cancelar_publicacion"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="5dp"
-            android:onClick="cerrarConfiguracion"
-            android:background="@drawable/pulsar_publicar"
-            android:contentDescription="@string/boton_publicar"
-            android:scaleType="center"
-            android:src="@drawable/ic_flecha_atras" />
 
-        <TextView
-            android:theme="@style/colorDeTexto"
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="45dp"
-            android:text="@string/configuration"
-            android:textAlignment="center"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/cancelar_publicacion"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:onClick="cerrarConfiguracion"
+                android:background="@drawable/pulsar_publicar"
+                android:contentDescription="@string/boton_publicar"
+                android:scaleType="center"
+                android:src="@drawable/ic_flecha_atras" />
+
+            <TextView
+                android:theme="@style/colorDeTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="45dp"
+                android:text="@string/configuration"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/principal_app"/>
+
+        <Button
+            android:id="@+id/notifiaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/pulsar_publicar"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/notificaciones"
+            android:textAlignment="textStart"
+            android:theme="@style/colorDeTexto"
+            app:drawableEndCompat="@drawable/ic_flecha" />
+
+
+        <LinearLayout
+            android:id="@+id/linear_conf_perfil"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/principal_app"/>
+
+            <Button
+                android:id="@+id/editar_perfil"
+                android:theme="@style/colorDeTexto"
+                android:background="@drawable/pulsar_publicar"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:onClick="editarPerfil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                app:drawableEndCompat="@drawable/ic_flecha"
+                android:text="@string/editar_perfil" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/principal_app"/>
+
+            <Button
+                android:id="@+id/cerrar_sesion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pulsar_publicar"
+                android:onClick="cerrarSesion"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/signOut"
+                android:textAlignment="textStart"
+                android:theme="@style/colorDeTexto"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/principal_app"/>
+        </LinearLayout>
     </LinearLayout>
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -14,7 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/principal_app"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
 
             <ImageButton
                 android:id="@+id/cancelar_publicacion"
@@ -42,7 +44,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="624dp">
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,8 +77,8 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginEnd="10dp"
                                 android:layout_weight="1"
-                                android:padding="5dp"
                                 android:backgroundTint="@color/white"
+                                android:padding="5dp"
                                 app:cardCornerRadius="10dp">
 
                                 <ImageView
@@ -200,19 +203,19 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
-                    android:theme="@style/colorDeTexto"
                     android:id="@+id/boton_cambiar_tipo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginEnd="1dp"
-                    android:background="@drawable/boton_tipo_animal"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/boton_lineas"
                     android:drawableEnd="@drawable/ic_flecha"
                     android:onClick="cambiarTipoAnimal"
-                    android:padding="5dp"
                     android:text="@string/tipo_animal"
                     android:textAlignment="textStart"
-                    android:textColor="@color/gris" />
+                    android:theme="@style/colorDeTexto"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -264,8 +267,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false">
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:id="@+id/sexo_masculino"
@@ -282,28 +285,28 @@
 
                             android:id="@+id/card_masculino"
                             android:layout_width="match_parent"
-                            app:cardCornerRadius="30dp"
-                            android:layout_height="70dp">
+                            android:layout_height="70dp"
+                            app:cardCornerRadius="30dp">
 
                             <ImageView
-                                android:theme="@style/colorDeCardView"
                                 android:id="@+id/masculino"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:contentDescription="@string/desc_masculino"
                                 android:padding="10dp"
-                                android:src="@drawable/ic_masculino" />
+                                android:src="@drawable/ic_masculino"
+                                android:theme="@style/colorDeCardView" />
 
                         </androidx.cardview.widget.CardView>
 
                         <TextView
-                            android:theme="@style/colorDeTexto"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:text="@string/masculino"
                             android:textAlignment="center"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:theme="@style/colorDeTexto" />
 
                     </LinearLayout>
 
@@ -321,28 +324,28 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/card_femenino"
                             android:layout_width="match_parent"
-                            app:cardCornerRadius="30dp"
-                            android:layout_height="70dp">
+                            android:layout_height="70dp"
+                            app:cardCornerRadius="30dp">
 
                             <ImageView
-                                android:theme="@style/colorDeCardView"
                                 android:id="@+id/femenino"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:contentDescription="@string/desc_femenino"
                                 android:padding="10dp"
-                                android:src="@drawable/ic_femenine" />
+                                android:src="@drawable/ic_femenine"
+                                android:theme="@style/colorDeCardView" />
 
                         </androidx.cardview.widget.CardView>
 
                         <TextView
-                            android:theme="@style/colorDeTexto"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:text="@string/femenino"
                             android:textAlignment="center"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:theme="@style/colorDeTexto" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -350,10 +353,7 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+
 
         <Button
             android:id="@+id/boton_registro"
@@ -363,9 +363,10 @@
             android:background="@drawable/pulsar_boton_app"
             android:onClick="subirPublicacion"
             android:text="@string/publicar_anuncio"
+            android:layout_gravity="bottom"
             android:textColor="@color/white" />
 
-    </LinearLayout>
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

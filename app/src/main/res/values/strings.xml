@@ -60,6 +60,10 @@
     <string name="elegirimagen">elegirImagen</string>
     <string name="configuration">Configuración</string>
     <string name="publicaciones">Publicaciones:</string>
+    <string name="editar_perfil">Editar perfil</string>
+    <string name="signOut">Cerrar Sesión</string>
+    <string name="sesion_cerrada">Se ha cerrado la sesión</string>
+    <string name="ubication">Ubicación</string>
 
     <string-array name="lista_animales">
         <item>Perro</item>
@@ -71,5 +75,10 @@
         <item>Pajaros</item>
         <item>Reptil</item>
     </string-array>
+    <string name="title_activity_ubicacion">Map</string>
+    <string name="mapa">Mapa</string>
+    <string name="notificaciones">Notificaciones</string>
+    <string name="guardar_ubicacion">Guardar ubicacion</string>
+    <string name="guardar_marca">Guardar Marca</string>
 
 </resources>

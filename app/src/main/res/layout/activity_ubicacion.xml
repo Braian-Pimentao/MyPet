@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.perfil.Ubicacion"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/principal_app"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/cancelar_editar_perfil"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:onClick="cerrarUbicacion"
+                android:background="@drawable/pulsar_publicar"
+                android:contentDescription="@string/boton_publicar"
+                android:scaleType="center"
+                android:src="@drawable/ic_flecha_atras_blanca" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="45dp"
+                android:text="@string/mapa"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:baselineAligned="false"
+        android:layout_marginBottom="30dp">
+        <Button
+            android:id="@+id/boton_gurdar_ubicacion"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:onClick="pulsarBoton"
+            android:background="@drawable/pulsar_boton_app"
+            android:text="@string/guardar_ubicacion"
+            android:textColor="@color/white" />
+        <Button
+            android:id="@+id/boton_gurdar_marca"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="20dp"
+            android:onClick="pulsarBoton"
+            android:background="@drawable/pulsar_boton_app"
+            android:text="@string/guardar_marca"
+            android:layout_weight="1"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

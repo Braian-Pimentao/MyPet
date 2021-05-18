@@ -1,4 +1,4 @@
-package com.aplicacion.mypet.activities;
+package com.aplicacion.mypet.activities.perfil;
 
 import android.os.Bundle;
 import android.view.View;
