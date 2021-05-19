@@ -1,7 +1,9 @@
 package com.aplicacion.mypet.activities.perfil;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -31,13 +33,16 @@ import java.util.List;
 import java.util.Locale;
 
 public class Ubicacion extends FragmentActivity implements OnMapReadyCallback,
-        GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerDragListener {
-    private final int REQUEST_PERMISSION_UBICATION = 102;
+        GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnMapClickListener {
     private LocationManager locationManager;
     private Location ubicacionReal;
 
     private GoogleMap mMap;
-    private LatLng ubicacionMarca;
+    private Location ubicacionMarca;
+    private Marker marcador;
+
+    private LatLng latLngRecibida;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,14 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback,
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            latLngRecibida = new LatLng(extras.getDouble("latitude"), extras.getDouble("longitude"));
+            ubicacionMarca = new Location("Marca");
+        }
+
+        ubicacionReal = new Location("Real");
 
     }
 
@@ -65,19 +78,21 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback,
         mMap = googleMap;
         mMap.setOnMyLocationClickListener(this);
         mMap.setOnMarkerDragListener(this);
+        mMap.setOnMapClickListener(this);
 
 
-        // Add a marker in Sydney and move the camera
-        LatLng ubicacion = new LatLng(40.3679816, -3.7092446);
-        Marker ubicacionMarca = mMap.addMarker(new MarkerOptions().position(ubicacion)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true));
+        if (latLngRecibida!=null) {
+            ubicacionMarca.setLatitude(latLngRecibida.latitude);
+            ubicacionMarca.setLatitude(latLngRecibida.longitude);
+            marcador = mMap.addMarker(new MarkerOptions().position(latLngRecibida)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true));
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngRecibida, 10));
+        }
 
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion, 10));
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSION_UBICATION);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
         }
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -99,14 +114,26 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback,
 
         if (botonPulsado.getId() == R.id.boton_gurdar_ubicacion) {
             if (locationManager!=null){
-                localizacion(ubicacionReal.getLatitude(),ubicacionReal.getLongitude());
-                //Toast.makeText(this, "Current location:\n" + ubicacionReal.getLatitude() +"\n" + ubicacionReal.getLongitude(), Toast.LENGTH_LONG).show();
+                Intent data = new Intent();
+                data.putExtra("latitude",ubicacionReal.getLatitude());
+                data.putExtra("longitude",ubicacionReal.getLongitude());
+                setResult(Activity.RESULT_OK,data);
+                finish();
             }
         } else if (botonPulsado.getId() == R.id.boton_gurdar_marca) {
-            localizacion(ubicacionMarca.latitude,ubicacionMarca.longitude);
-            //Toast.makeText(this, "Current location:\n" + ubicacionMarca.latitude +"\n" + ubicacionMarca.longitude, Toast.LENGTH_LONG).show();
+            if (ubicacionMarca != null) {
+                Intent data = new Intent();
+                data.putExtra("latitude",ubicacionMarca.getLatitude());
+                data.putExtra("longitude",ubicacionMarca.getLongitude());
+                setResult(Activity.RESULT_OK,data);
+                finish();
+            }else{
+                Toast.makeText(this, "Coloca un marcador", Toast.LENGTH_LONG).show();
+
+            }
         }
     }
+
 
     private void localizacion(double latitude, double longitude){
         Geocoder geocoder;
@@ -125,8 +152,10 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback,
         String country = direccion.get(0).getCountryName();
         String postalCode = direccion.get(0).getPostalCode();
 
-        Toast.makeText(this, "Current location:\n" + city + " " + postalCode, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Current location:\n" + address, Toast.LENGTH_LONG).show();
     }
+
+
 
 
 
@@ -147,9 +176,22 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback,
 
     @Override
     public void onMarkerDragEnd(@NonNull Marker marker) {
-        Location l = new Location(String.valueOf(marker.getPosition()));
-        Toast.makeText(this, "Current location:\n", Toast.LENGTH_LONG).show();
-        ubicacionMarca = marker.getPosition();
+        ubicacionMarca.setLatitude(marker.getPosition().latitude);
+        ubicacionMarca.setLongitude(marker.getPosition().longitude);
     }
 
+    @Override
+    public void onMapClick(@NonNull LatLng latLng) {
+        if (marcador != null){
+            marcador.remove();
+        }
+
+        if (ubicacionMarca == null) {
+            ubicacionMarca = new Location("Marca");
+        }
+        marcador = mMap.addMarker(new MarkerOptions().position(latLng)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true));
+        ubicacionMarca.setLatitude(latLng.latitude);
+        ubicacionMarca.setLongitude(latLng.longitude);
+    }
 }
