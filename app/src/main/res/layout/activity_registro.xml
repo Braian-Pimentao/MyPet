@@ -191,15 +191,15 @@
         android:text="@string/registrase"
         android:textColor="@color/white" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageButton
         android:id="@+id/boton_atras"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="15dp"
         android:onClick="irAtras"
-        android:src="@drawable/ic_flecha_atras"
-
-        app:civ_circle_background_color="@color/white" />
+        android:background="@drawable/pulsar_publicar"
+        android:src="@drawable/ic_flecha_atras_blanca"
+        />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

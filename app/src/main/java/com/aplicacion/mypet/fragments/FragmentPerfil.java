@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -19,6 +20,9 @@ import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.UserProvider;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FragmentPerfil extends Fragment {
     private View vista;
@@ -30,6 +34,8 @@ public class FragmentPerfil extends Fragment {
     private LinearLayout layoutPerfil;
 
     private AuthProvider auth;
+    private String nombre;
+    private CircleImageView imagenPerfil;
 
     public FragmentPerfil() {
         // Required empty public constructor
@@ -46,6 +52,8 @@ public class FragmentPerfil extends Fragment {
         botonConfiguracion.setOnClickListener(new pulsarBoton());
 
         layoutPerfil = vista.findViewById(R.id.banner_perfil);
+
+        imagenPerfil = vista.findViewById(R.id.foto_fragment_perfil);
 
         layoutPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,22 +75,13 @@ public class FragmentPerfil extends Fragment {
         auth = new AuthProvider();
         userProvider = new UserProvider();
 
-        comprobarUsuario();
+        if (auth.getAuth().getCurrentUser()!=null) {
+            getUser();
+        }
         return vista;
     }
 
-    private void comprobarUsuario() {
-        if (auth.getAuth().getCurrentUser()!=null) {
-            userProvider.getUser(auth.getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    //if (documentSnapshot)
-                }
-            });
-        } else {
 
-        }
-    }
 
     private class pulsarBoton implements View.OnClickListener {
 
@@ -95,5 +94,26 @@ public class FragmentPerfil extends Fragment {
                 startActivity(configuracion);
             }
         }
+    }
+
+    private void getUser(){
+        userProvider.getUser(auth.getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()){
+                    nombre = documentSnapshot.getString("username");
+
+
+                    String urlFotoPerfil = documentSnapshot.getString("urlPerfil");
+                    if (urlFotoPerfil!= null){
+                        Picasso.get().load(urlFotoPerfil).into(imagenPerfil);
+                    }
+
+                    nombrePerfil.setText(nombre);
+                } else {
+                    Toast.makeText(getContext(), "No existe", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

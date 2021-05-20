@@ -64,6 +64,9 @@
     <string name="signOut">Cerrar Sesión</string>
     <string name="sesion_cerrada">Se ha cerrado la sesión</string>
     <string name="ubication">Ubicación</string>
+    <string name="actualizando_perfil">Actualizando Perfil…</string>
+    <string name="perfil_actualizado">Perfil Actualizado</string>
+    <string name="perfil_no_actualizado">El perfil no se ha actualizado</string>
 
     <string-array name="lista_animales">
         <item>Perro</item>
@@ -80,5 +83,6 @@
     <string name="notificaciones">Notificaciones</string>
     <string name="guardar_ubicacion">Guardar ubicacion</string>
     <string name="guardar_marca">Guardar Marca</string>
+    <string name="actualizar_perfil">Actualizar Perfil</string>
 
 </resources>

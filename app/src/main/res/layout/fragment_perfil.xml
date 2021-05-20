@@ -17,6 +17,7 @@
             android:layout_marginBottom="20dp"
             android:orientation="horizontal">
             <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/foto_fragment_perfil"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     app:civ_circle_background_color="@color/white"

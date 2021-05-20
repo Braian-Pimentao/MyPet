@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -28,12 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
-public class Ubicacion extends FragmentActivity implements OnMapReadyCallback,
-        GoogleMap.OnMyLocationClickListener, GoogleMap.OnMarkerDragListener, GoogleMap.OnMapClickListener {
+public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
     private LocationManager locationManager;
     private Location ubicacionReal;
 
@@ -76,8 +69,6 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setOnMyLocationClickListener(this);
-        mMap.setOnMarkerDragListener(this);
         mMap.setOnMapClickListener(this);
 
 
@@ -132,52 +123,6 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback,
 
             }
         }
-    }
-
-
-    private void localizacion(double latitude, double longitude){
-        Geocoder geocoder;
-        List<Address> direccion = null;
-        geocoder = new Geocoder(this, Locale.getDefault());
-
-        try {
-            direccion = geocoder.getFromLocation(latitude, longitude, 1); // 1 representa la cantidad de resultados a obtener
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String address = direccion.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-        String city = direccion.get(0).getLocality();
-        String state = direccion.get(0).getAdminArea();
-        String country = direccion.get(0).getCountryName();
-        String postalCode = direccion.get(0).getPostalCode();
-
-        Toast.makeText(this, "Current location:\n" + address, Toast.LENGTH_LONG).show();
-    }
-
-
-
-
-
-    @Override
-    public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(this, "Current location:\n" + location.getLatitude() +"\n" + location.getLongitude(), Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onMarkerDragStart(@NonNull Marker marker) {
-
-    }
-
-    @Override
-    public void onMarkerDrag(@NonNull Marker marker) {
-
-    }
-
-    @Override
-    public void onMarkerDragEnd(@NonNull Marker marker) {
-        ubicacionMarca.setLatitude(marker.getPosition().latitude);
-        ubicacionMarca.setLongitude(marker.getPosition().longitude);
     }
 
     @Override

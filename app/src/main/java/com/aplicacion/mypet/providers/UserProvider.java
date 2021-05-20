@@ -6,6 +6,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserProvider {
     private CollectionReference collectionReference;
 
@@ -14,11 +17,19 @@ public class UserProvider {
     }
 
     public Task<DocumentSnapshot> getUser(String id) {
-        return collectionReference.document("id").get();
+        return collectionReference.document(id).get();
     }
 
     public Task<Void> create(User user){
         return collectionReference.document(user.getId()).set(user);
+    }
+
+    public Task<Void> update(User user){
+        Map<String, Object> map = new HashMap<>();
+        map.put("username",user.getUsername());
+        map.put("ubicacion",user.getUbicacion());
+        map.put("urlPerfil",user.getUrlPerfil());
+        return collectionReference.document(user.getId()).update(map);
     }
 }
 
