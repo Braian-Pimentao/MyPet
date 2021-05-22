@@ -38,6 +38,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import dmax.dialog.SpotsDialog;
 
@@ -63,6 +64,7 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
     private TextInputEditText inputTextEdad;
     private TextInputEditText inputTextRaza;
     private TextInputEditText inputTextDescripcion;
+    private int posicionArraytipo;
 
     private String nombre;
     private String edad;
@@ -114,6 +116,7 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         boton_tipo.setText(array[which]);
+                        posicionArraytipo = which;
                         //boton_tipo.setTextColor(getResources().getColor(R.color.black));
                         dialog.cancel();
                     }
@@ -157,11 +160,11 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
         ImageView imagenFemenino = findViewById(R.id.femenino);
         LinearLayout linearSexo = (LinearLayout) view;
         if (linearSexo.getId() == R.id.sexo_masculino) {
-            imagenFemenino.setBackgroundColor(getResources().getColor(R.color.white));
-            imagenMasculino.setBackgroundColor(getResources().getColor(R.color.principal_app));
+            imagenFemenino.setBackgroundColor(getResources().getColor(R.color.white,getTheme()));
+            imagenMasculino.setBackgroundColor(getResources().getColor(R.color.principal_app,getTheme()));
         } else if (linearSexo.getId() == R.id.sexo_femenino) {
-            imagenMasculino.setBackgroundColor(getResources().getColor(R.color.white));
-            imagenFemenino.setBackgroundColor(getResources().getColor(R.color.principal_app));
+            imagenMasculino.setBackgroundColor(getResources().getColor(R.color.white,getTheme()));
+            imagenFemenino.setBackgroundColor(getResources().getColor(R.color.principal_app,getTheme()));
         }
         sexo = (String) linearSexo.getContentDescription();
     }
@@ -181,10 +184,11 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
                                 Publicacion publicacion = new Publicacion();
                                 publicacion.setNombre(nombre.trim());
                                 publicacion.setEdad(edad.trim());
-                                publicacion.setTipo(tipo.trim());
+                                publicacion.setTipo(String.valueOf(posicionArraytipo));
                                 publicacion.setRaza(raza.trim());
                                 publicacion.setDescripcion(descripcion.trim());
                                 publicacion.setSexo(sexo.trim());
+                                publicacion.setFechaPublicacion(new Date().getTime());
                                 publicacion.setIdUser(authProvider.getUid());
                                 publicacion.setImagenes(urlImagenes);
 

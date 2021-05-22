@@ -59,6 +59,7 @@ public class FragmentPerfil extends Fragment {
             public void onClick(View v) {
                 if (auth.getAuth().getCurrentUser()!=null){
                     Intent perfil = new Intent(getContext(), ActivityUsuario.class);
+                    perfil.putExtra("idUser",auth.getUid());
                     startActivity(perfil);
                 } else {
                     Intent iniciarSesion = new Intent(getContext(), IniciarSesion.class);

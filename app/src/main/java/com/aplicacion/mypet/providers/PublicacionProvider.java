@@ -21,7 +21,7 @@ public class PublicacionProvider {
     }
 
     public Query getAll() {
-        return collectionReference.orderBy("nombre", Query.Direction.DESCENDING);
+        return collectionReference.orderBy("fechaPublicacion", Query.Direction.DESCENDING);
     }
 
     public Query getPostByUser(String id) {

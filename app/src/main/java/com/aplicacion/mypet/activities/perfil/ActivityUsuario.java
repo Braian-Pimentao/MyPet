@@ -25,6 +25,7 @@ public class ActivityUsuario extends AppCompatActivity {
     private TextView nombrePerfil;
     private TextView publicacionesContador;
     private PublicacionProvider publicacionProvider;
+    private String idUser;
 
     private AuthProvider auth;
     private UserProvider userProvider;
@@ -41,10 +42,11 @@ public class ActivityUsuario extends AppCompatActivity {
         publicacionesContador = findViewById(R.id.numero_publicaciones);
         publicacionProvider = new PublicacionProvider();
 
-        if (auth.getAuth().getCurrentUser()!=null) {
+        idUser = getIntent().getStringExtra("idUser");
+
+
             getUser();
             getPostNumber();
-        }
     }
 
     private void getPostNumber() {
@@ -58,7 +60,7 @@ public class ActivityUsuario extends AppCompatActivity {
     }
 
     private void getUser(){
-        userProvider.getUser(auth.getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        userProvider.getUser(idUser).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()){

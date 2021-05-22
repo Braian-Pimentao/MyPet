@@ -36,12 +36,15 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position,  @NonNull Publicacion publicacion) {
+        String[] listaAnimales = context.getResources().getStringArray(R.array.lista_animales);
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
 
         final String idPublicacion = document.getId();
 
         holder.nombre.setText(publicacion.getNombre());
-        holder.tipo.setText(publicacion.getTipo());
+        int tipo = Integer.parseInt(publicacion.getTipo());
+
+        holder.tipo.setText(listaAnimales[tipo]);
 
 
         holder.raza.setText(publicacion.getRaza());
@@ -64,16 +67,6 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         });
 
 
-    }
-
-    private void traduccionTipoAnimal(ViewHolder holder, Publicacion publicacion) {
-        String[] tiposAnimales = context.getResources().getStringArray(R.array.lista_animales);
-        for (String animal : tiposAnimales) {
-            if (animal.equalsIgnoreCase(publicacion.getTipo())) {
-                holder.tipo.setText(animal);
-                break;
-            }
-        }
     }
 
 

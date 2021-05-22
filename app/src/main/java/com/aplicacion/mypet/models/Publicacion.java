@@ -12,12 +12,14 @@ public class Publicacion {
     private String descripcion;
     private String sexo;
     private ArrayList<String> imagenes;
+    private long fechaPublicacion;
+
 
     public Publicacion() {
 
     }
 
-    public Publicacion(String idUser, String id, String nombre, String edad, String tipo, String raza, String descripcion, String sexo, ArrayList<String> imagenes) {
+    public Publicacion(String idUser, String id, String nombre, String edad, String tipo, String raza, String descripcion, String sexo, ArrayList<String> imagenes, long fechaPublicacion) {
         this.idUser = idUser;
         this.id = id;
         this.nombre = nombre;
@@ -27,6 +29,7 @@ public class Publicacion {
         this.descripcion = descripcion;
         this.sexo = sexo;
         this.imagenes = imagenes;
+        this.fechaPublicacion = fechaPublicacion;
     }
 
     public String getIdUser() {
@@ -99,5 +102,13 @@ public class Publicacion {
 
     public void setImagenes(ArrayList<String> imagenes) {
         this.imagenes = imagenes;
+    }
+
+    public long getFechaPublicacion() {
+        return fechaPublicacion;
+    }
+
+    public void setFechaPublicacion(long fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
     }
 }

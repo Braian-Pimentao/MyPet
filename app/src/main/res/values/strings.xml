@@ -85,5 +85,7 @@
     <string name="guardar_marca">Guardar Marca</string>
     <string name="actualizar_perfil">Actualizar Perfil</string>
     <string name="ver_perfil">Ver perfil</string>
+    <string name="chat">Chat</string>
+    <string name="sin_ubicaion">Sin ubicacion seleccionada</string>
 
 </resources>

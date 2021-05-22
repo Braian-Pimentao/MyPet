@@ -3,8 +3,8 @@
     <string name="app_name">MyPet</string>
     <string name="desc_img_animal">animal picture</string>
     <string name="nombre_animal">Name</string>
-    <string name="raza_animal">breed</string>
-    <string name="tipo_animal">tipe</string>
+    <string name="raza_animal">Breed</string>
+    <string name="tipo_animal">Type</string>
     <string name="correo_electronico">Email</string>
     <string name="pssword">Passsword</string>
     <string name="iniciar">Log in</string>
