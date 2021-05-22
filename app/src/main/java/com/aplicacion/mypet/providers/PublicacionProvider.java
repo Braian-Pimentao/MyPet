@@ -5,6 +5,7 @@ package com.aplicacion.mypet.providers;
 import com.aplicacion.mypet.models.Publicacion;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -21,5 +22,13 @@ public class PublicacionProvider {
 
     public Query getAll() {
         return collectionReference.orderBy("nombre", Query.Direction.DESCENDING);
+    }
+
+    public Query getPostByUser(String id) {
+        return collectionReference.whereEqualTo("idUser",id);
+    }
+
+    public Task<DocumentSnapshot> getPostById(String id) {
+        return  collectionReference .document(id).get();
     }
 }

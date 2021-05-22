@@ -17,22 +17,25 @@
 
     <style name="colorDeTexto" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:textColor">@color/white</item>
+        <item name="android:drawableTint">@color/white</item>
     </style>
 
     <style name="colorDeCardView" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:background">@color/white</item>
     </style>
 
-    <style name="colorLinea" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:background">@color/white</item>
+    <style name="colorLinea" parent="Theme.AppCompat.Light">
+        <item name="android:backgroundTint">@color/white</item>
     </style>
 
     <style name="estiloMenuElegir" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:background">@color/white</item>
     </style>
 
-    <style name="estiloIconos" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorControlNormal">@color/white</item>
+
+
+    <style name="coloresIconos" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:tint">@color/white</item>
     </style>
 
     <style name="splashTheme" parent="Theme.AppCompat.Light.NoActionBar">

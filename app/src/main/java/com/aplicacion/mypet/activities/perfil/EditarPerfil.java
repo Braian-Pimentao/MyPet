@@ -269,7 +269,6 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
     }
 
 
-
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");

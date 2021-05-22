@@ -17,6 +17,7 @@
 
     <style name="colorDeTexto" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/black</item>
+        <item name="android:drawableTint">@color/black</item>
     </style>
 
     <style name="colorDeCardView" parent="Theme.AppCompat.Light.NoActionBar">
@@ -31,10 +32,12 @@
         <item name="android:background">@color/white</item>
     </style>
 
-
-    <style name="estiloIconos" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorControlNormal">@color/black</item>
+    <style name="coloresIconos" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:tint">@color/black</item>
     </style>
+
+
+
 
     <style name="splashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_mypet</item>

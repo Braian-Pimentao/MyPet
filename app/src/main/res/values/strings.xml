@@ -84,5 +84,6 @@
     <string name="guardar_ubicacion">Guardar ubicacion</string>
     <string name="guardar_marca">Guardar Marca</string>
     <string name="actualizar_perfil">Actualizar Perfil</string>
+    <string name="ver_perfil">Ver perfil</string>
 
 </resources>

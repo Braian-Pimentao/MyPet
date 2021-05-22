@@ -54,7 +54,6 @@ public class FragmentPerfil extends Fragment {
         layoutPerfil = vista.findViewById(R.id.banner_perfil);
 
         imagenPerfil = vista.findViewById(R.id.foto_fragment_perfil);
-
         layoutPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,20 +95,29 @@ public class FragmentPerfil extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        getUser();
+        super.onResume();
+    }
+
     private void getUser(){
         userProvider.getUser(auth.getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()){
-                    nombre = documentSnapshot.getString("username");
-
-
-                    String urlFotoPerfil = documentSnapshot.getString("urlPerfil");
-                    if (urlFotoPerfil!= null){
-                        Picasso.get().load(urlFotoPerfil).into(imagenPerfil);
+                    if (documentSnapshot.contains("username")) {
+                        nombre = documentSnapshot.getString("username");
+                        nombrePerfil.setText(nombre);
                     }
 
-                    nombrePerfil.setText(nombre);
+                    if (documentSnapshot.contains("urlPerfil")) {
+                        String urlFotoPerfil = documentSnapshot.getString("urlPerfil");
+                        if (urlFotoPerfil != null) {
+                            Picasso.get().load(urlFotoPerfil).into(imagenPerfil);
+                        }
+                    }
+
                 } else {
                     Toast.makeText(getContext(), "No existe", Toast.LENGTH_SHORT).show();
                 }
