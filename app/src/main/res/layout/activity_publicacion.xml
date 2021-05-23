@@ -71,6 +71,23 @@
                     android:layout_marginBottom="10dp"
                     android:background="@color/principal_app"/>
 
+                <TextView
+                    android:id="@+id/edad_animal_anuncio"
+                    android:theme="@style/colorDeTexto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edad_animal"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:textSize="15sp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/principal_app"/>
+
 
 
                 <LinearLayout
@@ -129,6 +146,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/descripcion"
                     android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
                     android:textSize="15sp"/>
 
                 <View

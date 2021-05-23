@@ -98,7 +98,9 @@ public class FragmentPerfil extends Fragment {
 
     @Override
     public void onResume() {
-        getUser();
+        if (auth.getAuth().getCurrentUser()!= null) {
+            getUser();
+        }
         super.onResume();
     }
 

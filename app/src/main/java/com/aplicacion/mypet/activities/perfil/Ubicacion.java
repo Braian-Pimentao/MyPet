@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,17 +23,23 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+    private final long RADIO = 600;
     private LocationManager locationManager;
     private Location ubicacionReal;
 
     private GoogleMap mMap;
     private Location ubicacionMarca;
     private Marker marcador;
+    private CheckBox ocultarUbicacion;
+    private Circle circuloMarca;
+    private boolean verificarOcultarUbicacion;
 
     private LatLng latLngRecibida;
 
@@ -45,12 +52,19 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, G
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        verificarOcultarUbicacion=false;
 
         Bundle extras = getIntent().getExtras();
 
+        ocultarUbicacion = findViewById(R.id.ocultar_ubicacion);
+
+
+
         if (extras != null) {
-            latLngRecibida = new LatLng(extras.getDouble("latitude"), extras.getDouble("longitude"));
+            latLngRecibida = new  LatLng(extras.getDouble("latitude"), extras.getDouble("longitude"));
             ubicacionMarca = new Location("Marca");
+            verificarOcultarUbicacion = extras.getBoolean("ocultarUbicacion");
+            ocultarUbicacion.setChecked(verificarOcultarUbicacion);
         }
 
         ubicacionReal = new Location("Real");
@@ -73,12 +87,18 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, G
 
 
         if (latLngRecibida!=null) {
-            ubicacionMarca.setLatitude(latLngRecibida.latitude);
-            ubicacionMarca.setLatitude(latLngRecibida.longitude);
-            marcador = mMap.addMarker(new MarkerOptions().position(latLngRecibida)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true));
+                ubicacionMarca.setLatitude(latLngRecibida.latitude);
+                ubicacionMarca.setLongitude(latLngRecibida.longitude);
+            if (!ocultarUbicacion.isChecked()) {
+                marcador = mMap.addMarker(new MarkerOptions().position(latLngRecibida)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true));
+            } else {
+                circuloMarca = mMap.addCircle(new CircleOptions().center(latLngRecibida).radius(RADIO));
+                circuloMarca.setFillColor(getColor(R.color.negro_opaco));
+                circuloMarca.setStrokeColor(getColor(R.color.opaco));
+            }
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngRecibida, 10));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngRecibida, 15));
         }
 
 
@@ -108,6 +128,7 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, G
                 Intent data = new Intent();
                 data.putExtra("latitude",ubicacionReal.getLatitude());
                 data.putExtra("longitude",ubicacionReal.getLongitude());
+                data.putExtra("ocultarUbicacion", verificarOcultarUbicacion);
                 setResult(Activity.RESULT_OK,data);
                 finish();
             }
@@ -116,6 +137,7 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, G
                 Intent data = new Intent();
                 data.putExtra("latitude",ubicacionMarca.getLatitude());
                 data.putExtra("longitude",ubicacionMarca.getLongitude());
+                data.putExtra("ocultarUbicacion", verificarOcultarUbicacion);
                 setResult(Activity.RESULT_OK,data);
                 finish();
             }else{
@@ -127,16 +149,52 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, G
 
     @Override
     public void onMapClick(@NonNull LatLng latLng) {
-        if (marcador != null){
-            marcador.remove();
-        }
+        if (!verificarOcultarUbicacion) {
+            if (marcador != null) {
+                marcador.remove();
+            }
 
-        if (ubicacionMarca == null) {
-            ubicacionMarca = new Location("Marca");
+            if (ubicacionMarca == null) {
+                ubicacionMarca = new Location("Marca");
+            }
+            marcador = mMap.addMarker(new MarkerOptions().position(latLng)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true));
+            ubicacionMarca.setLatitude(latLng.latitude);
+            ubicacionMarca.setLongitude(latLng.longitude);
+        } else {
+            if (circuloMarca != null) {
+                circuloMarca.remove();
+            }
+
+            if (ubicacionMarca == null) {
+                ubicacionMarca = new Location("Marca");
+            }
+            circuloMarca = mMap.addCircle(new CircleOptions().center(latLng).radius(RADIO));
+            circuloMarca.setFillColor(getColor(R.color.negro_opaco));
+            circuloMarca.setStrokeColor(getColor(R.color.opaco));
+            ubicacionMarca.setLatitude(latLng.latitude);
+            ubicacionMarca.setLongitude(latLng.longitude);
         }
-        marcador = mMap.addMarker(new MarkerOptions().position(latLng)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true));
-        ubicacionMarca.setLatitude(latLng.latitude);
-        ubicacionMarca.setLongitude(latLng.longitude);
+    }
+
+    public void cambiarOcultarUbicacion(View view) {
+        verificarOcultarUbicacion = !verificarOcultarUbicacion;
+        if (verificarOcultarUbicacion) {
+            if (marcador != null) {
+                circuloMarca = mMap.addCircle(new CircleOptions()
+                        .center(marcador.getPosition())
+                        .radius(RADIO));
+                circuloMarca.setFillColor(getColor(R.color.negro_opaco));
+                circuloMarca.setStrokeColor(getColor(R.color.opaco));
+                marcador.remove();
+            }
+
+        } else {
+            if (circuloMarca != null) {
+            marcador = mMap.addMarker(new MarkerOptions().position(circuloMarca.getCenter())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true));
+                circuloMarca.remove();
+            }
+        }
     }
 }

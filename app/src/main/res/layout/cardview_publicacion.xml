@@ -92,6 +92,15 @@
                 android:text="@string/edad_animal"
                 android:textSize="15sp" />
         </LinearLayout>
+
     </LinearLayout>
+        <ImageView
+            android:id="@+id/iamgen_favorito"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_no_favorito"
+            android:layout_gravity="center|end"
+            android:layout_marginEnd="15dp"
+            android:contentDescription="@string/boton_me_gusta_desc" />
 
 </androidx.cardview.widget.CardView>

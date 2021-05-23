@@ -21,6 +21,7 @@ public class PublicacionProvider {
     }
 
     public Query getAll() {
+
         return collectionReference.orderBy("fechaPublicacion", Query.Direction.DESCENDING);
     }
 
@@ -29,6 +30,6 @@ public class PublicacionProvider {
     }
 
     public Task<DocumentSnapshot> getPostById(String id) {
-        return  collectionReference .document(id).get();
+        return  collectionReference.document(id).get();
     }
 }

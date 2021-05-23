@@ -87,5 +87,7 @@
     <string name="ver_perfil">Ver perfil</string>
     <string name="chat">Chat</string>
     <string name="sin_ubicaion">Sin ubicacion seleccionada</string>
+    <string name="ocultar_ubicacion">Ocultar Ubicacion</string>
+    <string name="boton_me_gusta_desc">boton me gusta</string>
 
 </resources>

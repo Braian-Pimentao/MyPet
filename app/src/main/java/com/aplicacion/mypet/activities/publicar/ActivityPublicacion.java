@@ -23,8 +23,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -47,6 +48,7 @@ public class ActivityPublicacion extends AppCompatActivity {
     private String idPublicacion;
     private ArrayList<Double> ubicacionRecogida;
     private String idUser;
+    private boolean ocultarUbicacion;
 
 
 
@@ -57,6 +59,7 @@ public class ActivityPublicacion extends AppCompatActivity {
     private TextView nombreAnimal;
     private TextView nombreUsuario;
     private TextView tipoAnimal;
+    private TextView edadAnimal;
     private TextView razaAnimal;
     private TextView descripcionAnimal;
     private TextView ubicacion;
@@ -73,9 +76,11 @@ public class ActivityPublicacion extends AppCompatActivity {
         listaSliderItem = new ArrayList<>();
 
 
+
         idPublicacion = (String) getIntent().getExtras().get("id");
 
         nombreAnimal = findViewById(R.id.nombre_animal_anuncio);
+        edadAnimal = findViewById(R.id.edad_animal_anuncio);
         nombreUsuario = findViewById(R.id.nombre_usuario_anuncio);
         tipoAnimal = findViewById(R.id.tipo_animal_anuncio);
         razaAnimal = findViewById(R.id.raza_animal_anuncio);
@@ -119,6 +124,10 @@ public class ActivityPublicacion extends AppCompatActivity {
                     }
                     if(documentSnapshot.contains("nombre")){
                         nombreAnimal.setText(documentSnapshot.getString("nombre"));
+                    }
+
+                    if(documentSnapshot.contains("edad")){
+                        edadAnimal.setText(documentSnapshot.getString("edad"));
                     }
 
                     if(documentSnapshot.contains("raza")){
@@ -246,6 +255,10 @@ public class ActivityPublicacion extends AppCompatActivity {
                         } else {
                             ubicacion.setText(getString(R.string.sin_ubicaion));
                         }
+
+                        if (documentSnapshot.contains("ocultarUbicacion")) {
+                            ocultarUbicacion = documentSnapshot.getBoolean("ocultarUbicacion");
+                        }
                     }
 
                     if (documentSnapshot.contains("urlPerfil")){
@@ -278,13 +291,18 @@ public class ActivityPublicacion extends AppCompatActivity {
         @Override
         public void onMapReady(@NonNull GoogleMap googleMap) {
             mMap = googleMap;
-
-
             LatLng latLng = new LatLng(ubicacionRecogida.get(0),ubicacionRecogida.get(1));
-            Marker marcador = mMap.addMarker(new MarkerOptions().position(latLng)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
 
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+            if (!ocultarUbicacion) {
+                mMap.addMarker(new MarkerOptions().position(latLng)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+            } else {
+                Circle circuloMarca = mMap.addCircle(new CircleOptions().center(latLng).radius(600));
+                circuloMarca.setFillColor(getColor(R.color.negro_opaco));
+                circuloMarca.setStrokeColor(getColor(R.color.opaco));
+            }
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
         }
     }
 }

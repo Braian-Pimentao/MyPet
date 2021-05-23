@@ -55,6 +55,7 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
     private AlertDialog dialog;
     private File imagen;
     private String nombre="";
+    private boolean ocultarUbicacion;
 
     private ImageProvider imageProvider;
     private UserProvider userProvider;
@@ -78,6 +79,7 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
 
         latitude = null;
         longitude = null;
+        ocultarUbicacion = false;
 
         botonUbicacion = findViewById(R.id.boton_marcar_ubicacion);
         nombreUsuario = findViewById(R.id.campo_nombre_editar);
@@ -105,6 +107,7 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
         if (latitude!=null && longitude!=null){
             ubicacion.putExtra("latitude", latitude);
             ubicacion.putExtra("longitude", longitude);
+            ubicacion.putExtra("ocultarUbicacion",ocultarUbicacion);
         }
         startActivityForResult(ubicacion, REQUEST_CODE_UBICACION);
     }
@@ -128,6 +131,10 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
                         }
                     }
 
+                    if (documentSnapshot.contains("ocultarUbicacion")) {
+                        ocultarUbicacion = documentSnapshot.getBoolean("ocultarUbicacion");
+                    }
+
                     if (documentSnapshot.contains("urlPerfil")){
                         urlFotoPerfil = documentSnapshot.getString("urlPerfil");
                         if (urlFotoPerfil!= null){
@@ -145,8 +152,9 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
         if (requestCode==REQUEST_CODE_UBICACION){
             if (resultCode== Activity.RESULT_OK){
                 Bundle extras = data.getExtras();
-                latitude = (double) extras.get("latitude");
-                longitude = (double) extras.get("longitude");
+                latitude =  extras.getDouble("latitude");
+                longitude = extras.getDouble("longitude");
+                ocultarUbicacion = extras.getBoolean("ocultarUbicacion");
 
                 localizacion(latitude,longitude);
             }
@@ -220,6 +228,7 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
                                 ubicacion.add(latitude);
                                 ubicacion.add(longitude);
                                 usuario.setUbicacion(ubicacion);
+                                usuario.setOcultarUbicacion(ocultarUbicacion);
                             }
                             usuario.setUrlPerfil(url);
 
@@ -251,6 +260,7 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
                 ubicacion.add(latitude);
                 ubicacion.add(longitude);
                 usuario.setUbicacion(ubicacion);
+                usuario.setOcultarUbicacion(ocultarUbicacion);
             }
             userProvider.update(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

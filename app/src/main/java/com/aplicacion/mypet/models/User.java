@@ -8,16 +8,18 @@ public class User {
     private String username;
     private ArrayList<Double> ubicacion;
     private String urlPerfil;
+    private Boolean ocultarUbicacion;
 
     public User() {
     }
 
-    public User(String id, String email, String username, ArrayList<Double> ubicacion, String urlPerfil) {
+    public User(String id, String email, String username, ArrayList<Double> ubicacion, String urlPerfil, Boolean ocultarUbicacion) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.ubicacion = ubicacion;
         this.urlPerfil = urlPerfil;
+        this.ocultarUbicacion = ocultarUbicacion;
     }
 
     public String getId() {
@@ -58,5 +60,13 @@ public class User {
 
     public void setUrlPerfil(String urlPerfil) {
         this.urlPerfil = urlPerfil;
+    }
+
+    public Boolean isOcultarUbicacion() {
+        return ocultarUbicacion;
+    }
+
+    public void setOcultarUbicacion(Boolean ocultarUbicacion) {
+        this.ocultarUbicacion = ocultarUbicacion;
     }
 }

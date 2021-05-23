@@ -79,6 +79,19 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
+    <CheckBox
+        android:id="@+id/ocultar_ubicacion"
+        android:textColor="@color/white"
+        android:background="@color/principal_app"
+        android:layout_width="wrap_content"
+        android:onClick="cambiarOcultarUbicacion"
+        android:layout_height="wrap_content"
+        android:text="@string/ocultar_ubicacion"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
+        android:buttonTint="@color/white"
+        android:padding="5dp"/>
+
 
 
 

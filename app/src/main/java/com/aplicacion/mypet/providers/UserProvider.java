@@ -29,6 +29,7 @@ public class UserProvider {
         map.put("username",user.getUsername());
         map.put("ubicacion",user.getUbicacion());
         map.put("urlPerfil",user.getUrlPerfil());
+        map.put("ocultarUbicacion",user.isOcultarUbicacion());
         return collectionReference.document(user.getId()).update(map);
     }
 }
