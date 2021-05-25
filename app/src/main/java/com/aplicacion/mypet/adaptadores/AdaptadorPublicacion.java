@@ -13,17 +13,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aplicacion.mypet.R;
 import com.aplicacion.mypet.activities.publicar.ActivityPublicacion;
+import com.aplicacion.mypet.activities.sesion.IniciarSesion;
+import com.aplicacion.mypet.models.Favorito;
 import com.aplicacion.mypet.models.Publicacion;
+import com.aplicacion.mypet.providers.AuthProvider;
+import com.aplicacion.mypet.providers.FavoritoProvider;
+import com.aplicacion.mypet.providers.UserProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+
+import java.util.Date;
 
 public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, AdaptadorPublicacion.ViewHolder> {
     private Context context;
+    private UserProvider userProvider;
+    private FavoritoProvider favoritoProvider;
+    private AuthProvider authProvider;
     public AdaptadorPublicacion(@NonNull FirestoreRecyclerOptions<Publicacion> options, Context context) {
         super(options);
         this.context = context;
+        userProvider = new UserProvider();
+        favoritoProvider = new FavoritoProvider();
+        authProvider = new AuthProvider();
     }
 
     @NonNull
@@ -35,7 +50,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position,  @NonNull Publicacion publicacion) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position,  @NonNull final Publicacion publicacion) {
         String[] listaAnimales = context.getResources().getStringArray(R.array.lista_animales);
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
 
@@ -66,7 +81,69 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
             }
         });
 
+        holder.favorito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (authProvider.getAuth().getCurrentUser()!=null){
+                    Favorito favorito = new Favorito();
+                    favorito.setIdUser(authProvider.getUid());
+                    favorito.setIdPublicacion(idPublicacion);
+                    favorito.setTimestamp(new Date().getTime());
+                    favorito(favorito, holder);
+                } else {
+                    Intent items = new Intent(context, IniciarSesion.class);
+                    context.startActivity(items);
+                }
+            }
+        });
 
+        if (authProvider.getAuth().getCurrentUser()!=null){
+            checkIsExistFavorite(idPublicacion,authProvider.getUid(),holder);
+        }
+
+        if (authProvider.getAuth().getCurrentUser()!=null){
+            ocultarBotones(publicacion.getIdUser(),holder);
+        }
+    }
+
+    private void favorito(final Favorito favorito, final ViewHolder holder) {
+        favoritoProvider.getFavoriteByPostAndUser(favorito.getIdPublicacion(),authProvider.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                int numeroDocumentos = queryDocumentSnapshots.size();
+                if (numeroDocumentos>0){
+                    String idFavorito = queryDocumentSnapshots.getDocuments().get(0).getId();
+                    holder.favorito.setImageResource(R.drawable.ic_no_favorito);
+                    favoritoProvider.delete(idFavorito);
+                } else {
+                    holder.favorito.setImageResource(R.drawable.ic_favorito);
+                    favoritoProvider.create(favorito);
+                }
+            }
+        });
+    }
+
+    private void ocultarBotones(String idUserPublicacion, ViewHolder holder) {
+        if (authProvider.getAuth().getCurrentUser()!=null) {
+            if (idUserPublicacion.equals(authProvider.getUid())) {
+                holder.favorito.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+
+    private void checkIsExistFavorite(String idPublicacion, String idUser, final ViewHolder holder) {
+        favoritoProvider.getFavoriteByPostAndUser(idPublicacion,idUser).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                int numeroDocumentos = queryDocumentSnapshots.size();
+                if (numeroDocumentos>0){
+                    holder.favorito.setImageResource(R.drawable.ic_favorito);
+                } else {
+                    holder.favorito.setImageResource(R.drawable.ic_no_favorito);
+                }
+            }
+        });
     }
 
 
@@ -76,6 +153,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         TextView raza;
         TextView edad;
         ImageView foto;
+        ImageView favorito;
         ImageView sexo;
         View viewHolder;
         public ViewHolder(@NonNull View itemView) {
@@ -86,6 +164,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
             edad = itemView.findViewById(R.id.edad_animal);
             foto = itemView.findViewById(R.id.imagen_animal);
             sexo = itemView.findViewById(R.id.sexo);
+            favorito = itemView.findViewById(R.id.iamgen_favorito);
             viewHolder = itemView;
         }
 

@@ -1,23 +1,38 @@
 package com.aplicacion.mypet.activities.publicar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.aplicacion.mypet.R;
 import com.aplicacion.mypet.activities.perfil.ActivityUsuario;
+import com.aplicacion.mypet.activities.sesion.IniciarSesion;
 import com.aplicacion.mypet.adaptadores.SliderAdaptador;
+import com.aplicacion.mypet.models.Favorito;
 import com.aplicacion.mypet.models.SliderItem;
+import com.aplicacion.mypet.providers.AuthProvider;
+import com.aplicacion.mypet.providers.FavoritoProvider;
 import com.aplicacion.mypet.providers.PublicacionProvider;
 import com.aplicacion.mypet.providers.UserProvider;
+import com.aplicacion.mypet.utils.RelativeTime;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,8 +42,14 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -36,6 +57,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -54,6 +76,8 @@ public class ActivityPublicacion extends AppCompatActivity {
 
     private PublicacionProvider publicacionProvider;
     private UserProvider userProvider;
+    private FavoritoProvider favoritoProvider;
+    private AuthProvider authProvider;
 
 
     private TextView nombreAnimal;
@@ -64,20 +88,36 @@ public class ActivityPublicacion extends AppCompatActivity {
     private TextView descripcionAnimal;
     private TextView ubicacion;
     private ImageView imagenSexo;
+
     private ImageView imagenTipoAnimal;
     private CircleImageView fotoUsuario;
+    private TextView tiempo;
+    private TextView favoritos;
+    private FloatingActionButton botonFavorito;
+    private Toolbar toolbar;
+    private MenuItem reportarAnuncio;
+    private MenuItem borrarAnuncio;
+    private Button botonChat;
+    private ScrollView scrollView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_publicacion);
+        toolbar = (Toolbar) findViewById(R.id.toolBar_anuncio);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
+
         sliderView = findViewById(R.id.imageSlider);
         listaSliderItem = new ArrayList<>();
 
 
 
-        idPublicacion = (String) getIntent().getExtras().get("id");
+        idPublicacion = getIntent().getExtras().getString("id");
 
         nombreAnimal = findViewById(R.id.nombre_animal_anuncio);
         edadAnimal = findViewById(R.id.edad_animal_anuncio);
@@ -90,12 +130,32 @@ public class ActivityPublicacion extends AppCompatActivity {
         imagenSexo = findViewById(R.id.sexo_anuncio);
         imagenTipoAnimal = findViewById(R.id.icono_tipo_animal);
         fotoUsuario = findViewById(R.id.foto_perfil_anuncio);
+        tiempo = findViewById(R.id.tiempo_publicacion);
+        favoritos = findViewById(R.id.contador_favoritos);
+        botonFavorito = findViewById(R.id.fabFavorite);
+        botonChat = findViewById(R.id.boton_abrir_chat_anuncio);
 
 
         idUser="";
         publicacionProvider = new PublicacionProvider();
         userProvider = new UserProvider();
-        getPost();
+        favoritoProvider = new FavoritoProvider();
+        authProvider = new AuthProvider();
+
+        if (authProvider.getAuth().getCurrentUser()!=null){
+            checkIsExistFavorite(idPublicacion,authProvider.getUid());
+        }
+    }
+
+    private void getNumberFavorites() {
+        favoritoProvider.getFavoriteByPost(idPublicacion).addSnapshotListener(
+        new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                int numeroFavoritos = value.size();
+                favoritos.setText(String.valueOf(numeroFavoritos));
+            }
+        });
     }
 
     private void instanciarSlider() {
@@ -156,14 +216,98 @@ public class ActivityPublicacion extends AppCompatActivity {
                     if (documentSnapshot.contains("raza")){
                         razaAnimal.setText(documentSnapshot.getString("raza"));
                     }
+
+                    if (documentSnapshot.contains("fechaPublicacion")){
+                        long timestamp = documentSnapshot.getLong("fechaPublicacion");
+                        tiempo.setText(RelativeTime.getTimeAgo(timestamp,ActivityPublicacion.this));
+                    }
+
                     if (documentSnapshot.contains("descripcion")){
                         descripcionAnimal.setText(documentSnapshot.getString("descripcion"));
                     }
                     if (documentSnapshot.contains("idUser")){
                         idUser=documentSnapshot.getString("idUser");
                         getUser(idUser);
+                        modificarMenu();
+                        ocultarBotones();
                     }
 
+                }
+            }
+        });
+    }
+
+    private void ocultarBotones() {
+        if (authProvider.getAuth().getCurrentUser()!=null) {
+            if (idUser.equals(authProvider.getUid())) {
+                botonFavorito.setVisibility(View.INVISIBLE);
+                botonChat.setText(getString(R.string.eliminar));
+            }
+        }
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getPost();
+        getNumberFavorites();
+    }
+
+    private void modificarMenu() {
+        if (authProvider.getAuth().getCurrentUser()!=null){
+            if (idUser.equals(authProvider.getUid())){
+                reportarAnuncio.setVisible(false);
+            } else {
+                borrarAnuncio.setVisible(false);
+            }
+        } else {
+            borrarAnuncio.setVisible(false);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_eliminar,menu);
+
+        borrarAnuncio = menu.findItem(R.id.opcion_borrar);
+        reportarAnuncio = menu.findItem(R.id.opcion_reportar);
+
+        return super.onCreateOptionsMenu(menu) ;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.equals(borrarAnuncio)) {
+            mostrarConfirmacionBorrar(idPublicacion);
+        } else if (item.equals(reportarAnuncio)){
+            Toast.makeText(this,"Adioos",Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void mostrarConfirmacionBorrar(String idPublicacion) {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(getString(R.string.eliminar))
+                .setMessage(getString(R.string.comprobar_eliminar))
+                .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deletePublicacion(idPublicacion);
+                    }
+                })
+                .setNegativeButton(getString(R.string.no),null).show();
+    }
+
+    private void deletePublicacion(String idPublicacion) {
+        publicacionProvider.delete(idPublicacion).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(ActivityPublicacion.this,getString(R.string.publicacion_eliminada),Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
         });
@@ -282,6 +426,58 @@ public class ActivityPublicacion extends AppCompatActivity {
             Intent perfil = new Intent(this, ActivityUsuario.class);
             perfil.putExtra("idUser", idUser);
             startActivity(perfil);
+        }
+    }
+
+    public void darFavorito(View view) {
+        if (authProvider.getAuth().getCurrentUser()!=null){
+            Favorito favorito = new Favorito();
+            favorito.setIdUser(authProvider.getUid());
+            favorito.setIdPublicacion(idPublicacion);
+            favorito.setTimestamp(new Date().getTime());
+            favorito(favorito);
+        } else {
+            Intent items = new Intent(this, IniciarSesion.class);
+            startActivity(items);
+        }
+    }
+
+    private void checkIsExistFavorite(String idPublicacion, String idUser) {
+        favoritoProvider.getFavoriteByPostAndUser(idPublicacion,idUser).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                int numeroDocumentos = queryDocumentSnapshots.size();
+                if (numeroDocumentos>0){
+                    botonFavorito.setImageResource(R.drawable.ic_favorito);
+                } else {
+                    botonFavorito.setImageResource(R.drawable.ic_no_favorito);
+                }
+            }
+        });
+    }
+
+    private void favorito(final Favorito favorito) {
+        favoritoProvider.getFavoriteByPostAndUser(favorito.getIdPublicacion(),authProvider.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                int numeroDocumentos = queryDocumentSnapshots.size();
+                if (numeroDocumentos>0){
+                    String idFavorito = queryDocumentSnapshots.getDocuments().get(0).getId();
+                    botonFavorito.setImageResource(R.drawable.ic_no_favorito);
+                    favoritoProvider.delete(idFavorito);
+                } else {
+                    botonFavorito.setImageResource(R.drawable.ic_favorito);
+                    favoritoProvider.create(favorito);
+                }
+            }
+        });
+    }
+
+    public void botonChat(View view) {
+        Button boton = (Button) view;
+
+        if (boton.getText().equals(getString(R.string.eliminar))){
+            mostrarConfirmacionBorrar(idPublicacion);
         }
     }
 

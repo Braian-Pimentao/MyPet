@@ -54,7 +54,7 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
     private final int REQUEST_PERMISSION_GALLERY=101;
     private AlertDialog dialog;
     private File imagen;
-    private String nombre="";
+    private String nombre;
     private boolean ocultarUbicacion;
 
     private ImageProvider imageProvider;
@@ -80,6 +80,7 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
         latitude = null;
         longitude = null;
         ocultarUbicacion = false;
+        nombre="";
 
         botonUbicacion = findViewById(R.id.boton_marcar_ubicacion);
         nombreUsuario = findViewById(R.id.campo_nombre_editar);
@@ -132,7 +133,8 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
                     }
 
                     if (documentSnapshot.contains("ocultarUbicacion")) {
-                        ocultarUbicacion = documentSnapshot.getBoolean("ocultarUbicacion");
+                        if (documentSnapshot.get("ocultarUbicacion")!=null)
+                            ocultarUbicacion = documentSnapshot.getBoolean("ocultarUbicacion");
                     }
 
                     if (documentSnapshot.contains("urlPerfil")){
@@ -252,8 +254,6 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
         } else {
             User usuario = new User();
             usuario.setId(auth.getUid());
-            if (!urlFotoPerfil.equals(""))
-                usuario.setUrlPerfil(urlFotoPerfil);
             usuario.setUsername(nombre);
             if (latitude != null && longitude != null) {
                 ArrayList<Double> ubicacion= new ArrayList<>();

@@ -6,13 +6,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.aplicacion.mypet.R;
+import com.aplicacion.mypet.adaptadores.AdaptadorPublicacion;
+import com.aplicacion.mypet.models.Publicacion;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.PublicacionProvider;
 import com.aplicacion.mypet.providers.UserProvider;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
@@ -24,11 +30,15 @@ public class ActivityUsuario extends AppCompatActivity {
     private CircleImageView imagenPerfil;
     private TextView nombrePerfil;
     private TextView publicacionesContador;
-    private PublicacionProvider publicacionProvider;
     private String idUser;
+    private RecyclerView recyclerView;
+    private TextView noHayPublicaciones;
 
+    private PublicacionProvider publicacionProvider;
     private AuthProvider auth;
     private UserProvider userProvider;
+    private AdaptadorPublicacion adaptadorPublicacion;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,12 @@ public class ActivityUsuario extends AppCompatActivity {
         nombrePerfil = findViewById(R.id.nombre_perfil_user);
         publicacionesContador = findViewById(R.id.numero_publicaciones);
         publicacionProvider = new PublicacionProvider();
+        noHayPublicaciones = findViewById(R.id.no_hay_publicaciones);
+
+        recyclerView = findViewById(R.id.listar_anuncios_usuario);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         idUser = getIntent().getStringExtra("idUser");
 
@@ -55,6 +71,12 @@ public class ActivityUsuario extends AppCompatActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 int numeroPublicaciones = queryDocumentSnapshots.size();
                 publicacionesContador.setText(String.valueOf(numeroPublicaciones));
+
+                if (numeroPublicaciones > 0) {
+                    noHayPublicaciones.setVisibility(View.INVISIBLE);
+                } else {
+                    noHayPublicaciones.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -81,6 +103,26 @@ public class ActivityUsuario extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Query query = publicacionProvider.getPostByUser(idUser);
+        FirestoreRecyclerOptions<Publicacion> options = new FirestoreRecyclerOptions.Builder<Publicacion>()
+                .setQuery(query,Publicacion.class)
+                .build();
+
+        adaptadorPublicacion = new AdaptadorPublicacion(options,this);
+        recyclerView.setAdapter(adaptadorPublicacion);
+        adaptadorPublicacion.startListening();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adaptadorPublicacion.stopListening();
     }
 
     public void cerrarPerfil(View v) {

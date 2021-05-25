@@ -89,5 +89,18 @@
     <string name="sin_ubicaion">Sin ubicacion seleccionada</string>
     <string name="ocultar_ubicacion">Ocultar Ubicacion</string>
     <string name="boton_me_gusta_desc">boton me gusta</string>
-
+    <string name="hace_un_momento">Hace un momento</string>
+    <string name="hace_una_hora">Hace una hora</string>
+    <string name="hace_un_minuto">Hace un minuto</string>
+    <string name="ayer">Ayer</string>
+    <string name="hace_unos_minutos">Hace %d minutos</string>
+    <string name="hace_unas_horas">Hace %d horas</string>
+    <string name="hace_unos_dias">Hace %d días</string>
+    <string name="tiempo">Tiempo</string>
+    <string name="reportar">Reportar Publicación</string>
+    <string name="eliminar">Eliminar Publicación</string>
+    <string name="publicacion_eliminada">Publicación eliminada</string>
+    <string name="comprobar_eliminar">¿Desea eliminar la publicación?</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
 </resources>

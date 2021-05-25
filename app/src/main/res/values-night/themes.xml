@@ -1,10 +1,10 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.MyPet" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/principal_app</item>
         <item name="colorPrimaryDark">@color/principal_app</item>
-        <item name="colorAccent">@color/teal_200</item>
+        <item name="colorAccent">@color/principal_app</item>
         <!-- Customize your theme here. -->
     </style>
 
