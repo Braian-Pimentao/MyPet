@@ -32,4 +32,8 @@ public class PublicacionProvider {
     public Task<DocumentSnapshot> getPostById(String id) {
         return  collectionReference.document(id).get();
     }
+
+    public Task<Void> delete(String id) {
+        return collectionReference.document(id).delete();
+    }
 }

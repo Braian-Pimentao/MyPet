@@ -1,11 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.FragmentHome">
+    tools:context=".fragments.FragmentHome"
+    android:orientation="vertical">
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:scrollbars="vertical">
+            <ImageView
+                android:theme="@style/coloresIconos"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_perro"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"/>
+            <ImageView
+                android:theme="@style/coloresIconos"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_gato"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+            <ImageView
+                android:theme="@style/coloresIconos"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_conejo"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+            <ImageView
+                android:theme="@style/coloresIconos"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_ardilla"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+            <ImageView
+                android:theme="@style/coloresIconos"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_tortuga"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+            <ImageView
+                android:theme="@style/coloresIconos"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_pez"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+            <ImageView
+                android:theme="@style/coloresIconos"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_pajaro"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+            <ImageView
+                android:theme="@style/coloresIconos"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_serpiente"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
 
+        </LinearLayout>
+    </HorizontalScrollView>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,4 +103,4 @@
     </LinearLayout>
 
     <!-- TODO: Update blank fragment layout -->
-</FrameLayout>
+</LinearLayout>
