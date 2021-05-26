@@ -1,15 +1,18 @@
 package com.aplicacion.mypet.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aplicacion.mypet.R;
+import com.aplicacion.mypet.activities.publicar.FiltrosActivity;
 import com.aplicacion.mypet.adaptadores.AdaptadorPublicacion;
 import com.aplicacion.mypet.models.Publicacion;
 import com.aplicacion.mypet.providers.PublicacionProvider;
@@ -21,6 +24,16 @@ public class FragmentHome extends Fragment {
     private RecyclerView recyclerView;
     private PublicacionProvider publicacionProvider;
     private AdaptadorPublicacion adaptadorPublicacion;
+
+    private ImageView imagenPerro;
+    private ImageView imagenGato;
+    private ImageView imagenConejo;
+    private ImageView imagenRoedor;
+    private ImageView imagenTortuga;
+    private ImageView imagenPez;
+    private ImageView imagenPajaro;
+    private ImageView imagenReptil;
+
 
 
 
@@ -41,6 +54,26 @@ public class FragmentHome extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         publicacionProvider = new PublicacionProvider();
+
+        PulsarAnimal pulsarAnimal = new PulsarAnimal();
+
+        imagenPerro = view.findViewById(R.id.imagen_perro);
+        imagenGato = view.findViewById(R.id.imagen_gato);
+        imagenConejo = view.findViewById(R.id.imagen_conejo);
+        imagenRoedor = view.findViewById(R.id.imagen_roedor);
+        imagenTortuga = view.findViewById(R.id.imagen_tortuga);
+        imagenPez = view.findViewById(R.id.imagen_pez);
+        imagenPajaro = view.findViewById(R.id.imagen_pajaro);
+        imagenReptil = view.findViewById(R.id.imagen_reptil);
+
+        imagenPerro.setOnClickListener(pulsarAnimal);
+        imagenGato.setOnClickListener(pulsarAnimal);
+        imagenConejo.setOnClickListener(pulsarAnimal);
+        imagenRoedor.setOnClickListener(pulsarAnimal);
+        imagenTortuga.setOnClickListener(pulsarAnimal);
+        imagenPez.setOnClickListener(pulsarAnimal);
+        imagenPajaro.setOnClickListener(pulsarAnimal);
+        imagenReptil.setOnClickListener(pulsarAnimal);
         return view;
     }
 
@@ -64,7 +97,37 @@ public class FragmentHome extends Fragment {
         adaptadorPublicacion.stopListening();
     }
 
+    private class PulsarAnimal implements View.OnClickListener {
 
+        @Override
+        public void onClick(View v) {
+            ImageView imagenPulsada = (ImageView) v;
+
+            if (imagenPulsada.equals(imagenPerro)){
+                filtrarPorAnimal("0");
+            } else if (imagenPulsada.equals(imagenGato)){
+                filtrarPorAnimal("1");
+            } else if (imagenPulsada.equals(imagenConejo)){
+                filtrarPorAnimal("2");
+            } else if (imagenPulsada.equals(imagenRoedor)){
+                filtrarPorAnimal("3");
+            } else if (imagenPulsada.equals(imagenTortuga)){
+                filtrarPorAnimal("4");
+            } else if (imagenPulsada.equals(imagenPez)){
+                filtrarPorAnimal("5");
+            } else if (imagenPulsada.equals(imagenPajaro)){
+                filtrarPorAnimal("6");
+            } else if (imagenPulsada.equals(imagenReptil)){
+                filtrarPorAnimal("7");
+            }
+        }
+    }
+
+    private void filtrarPorAnimal(String tipo) {
+        Intent intentFiltrar = new Intent(getContext(), FiltrosActivity.class);
+        intentFiltrar.putExtra("tipo", tipo);
+        startActivity(intentFiltrar);
+    }
 
 
 }

@@ -20,6 +20,7 @@
         android:roundIcon="@mipmap/huesoicono"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPet">
+        <activity android:name=".activities.publicar.FiltrosActivity"></activity>
         <activity android:name=".activities.publicar.ActivityPublicacion" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

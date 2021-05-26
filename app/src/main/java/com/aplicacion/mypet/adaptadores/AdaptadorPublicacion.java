@@ -33,12 +33,24 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
     private UserProvider userProvider;
     private FavoritoProvider favoritoProvider;
     private AuthProvider authProvider;
+
+    private TextView contadorPublicaciones;
+
     public AdaptadorPublicacion(@NonNull FirestoreRecyclerOptions<Publicacion> options, Context context) {
         super(options);
         this.context = context;
         userProvider = new UserProvider();
         favoritoProvider = new FavoritoProvider();
         authProvider = new AuthProvider();
+    }
+
+    public AdaptadorPublicacion(@NonNull FirestoreRecyclerOptions<Publicacion> options, Context context, TextView contadorPublicaciones) {
+        super(options);
+        this.context = context;
+        userProvider = new UserProvider();
+        favoritoProvider = new FavoritoProvider();
+        authProvider = new AuthProvider();
+        this.contadorPublicaciones = contadorPublicaciones;
     }
 
     @NonNull
@@ -55,6 +67,12 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
 
         final String idPublicacion = document.getId();
+
+        if (contadorPublicaciones != null){
+            int number = getSnapshots().size();
+            System.out.println("--------------------------------------------------------------"+number);
+            contadorPublicaciones.setText(String.valueOf(number));
+        }
 
         holder.nombre.setText(publicacion.getNombre());
         int tipo = Integer.parseInt(publicacion.getTipo());
@@ -169,4 +187,6 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         }
 
     }
+
+
 }

@@ -100,6 +100,9 @@ public class FragmentPerfil extends Fragment {
     public void onResume() {
         if (auth.getAuth().getCurrentUser()!= null) {
             getUser();
+        } else {
+            imagenPerfil.setImageResource(R.drawable.ic_person_2);
+            nombrePerfil.setText(getString(R.string.iniciar));
         }
         super.onResume();
     }

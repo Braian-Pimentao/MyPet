@@ -21,8 +21,11 @@ public class PublicacionProvider {
     }
 
     public Query getAll() {
-
         return collectionReference.orderBy("fechaPublicacion", Query.Direction.DESCENDING);
+    }
+
+    public Query getPublicacionByCategoryAndTimesTamp(String tipo) {
+        return collectionReference.whereEqualTo("tipo",tipo).orderBy("fechaPublicacion", Query.Direction.DESCENDING);
     }
 
     public Query getPostByUser(String id) {
