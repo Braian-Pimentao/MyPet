@@ -28,6 +28,12 @@ public class PublicacionProvider {
         return collectionReference.whereEqualTo("tipo",tipo).orderBy("fechaPublicacion", Query.Direction.DESCENDING);
     }
 
+    public Query getPublicacionByRaza(String raza) {
+        return collectionReference.orderBy("raza").startAt(raza).endAt(raza+'\uf8ff');
+    }
+
+
+
     public Query getPostByUser(String id) {
         return collectionReference.whereEqualTo("idUser",id);
     }

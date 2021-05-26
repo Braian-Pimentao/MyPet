@@ -41,6 +41,7 @@
 
 
 
+
     <style name="splashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_mypet</item>
     </style>

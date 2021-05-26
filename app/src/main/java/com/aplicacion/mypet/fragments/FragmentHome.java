@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,12 +19,14 @@ import com.aplicacion.mypet.models.Publicacion;
 import com.aplicacion.mypet.providers.PublicacionProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 
-public class FragmentHome extends Fragment {
+public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearchActionListener {
     private View view;
     private RecyclerView recyclerView;
     private PublicacionProvider publicacionProvider;
     private AdaptadorPublicacion adaptadorPublicacion;
+    private AdaptadorPublicacion adaptadorPublicacionBuscar;
 
     private ImageView imagenPerro;
     private ImageView imagenGato;
@@ -33,11 +36,7 @@ public class FragmentHome extends Fragment {
     private ImageView imagenPez;
     private ImageView imagenPajaro;
     private ImageView imagenReptil;
-
-
-
-
-
+    private MaterialSearchBar searchBar;
 
     public FragmentHome() {
         // Required empty public constructor
@@ -65,6 +64,7 @@ public class FragmentHome extends Fragment {
         imagenPez = view.findViewById(R.id.imagen_pez);
         imagenPajaro = view.findViewById(R.id.imagen_pajaro);
         imagenReptil = view.findViewById(R.id.imagen_reptil);
+        searchBar = view.findViewById(R.id.searchBar);
 
         imagenPerro.setOnClickListener(pulsarAnimal);
         imagenGato.setOnClickListener(pulsarAnimal);
@@ -74,6 +74,7 @@ public class FragmentHome extends Fragment {
         imagenPez.setOnClickListener(pulsarAnimal);
         imagenPajaro.setOnClickListener(pulsarAnimal);
         imagenReptil.setOnClickListener(pulsarAnimal);
+        searchBar.setOnSearchActionListener(this);
         return view;
     }
 
@@ -81,20 +82,57 @@ public class FragmentHome extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        getTodasPublicaciones();
+    }
+
+    private void getTodasPublicaciones() {
         Query query = publicacionProvider.getAll();
         FirestoreRecyclerOptions<Publicacion> options = new FirestoreRecyclerOptions.Builder<Publicacion>()
                 .setQuery(query,Publicacion.class)
                 .build();
 
         adaptadorPublicacion = new AdaptadorPublicacion(options,getContext());
+        adaptadorPublicacion.notifyDataSetChanged();
         recyclerView.setAdapter(adaptadorPublicacion);
         adaptadorPublicacion.startListening();
+    }
+
+    private void buscarPorRaza(String raza) {
+        Query query = publicacionProvider.getPublicacionByRaza(raza);
+        FirestoreRecyclerOptions<Publicacion> options = new FirestoreRecyclerOptions.Builder<Publicacion>()
+                .setQuery(query,Publicacion.class)
+                .build();
+
+        adaptadorPublicacionBuscar = new AdaptadorPublicacion(options,getContext());
+        adaptadorPublicacionBuscar.notifyDataSetChanged();
+        recyclerView.setAdapter(adaptadorPublicacionBuscar);
+        adaptadorPublicacionBuscar.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         adaptadorPublicacion.stopListening();
+        if (adaptadorPublicacionBuscar!=null) {
+            adaptadorPublicacionBuscar.stopListening();
+        }
+    }
+
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+        if (!enabled) {
+            getTodasPublicaciones();
+        }
+    }
+
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
+        buscarPorRaza(text.toString());
+    }
+
+    @Override
+    public void onButtonClicked(int buttonCode) {
+        Toast.makeText(getContext(),buttonCode,Toast.LENGTH_SHORT).show();
     }
 
     private class PulsarAnimal implements View.OnClickListener {

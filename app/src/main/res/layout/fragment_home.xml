@@ -6,15 +6,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.FragmentHome"
     android:orientation="vertical">
-    <com.mancj.materialsearchbar.MaterialSearchBar
-        style="@style/MaterialSearchBarLight"
-        app:mt_speechMode="true"
-        app:mt_placeholder="Buscar"
-        app:mt_hint="@string/busqueda"
-        app:mt_maxSuggestionsCount="10"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/searchBar" />
+        android:orientation="vertical"
+        android:background="@color/principal_app">
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            style="@style/MaterialSearchBarLight"
+            app:mt_searchBarColor="@color/principal_app"
+            app:mt_placeholderColor="@color/white"
+            app:mt_placeholder="@string/busqueda"
+            app:mt_hintColor="@color/white"
+            app:mt_hint="@string/busqueda"
+            app:mt_maxSuggestionsCount="10"
+            android:layout_width="match_parent"
+            app:mt_searchIconTint="@color/white"
+            app:mt_backIconTint="@color/white"
+            app:mt_leftTextSelectorTint="@color/white"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchBar" />
+    </LinearLayout>
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center"
             android:scrollbars="vertical">
             <ImageView
                 android:id="@+id/imagen_perro"

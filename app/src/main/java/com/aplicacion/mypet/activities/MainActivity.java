@@ -21,12 +21,14 @@ import com.aplicacion.mypet.fragments.FragmentFavorito;
 import com.aplicacion.mypet.fragments.FragmentHome;
 import com.aplicacion.mypet.fragments.FragmentPerfil;
 import com.aplicacion.mypet.providers.AuthProvider;
+import com.aplicacion.mypet.providers.TokenProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity{
     private final int REQUEST_PERMISSION_UBICATION = 102;
     private BottomNavigationView bottomNavigation;
     private AuthProvider auth;
+    TokenProvider tokenProvider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_MyPet);
@@ -41,14 +43,16 @@ public class MainActivity extends AppCompatActivity{
 
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
-        openFragment(new FragmentHome());
         auth = new AuthProvider();
+        tokenProvider = new TokenProvider();
+
+        openFragment(new FragmentHome());
+        createToken();
     }
 
     public void openFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, fragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -90,6 +94,13 @@ public class MainActivity extends AppCompatActivity{
                     return true;
                 }
             };
+
+    private void createToken() {
+        if (auth.getAuth().getCurrentUser()!=null) {
+            tokenProvider.create(auth.getUid());
+        }
+    }
+
     public void botonPublicar(View v){
         if (auth.getAuth().getCurrentUser()!=null) {
             System.out.println(auth.getEmail());

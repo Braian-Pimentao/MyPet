@@ -1,0 +1,35 @@
+package com.aplicacion.mypet.services;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+
+import com.aplicacion.mypet.channel.NotificationHelper;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.Map;
+
+public class MyFirebaseMessagingClient extends FirebaseMessagingService {
+
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+    }
+
+    @Override
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        super.onMessageReceived(remoteMessage);
+        Map<String,String> data = remoteMessage.getData();
+        String titulo = data.get("title");
+        String body = data.get("body");
+        if (titulo != null) {
+            showNotification(titulo,body);
+        }
+    }
+
+    private void showNotification(String title, String body) {
+        NotificationHelper notificationHelper = new NotificationHelper(getBaseContext());
+        NotificationCompat.Builder builder = notificationHelper.getNotificationCompat(title,body);
+        notificationHelper.getManager().notify(1,builder.build());
+    }
+}
