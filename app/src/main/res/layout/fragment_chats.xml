@@ -3,12 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FragmentChats">
+    tools:context=".fragments.FragmentChats"
+    android:layout_marginBottom="15dp">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/no_inicado"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Fragment chat" />
+        android:gravity="center"
+        android:text="No has iniciado sesion"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/no_mensajes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="No Tienes mensajes"
+        android:visibility="invisible"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewChats"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
 
 </FrameLayout>

@@ -313,7 +313,7 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},REQUEST_PERMISSION_GALLERY);
             }
         } else if (numero == 2) {
-            imagenSeleccionada.setImageResource(R.drawable.ic_camara);
+            imagenSeleccionada.setImageResource(R.mipmap.ic_subir_foto);
             eliminarImagenesArray();
         }
     }

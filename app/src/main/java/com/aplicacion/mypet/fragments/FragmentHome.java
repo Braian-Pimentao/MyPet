@@ -87,6 +87,7 @@ public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearch
 
     private void getTodasPublicaciones() {
         Query query = publicacionProvider.getAll();
+
         FirestoreRecyclerOptions<Publicacion> options = new FirestoreRecyclerOptions.Builder<Publicacion>()
                 .setQuery(query,Publicacion.class)
                 .build();

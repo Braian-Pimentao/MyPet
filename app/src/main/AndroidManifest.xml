@@ -20,6 +20,7 @@
         android:roundIcon="@mipmap/huesoicono"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPet">
+        <activity android:name=".activities.chat.ActivityChat"></activity>
         <activity android:name=".activities.publicar.FiltrosActivity" />
         <activity android:name=".activities.publicar.ActivityPublicacion" />
         <!--
@@ -36,7 +37,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
@@ -52,8 +52,8 @@
         <activity android:name=".activities.sesion.IniciarSesion" />
         <activity
             android:name=".activities.MainActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/splashTheme">
+            android:theme="@style/splashTheme"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

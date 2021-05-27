@@ -11,30 +11,29 @@
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="55dp"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:labelVisibilityMode="labeled"
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/bottom_navigation_menu">
 
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:labelVisibilityMode="labeled"
-            android:background="?android:attr/windowBackground"
-            app:menu="@menu/bottom_navigation_menu">
-
-
-            <ImageButton
-                android:id="@+id/fab"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_publicar"
-                android:background="@drawable/pulsar_publicar"
-                android:contentDescription="@string/boton_publicar"
-                android:onClick="botonPublicar"
-                android:scaleType="center"/>
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
-    </FrameLayout>
+        <ImageButton
+            android:id="@+id/fab"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_publicar"
+            android:background="@drawable/pulsar_publicar"
+            android:contentDescription="@string/boton_publicar"
+            android:onClick="botonPublicar"
+            android:scaleType="center"/>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

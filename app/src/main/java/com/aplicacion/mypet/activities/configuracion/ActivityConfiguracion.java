@@ -44,7 +44,4 @@ public class ActivityConfiguracion extends AppCompatActivity {
         Intent editarPerfil = new Intent(this, EditarPerfil.class);
         startActivity(editarPerfil);
     }
-
-
-
 }

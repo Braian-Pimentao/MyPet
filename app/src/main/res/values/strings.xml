@@ -105,4 +105,7 @@
     <string name="si">Si</string>
     <string name="no">No</string>
     <string name="busqueda">Buscar Animal</string>
+    <string name="ultimo_mensaje">Ultimo mensaje</string>
+    <string name="usuario">Usuario</string>
+    <string name="escribe_un_mensaje">Escribe un mensaje</string>
 </resources>

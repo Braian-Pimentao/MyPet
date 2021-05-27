@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.aplicacion.mypet.R;
+import com.aplicacion.mypet.activities.chat.ActivityChat;
 import com.aplicacion.mypet.activities.perfil.ActivityUsuario;
 import com.aplicacion.mypet.activities.sesion.IniciarSesion;
 import com.aplicacion.mypet.adaptadores.SliderAdaptador;
@@ -401,7 +402,9 @@ public class ActivityPublicacion extends AppCompatActivity {
                         }
 
                         if (documentSnapshot.contains("ocultarUbicacion")) {
-                            ocultarUbicacion = documentSnapshot.getBoolean("ocultarUbicacion");
+                            if (documentSnapshot.getBoolean("ocultarUbicacion")!=null){
+                                ocultarUbicacion = documentSnapshot.getBoolean("ocultarUbicacion");
+                            }
                         }
                     }
 
@@ -476,8 +479,18 @@ public class ActivityPublicacion extends AppCompatActivity {
     public void botonChat(View view) {
         Button boton = (Button) view;
 
-        if (boton.getText().equals(getString(R.string.eliminar))){
+        if (boton.getText().equals(getString(R.string.eliminar))) {
             mostrarConfirmacionBorrar(idPublicacion);
+        } else if (boton.getText().equals(getString(R.string.chat))) {
+            if (authProvider.getAuth().getCurrentUser() != null) {
+               Intent intent = new Intent(this, ActivityChat.class);
+               intent.putExtra("idUser1",authProvider.getUid());
+               intent.putExtra("idUser2",idUser);
+               startActivity(intent);
+            } else {
+                Intent iniciarSesion = new Intent(this, IniciarSesion.class);
+                startActivity(iniciarSesion);
+            }
         }
     }
 

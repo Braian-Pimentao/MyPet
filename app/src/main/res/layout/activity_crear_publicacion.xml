@@ -78,7 +78,6 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginEnd="10dp"
                                 android:layout_weight="1"
-                                android:backgroundTint="@color/white"
                                 android:padding="5dp"
                                 app:cardCornerRadius="10dp">
 
@@ -89,7 +88,7 @@
                                     android:contentDescription="@string/elegirimagen"
                                     android:onClick="elegirImagen"
                                     android:scaleType="centerCrop"
-                                    android:src="@drawable/ic_camara" />
+                                    android:src="@mipmap/ic_subir_foto" />
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
@@ -106,10 +105,9 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:contentDescription="@string/elegirimagen"
-
                                     android:onClick="elegirImagen"
                                     android:scaleType="centerCrop"
-                                    android:src="@drawable/ic_camara" />
+                                    android:src="@mipmap/ic_subir_foto" />
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
@@ -128,7 +126,7 @@
                                     android:contentDescription="@string/elegirimagen"
                                     android:onClick="elegirImagen"
                                     android:scaleType="centerCrop"
-                                    android:src="@drawable/ic_camara" />
+                                    android:src="@mipmap/ic_subir_foto" />
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
@@ -147,7 +145,7 @@
                                     android:contentDescription="@string/elegirimagen"
                                     android:onClick="elegirImagen"
                                     android:scaleType="centerCrop"
-                                    android:src="@drawable/ic_camara" />
+                                    android:src="@mipmap/ic_subir_foto" />
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
@@ -166,7 +164,7 @@
                                     android:contentDescription="@string/elegirimagen"
                                     android:onClick="elegirImagen"
                                     android:scaleType="centerCrop"
-                                    android:src="@drawable/ic_camara" />
+                                    android:src="@mipmap/ic_subir_foto" />
                             </androidx.cardview.widget.CardView>
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>

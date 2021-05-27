@@ -66,7 +66,7 @@ public class ActivityUsuario extends AppCompatActivity {
     }
 
     private void getPostNumber() {
-        publicacionProvider.getPostByUser(auth.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        publicacionProvider.getPostByUser(idUser).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 int numeroPublicaciones = queryDocumentSnapshots.size();

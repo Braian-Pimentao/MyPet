@@ -88,7 +88,6 @@ public class FragmentPerfil extends Fragment {
         @Override
         public void onClick(View v) {
             Button botonPulsado = (Button) v;
-
             if (botonPulsado.getId() == R.id.configuracion) {
                 Intent configuracion = new Intent(getContext(), ActivityConfiguracion.class);
                 startActivity(configuracion);

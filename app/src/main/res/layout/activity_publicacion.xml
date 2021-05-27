@@ -64,7 +64,7 @@
                 app:layout_collapseMode="pin"
                 android:elevation="5dp">
                 <ImageButton
-                    android:id="@+id/cancelar_editar_perfil"
+                    android:id="@+id/ir_atras_chat"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="10dp"

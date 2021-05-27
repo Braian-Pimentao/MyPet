@@ -9,13 +9,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="opaco">#00000000</color>
     <color name="gris">#656565</color>
+    <color name="grisClaro">#D5D5D5</color>
 
 
 
 
     <!--Colores de botones-->
     <color name="negro_opaco">#34000000</color>
-    <color name="color_facebook">#3b5998</color>
     <color name="color_google">#db4a39</color>
     <color name="blanco">#FFFFFF</color>
 
@@ -25,8 +25,6 @@
 
     <!--Paleta de colores de la app-->
     <color name="principal_app">#881db5</color>
-    <color name="secundario_app">#ba0063</color>
-    <color name="terciario_app">#6200ee</color>
 
 
 </resources>

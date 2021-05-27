@@ -72,7 +72,8 @@
                     android:textSize="15sp" />
 
                 <View
-                    android:background="@color/principal_app"
+                    android:theme="@style/colorLinea"
+                    android:background="@color/white"
                     android:layout_width="1dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
