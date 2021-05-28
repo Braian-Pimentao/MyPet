@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -56,6 +55,7 @@ public class ActivityChat extends AppCompatActivity {
     private EditText editTextMensaje;
     private ImageView botonEnviarMensaje;
     private RecyclerView recyclerViewMensajes;
+    private LinearLayoutManager linearLayoutManager;
 
     private MessageAdapter messageAdapter;
 
@@ -80,7 +80,8 @@ public class ActivityChat extends AppCompatActivity {
         botonEnviarMensaje = findViewById(R.id.boton_enviar_mensaje);
 
         recyclerViewMensajes = findViewById(R.id.recyclerViewMensajes);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setStackFromEnd(true);
         recyclerViewMensajes.setLayoutManager(linearLayoutManager);
 
         showCustomToolbar(R.layout.custom_chat_toolbar);
@@ -111,7 +112,7 @@ public class ActivityChat extends AppCompatActivity {
         if (authProvider.getUid().equals(extraIdUser1)){
             idUserInfo = extraIdUser2;
         } else {
-            idUserInfo = extraIdUser2;
+            idUserInfo = extraIdUser1;
         }
         userProvider.getUser(idUserInfo).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -144,6 +145,7 @@ public class ActivityChat extends AppCompatActivity {
                     createChat();
                 } else {
                     extraIdChat = queryDocumentSnapshots.getDocuments().get(0).getId();
+                    getMensajesChat();
                 }
 
             }
@@ -153,6 +155,15 @@ public class ActivityChat extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        if (extraIdChat != null) {
+            if (!extraIdChat.isEmpty()){
+                getMensajesChat();
+            }
+        }
+
+    }
+
+    private void getMensajesChat() {
         Query query = mensajeProvider.getMensajesByChat(extraIdChat);
         FirestoreRecyclerOptions<Mensaje> options = new FirestoreRecyclerOptions.Builder<Mensaje>()
                 .setQuery(query,Mensaje.class)
@@ -161,6 +172,19 @@ public class ActivityChat extends AppCompatActivity {
         messageAdapter = new MessageAdapter(options,this);
         recyclerViewMensajes.setAdapter(messageAdapter);
         messageAdapter.startListening();
+        messageAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int numeroMensajes = messageAdapter.getItemCount();
+                int ultimoMensajePsocion = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+
+                if (ultimoMensajePsocion == -1 || (positionStart >= (numeroMensajes-1)
+                        && ultimoMensajePsocion == (positionStart-1))) {
+                    recyclerViewMensajes.scrollToPosition(positionStart);
+                }
+            }
+        });
     }
 
     @Override
@@ -210,9 +234,6 @@ public class ActivityChat extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         editTextMensaje.setText("");
                         messageAdapter.notifyDataSetChanged();
-                        Toast.makeText(ActivityChat.this,"El mensaje se ha creado",Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(ActivityChat.this,"El mensaje no se ha creado",Toast.LENGTH_SHORT).show();
                     }
                 }
             });

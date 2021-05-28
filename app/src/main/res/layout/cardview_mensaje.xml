@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/estilo_mensaje_usuario"
-    android:paddingEnd="15dp"
-    android:paddingStart="15dp"
+    android:paddingEnd="30dp"
+    android:paddingStart="30dp"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:layout_margin="10dp">
-
-    <TextView
-        android:id="@+id/texto_mensaje"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+    android:paddingBottom="10dp">
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="wrap_content"
+        android:id="@+id/linearLayout_mensaje"
         android:layout_height="wrap_content"
-        android:text="@string/nuevo_mensaje"
-        android:textColor="@color/white"
-        android:textSize="15sp"/>
+        android:background="@drawable/estilo_mensaje_enviado"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_margin="10dp">
 
-    <TextView
-        android:id="@+id/fecha_mensaje"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/fecha"
-        android:textColor="@color/grisClaro"
-        android:layout_marginStart="5dp"
-        android:layout_gravity="bottom"
-        android:textSize="12sp" />
+        <TextView
+            android:id="@+id/texto_mensaje"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/nuevo_mensaje"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
 
-    <ImageView
-        android:id="@+id/icono_visto_mensaje"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:src="@drawable/ic_check_gris"
-        android:layout_gravity="bottom"/>
-</LinearLayout>
+        <TextView
+            android:id="@+id/fecha_mensaje"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fecha"
+            android:textColor="@color/grisClaro"
+            android:layout_marginStart="5dp"
+            android:layout_gravity="bottom"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/icono_visto_mensaje"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_check_gris"
+            android:layout_gravity="bottom"/>
+    </LinearLayout>
+
+</RelativeLayout>

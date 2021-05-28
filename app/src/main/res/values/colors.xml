@@ -25,6 +25,7 @@
 
     <!--Paleta de colores de la app-->
     <color name="principal_app">#881db5</color>
+    <color name="secundario_app">#ba0063</color>
 
 
 </resources>

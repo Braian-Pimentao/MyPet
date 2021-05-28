@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +44,27 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Mensaje, MessageAda
         holder.textViewMensaje.setText(mensaje.getMensaje());
         holder.textViewFecha.setText(RelativeTime.timeFormatAMPM(mensaje.getTimestamp()));
 
+        if(mensaje.getIdSender().equals(authProvider.getUid())) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_END);
+            params.setMargins(150,0,0,0);
+            holder.linearLayoutMensaje.setLayoutParams(params);
+            holder.linearLayoutMensaje.setPadding(30,20,25,20);
+            holder.linearLayoutMensaje.setBackground(context.getDrawable(R.drawable.estilo_mensaje_enviado));
+            holder.imagenVisto.setVisibility(View.VISIBLE);
+        } else {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_START);
+            params.setMargins(0,0,150,0);
+            holder.linearLayoutMensaje.setLayoutParams(params);
+            holder.linearLayoutMensaje.setPadding(30,20,30,20);
+            holder.linearLayoutMensaje.setBackground(context.getDrawable(R.drawable.estilo_mensaje_recibido));
+            holder.imagenVisto.setVisibility(View.GONE);
+        }
     }
 
 
@@ -58,6 +81,7 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Mensaje, MessageAda
         TextView textViewMensaje;
         TextView textViewFecha;
         ImageView imagenVisto;
+        LinearLayout linearLayoutMensaje;
         View viewHolder;
 
         public ViewHolder(View view) {
@@ -65,6 +89,7 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Mensaje, MessageAda
             textViewMensaje = view.findViewById(R.id.texto_mensaje);
             textViewFecha = view.findViewById(R.id.fecha_mensaje);
             imagenVisto = view.findViewById(R.id.icono_visto_mensaje);
+            linearLayoutMensaje = view.findViewById(R.id.linearLayout_mensaje);
             viewHolder = view;
         }
     }
