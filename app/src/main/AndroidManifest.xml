@@ -53,7 +53,7 @@
         <activity
             android:name=".activities.MainActivity"
             android:theme="@style/splashTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

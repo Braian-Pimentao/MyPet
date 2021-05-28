@@ -13,11 +13,13 @@
         android:id="@+id/boton_elegir_camara"
         android:layout_width="match_parent"
         android:layout_margin="5dp"
+        android:background="@color/opaco"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="horizontal">
 
         <ImageView
+            android:background="@color/opaco"
             android:theme="@style/coloresIconos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@color/opaco"
             android:text="@string/camara"
             android:textSize="18sp" />
     </LinearLayout>
@@ -42,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_margin="5dp"
         android:layout_height="wrap_content"
+        android:background="@color/opaco"
         android:layout_gravity="bottom"
         android:orientation="horizontal">
 
@@ -50,12 +54,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:background="@color/opaco"
             android:layout_gravity="center"
             android:src="@drawable/ic_gallery" />
         <TextView
             android:theme="@style/colorDeTexto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/opaco"
             android:layout_gravity="center"
             android:text="@string/galeria"
             android:textSize="18sp"/>
@@ -69,6 +75,7 @@
         android:id="@+id/boton_borrar_imagen"
         android:layout_width="match_parent"
         android:layout_margin="5dp"
+        android:background="@color/opaco"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="horizontal">
@@ -78,6 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:background="@color/opaco"
             android:layout_gravity="center"
             android:src="@drawable/ic_delete" />
         <TextView
@@ -85,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@color/opaco"
             android:text="@string/borrar_imagen"
             android:textSize="18sp"/>
     </LinearLayout>

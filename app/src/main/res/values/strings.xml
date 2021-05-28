@@ -108,4 +108,6 @@
     <string name="ultimo_mensaje">Ultimo mensaje</string>
     <string name="usuario">Usuario</string>
     <string name="escribe_un_mensaje">Escribe un mensaje</string>
+    <string name="nuevo_mensaje">Nuevo Mensaje</string>
+    <string name="fecha">Fecha</string>
 </resources>

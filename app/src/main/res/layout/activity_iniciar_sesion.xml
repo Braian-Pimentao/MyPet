@@ -14,10 +14,10 @@
 
 
         <ImageView
+            android:theme="@style/logoInicio"
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/logo"
             android:contentDescription="@string/logo" />
 
         <LinearLayout

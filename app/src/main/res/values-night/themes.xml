@@ -29,13 +29,18 @@
     </style>
 
     <style name="estiloMenuElegir" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@color/gris</item>
+    </style>
+
+    <style name="logoInicio" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="srcCompat">@drawable/logo_blanco</item>
     </style>
 
 
     <style name="coloresIconos" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:tint">@color/white</item>
     </style>
+
 
     <style name="splashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_mypet</item>

@@ -29,11 +29,12 @@
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewMessage"
+            android:id="@+id/recyclerViewMensajes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_anchor="@+id/linearLayout"
-            app:layout_anchorGravity="center" />
+            app:layout_anchorGravity="center"
+            android:layout_marginBottom="55dp"/>
     </LinearLayout>
 
 
@@ -57,9 +58,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/escribe_un_mensaje"
-            android:inputType="textMultiLine"
+            android:inputType="textMultiLine|textCapSentences"
             android:textColorHint="@color/black"
             android:layout_weight="1"
+
             android:textColor="@color/black"
             android:layout_gravity="center"
             android:padding="10dp"/>
