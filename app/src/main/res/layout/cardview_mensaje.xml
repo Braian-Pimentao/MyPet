@@ -38,9 +38,10 @@
 
         <ImageView
             android:id="@+id/icono_visto_mensaje"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:src="@drawable/ic_check_gris"
+            android:layout_marginStart="5dp"
             android:layout_gravity="bottom"/>
     </LinearLayout>
 

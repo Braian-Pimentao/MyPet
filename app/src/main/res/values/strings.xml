@@ -110,4 +110,5 @@
     <string name="escribe_un_mensaje">Escribe un mensaje</string>
     <string name="nuevo_mensaje">Nuevo Mensaje</string>
     <string name="fecha">Fecha</string>
+    <string name="online">En linea</string>
 </resources>

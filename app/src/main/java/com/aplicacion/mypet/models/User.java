@@ -8,18 +8,22 @@ public class User {
     private String username;
     private ArrayList<Double> ubicacion;
     private String urlPerfil;
-    private Boolean ocultarUbicacion;
+    private boolean ocultarUbicacion;
+    private boolean online;
+    private long ultimaConexion;
 
     public User() {
     }
 
-    public User(String id, String email, String username, ArrayList<Double> ubicacion, String urlPerfil, Boolean ocultarUbicacion) {
+    public User(String id, String email, String username, ArrayList<Double> ubicacion, String urlPerfil, boolean ocultarUbicacion, boolean online, long ultimaConexion) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.ubicacion = ubicacion;
         this.urlPerfil = urlPerfil;
         this.ocultarUbicacion = ocultarUbicacion;
+        this.online = online;
+        this.ultimaConexion = ultimaConexion;
     }
 
     public String getId() {
@@ -62,11 +66,27 @@ public class User {
         this.urlPerfil = urlPerfil;
     }
 
-    public Boolean isOcultarUbicacion() {
+    public boolean isOcultarUbicacion() {
         return ocultarUbicacion;
     }
 
-    public void setOcultarUbicacion(Boolean ocultarUbicacion) {
+    public void setOcultarUbicacion(boolean ocultarUbicacion) {
         this.ocultarUbicacion = ocultarUbicacion;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
+    public long getUltimaConexion() {
+        return ultimaConexion;
+    }
+
+    public void setUltimaConexion(long ultimaConexion) {
+        this.ultimaConexion = ultimaConexion;
     }
 }

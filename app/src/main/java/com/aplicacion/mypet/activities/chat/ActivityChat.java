@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,11 +24,14 @@ import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.ChatsProvider;
 import com.aplicacion.mypet.providers.MensajeProvider;
 import com.aplicacion.mypet.providers.UserProvider;
+import com.aplicacion.mypet.utils.RelativeTime;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -114,13 +118,22 @@ public class ActivityChat extends AppCompatActivity {
         } else {
             idUserInfo = extraIdUser1;
         }
-        userProvider.getUser(idUserInfo).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        userProvider.getUserRealTime(idUserInfo).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 if (documentSnapshot.exists()){
                     if (documentSnapshot.contains("username")) {
                         String username = documentSnapshot.getString("username");
                         nombreUsuario.setText(username);
+                    }
+
+                    if (documentSnapshot.contains("online")) {
+                        boolean online = documentSnapshot.getBoolean("online");
+                        if (online){
+                            infoChat.setText(getString(R.string.online));
+                        } else if (documentSnapshot.contains("ultimaConexion")) {
+                            infoChat.setText(RelativeTime.timeFormatAMPM(documentSnapshot.getLong("ultimaConexion"),ActivityChat.this));
+                        }
                     }
 
                     if (documentSnapshot.contains("urlPerfil")) {
@@ -146,8 +159,28 @@ public class ActivityChat extends AppCompatActivity {
                 } else {
                     extraIdChat = queryDocumentSnapshots.getDocuments().get(0).getId();
                     getMensajesChat();
+                    updateViewed();
                 }
 
+            }
+        });
+    }
+
+    private void updateViewed() {
+        String idSender = "";
+
+        if (authProvider.getUid().equals(extraIdUser1)) {
+            idSender = extraIdUser2;
+        } else {
+            idSender = extraIdUser1;
+        }
+
+        mensajeProvider.getMensajeByChatAndSender(extraIdChat,idSender).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                    mensajeProvider.updateVisto(document.getId(),true);
+                }
             }
         });
     }
@@ -155,10 +188,8 @@ public class ActivityChat extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        if (extraIdChat != null) {
-            if (!extraIdChat.isEmpty()){
-                getMensajesChat();
-            }
+        if (messageAdapter != null) {
+            messageAdapter.startListening();
         }
 
     }
@@ -176,9 +207,9 @@ public class ActivityChat extends AppCompatActivity {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
+                updateViewed();
                 int numeroMensajes = messageAdapter.getItemCount();
                 int ultimoMensajePsocion = linearLayoutManager.findLastCompletelyVisibleItemPosition();
-
                 if (ultimoMensajePsocion == -1 || (positionStart >= (numeroMensajes-1)
                         && ultimoMensajePsocion == (positionStart-1))) {
                     recyclerViewMensajes.scrollToPosition(positionStart);
@@ -204,8 +235,9 @@ public class ActivityChat extends AppCompatActivity {
         ids.add(extraIdUser1);
         ids.add(extraIdUser2);
         chat.setIds(ids);
-        extraIdChat = extraIdUser1+extraIdUser2;
         chatsProvider.create(chat);
+        extraIdChat = chat.getId();
+        getMensajesChat();
     }
 
     public void cerrarPublicacion(View view) {

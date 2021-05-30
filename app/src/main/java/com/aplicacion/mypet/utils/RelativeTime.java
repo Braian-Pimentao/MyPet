@@ -18,7 +18,6 @@ public class RelativeTime extends Application {
 
     public static String getTimeAgo(long time, Context ctx) {
         if (time < 1000000000000L) {
-            // if timestamp given in seconds, convert to millis
             time *= 1000;
         }
 
@@ -46,10 +45,28 @@ public class RelativeTime extends Application {
         }
     }
 
-    public static String timeFormatAMPM(long timestamp) {
+    public static String timeFormatAMPM(long time, Context ctx) {
 
         SimpleDateFormat formatter = new SimpleDateFormat("H:mm");
-        return formatter.format(new Date(timestamp));
+
+        if (time < 1000000000000L) {
+            time *= 1000;
+        }
+
+        long now = System.currentTimeMillis();
+        if (time > now || time <= 0) {
+            return formatter.format(new Date(time));
+        }
+
+        // TODO: localize
+        final long diff = now - time;
+         if (diff < 24 * HOUR_MILLIS) {
+            return formatter.format(new Date(time));
+        } else if (diff < 48 * HOUR_MILLIS) {
+            return ctx.getString(R.string.ayer);
+        } else {
+            return ctx.getString(R.string.hace_unos_dias,diff / DAY_MILLIS);
+        }
     }
 
 }

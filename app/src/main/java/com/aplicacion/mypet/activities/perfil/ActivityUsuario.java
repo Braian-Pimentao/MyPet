@@ -73,7 +73,7 @@ public class ActivityUsuario extends AppCompatActivity {
                 publicacionesContador.setText(String.valueOf(numeroPublicaciones));
 
                 if (numeroPublicaciones > 0) {
-                    noHayPublicaciones.setVisibility(View.INVISIBLE);
+                    noHayPublicaciones.setVisibility(View.GONE);
                 } else {
                     noHayPublicaciones.setVisibility(View.VISIBLE);
                 }

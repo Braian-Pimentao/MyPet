@@ -22,12 +22,15 @@ import com.aplicacion.mypet.fragments.FragmentHome;
 import com.aplicacion.mypet.fragments.FragmentPerfil;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.TokenProvider;
+import com.aplicacion.mypet.providers.UserProvider;
+import com.aplicacion.mypet.utils.ViewedMessageHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity{
     private final int REQUEST_PERMISSION_UBICATION = 102;
     private BottomNavigationView bottomNavigation;
     private AuthProvider auth;
+    private UserProvider userProvider;
     TokenProvider tokenProvider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity{
 
         auth = new AuthProvider();
         tokenProvider = new TokenProvider();
+        userProvider = new UserProvider();
 
         openFragment(new FragmentHome());
         createToken();
@@ -58,8 +62,23 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onStart() {
+        super.onStart();
+        if (auth.getAuth().getCurrentUser() != null) {
+            ViewedMessageHelper.updateOnline(true, this);
+        }
+    }
+
+    private void updateOnline(boolean estado) {
+        ViewedMessageHelper.updateOnline(false, this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (auth.getAuth().getCurrentUser() != null) {
+            ViewedMessageHelper.updateOnline(false, this);
+        }
     }
 
     @Override

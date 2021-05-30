@@ -37,12 +37,11 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Mensaje, MessageAda
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Mensaje mensaje) {
-
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
         final String mensajeId = document.getId();
         String idUser = document.getString("idUser");
         holder.textViewMensaje.setText(mensaje.getMensaje());
-        holder.textViewFecha.setText(RelativeTime.timeFormatAMPM(mensaje.getTimestamp()));
+        holder.textViewFecha.setText(RelativeTime.timeFormatAMPM(mensaje.getTimestamp(),context));
 
         if(mensaje.getIdSender().equals(authProvider.getUid())) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -64,6 +63,12 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Mensaje, MessageAda
             holder.linearLayoutMensaje.setPadding(30,20,30,20);
             holder.linearLayoutMensaje.setBackground(context.getDrawable(R.drawable.estilo_mensaje_recibido));
             holder.imagenVisto.setVisibility(View.GONE);
+        }
+
+        if(mensaje.isVisto()) {
+            holder.imagenVisto.setImageResource(R.drawable.ic_check_azul);
+        } else {
+            holder.imagenVisto.setImageResource(R.drawable.ic_check_gris);
         }
     }
 

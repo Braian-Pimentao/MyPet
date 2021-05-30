@@ -42,7 +42,6 @@
         android:id="@+id/info_user_toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/usuario"
         android:textColor="@color/white"
         android:maxLines="1"
         android:layout_toEndOf="@+id/imagen_perfil_chat"
