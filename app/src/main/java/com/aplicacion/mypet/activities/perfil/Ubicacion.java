@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.aplicacion.mypet.R;
+import com.aplicacion.mypet.utils.ViewedMessageHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -196,5 +197,18 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, G
                 circuloMarca.remove();
             }
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ViewedMessageHelper.updateOnline(true, this);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, this);
     }
 }

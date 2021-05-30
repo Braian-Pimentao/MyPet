@@ -34,6 +34,7 @@ import com.aplicacion.mypet.providers.FavoritoProvider;
 import com.aplicacion.mypet.providers.PublicacionProvider;
 import com.aplicacion.mypet.providers.UserProvider;
 import com.aplicacion.mypet.utils.RelativeTime;
+import com.aplicacion.mypet.utils.ViewedMessageHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -253,6 +254,9 @@ public class ActivityPublicacion extends AppCompatActivity {
         super.onStart();
         getPost();
         getNumberFavorites();
+        if (authProvider.getAuth().getCurrentUser()!=null) {
+            ViewedMessageHelper.updateOnline(true, ActivityPublicacion.this);
+        }
     }
 
     private void modificarMenu() {
@@ -512,6 +516,16 @@ public class ActivityPublicacion extends AppCompatActivity {
             }
 
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+        }
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (authProvider.getAuth().getCurrentUser() != null) {
+            ViewedMessageHelper.updateOnline(false, this);
         }
     }
 }

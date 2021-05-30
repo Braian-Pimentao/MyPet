@@ -52,7 +52,27 @@
 
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/circulo_mensajes_no_leidos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            >
 
+            <View
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/circulo_mensajes_no_leidos" />
+
+            <TextView
+                android:id="@+id/contador_mensajes_no_leidos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="0"
+                android:textColor="@color/white" />
+        </FrameLayout>
 
 
     </LinearLayout>

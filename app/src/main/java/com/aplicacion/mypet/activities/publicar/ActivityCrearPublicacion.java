@@ -29,6 +29,7 @@ import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.ImageProvider;
 import com.aplicacion.mypet.providers.PublicacionProvider;
 import com.aplicacion.mypet.utils.FileUtil;
+import com.aplicacion.mypet.utils.ViewedMessageHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -334,5 +335,18 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ViewedMessageHelper.updateOnline(true, ActivityCrearPublicacion.this);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ViewedMessageHelper.updateOnline(false, this);
     }
 }

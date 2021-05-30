@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.aplicacion.mypet.R;
 import com.aplicacion.mypet.activities.perfil.EditarPerfil;
 import com.aplicacion.mypet.providers.AuthProvider;
+import com.aplicacion.mypet.utils.ViewedMessageHelper;
 
 public class ActivityConfiguracion extends AppCompatActivity {
     private LinearLayout linearSesion;
@@ -43,5 +44,22 @@ public class ActivityConfiguracion extends AppCompatActivity {
     public void editarPerfil(View view){
         Intent editarPerfil = new Intent(this, EditarPerfil.class);
         startActivity(editarPerfil);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (auth.getAuth().getCurrentUser() != null) {
+            ViewedMessageHelper.updateOnline(true, ActivityConfiguracion.this);
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (auth.getAuth().getCurrentUser() != null) {
+            ViewedMessageHelper.updateOnline(false, this);
+        }
     }
 }

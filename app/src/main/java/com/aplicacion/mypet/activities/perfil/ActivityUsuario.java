@@ -15,6 +15,7 @@ import com.aplicacion.mypet.models.Publicacion;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.PublicacionProvider;
 import com.aplicacion.mypet.providers.UserProvider;
+import com.aplicacion.mypet.utils.ViewedMessageHelper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -116,13 +117,25 @@ public class ActivityUsuario extends AppCompatActivity {
         adaptadorPublicacion = new AdaptadorPublicacion(options,this);
         recyclerView.setAdapter(adaptadorPublicacion);
         adaptadorPublicacion.startListening();
-
+        if (auth.getAuth().getCurrentUser() != null)
+            ViewedMessageHelper.updateOnline(true, ActivityUsuario.this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         adaptadorPublicacion.stopListening();
+    }
+
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (auth.getAuth().getCurrentUser() != null) {
+            ViewedMessageHelper.updateOnline(false, this);
+        }
     }
 
     public void cerrarPerfil(View v) {

@@ -30,6 +30,7 @@ import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.ImageProvider;
 import com.aplicacion.mypet.providers.UserProvider;
 import com.aplicacion.mypet.utils.FileUtil;
+import com.aplicacion.mypet.utils.ViewedMessageHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -363,5 +364,20 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (auth.getAuth().getCurrentUser() != null) {
+            ViewedMessageHelper.updateOnline(true, this);
+        }
+    }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (auth.getAuth().getCurrentUser() != null) {
+            ViewedMessageHelper.updateOnline(false, this);
+        }
+    }
 }

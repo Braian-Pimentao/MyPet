@@ -69,9 +69,6 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    private void updateOnline(boolean estado) {
-        ViewedMessageHelper.updateOnline(false, this);
-    }
 
     @Override
     protected void onPause() {
@@ -91,6 +88,8 @@ public class MainActivity extends AppCompatActivity{
             mBottomNavigationView.setSelectedItemId(R.id.navigation_home);
         }
     }
+
+
 
     BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

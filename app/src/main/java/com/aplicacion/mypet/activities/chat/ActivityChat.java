@@ -25,6 +25,7 @@ import com.aplicacion.mypet.providers.ChatsProvider;
 import com.aplicacion.mypet.providers.MensajeProvider;
 import com.aplicacion.mypet.providers.UserProvider;
 import com.aplicacion.mypet.utils.RelativeTime;
+import com.aplicacion.mypet.utils.ViewedMessageHelper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -191,6 +192,7 @@ public class ActivityChat extends AppCompatActivity {
         if (messageAdapter != null) {
             messageAdapter.startListening();
         }
+        ViewedMessageHelper.updateOnline(true, ActivityChat.this);
 
     }
 
@@ -270,6 +272,15 @@ public class ActivityChat extends AppCompatActivity {
                 }
             });
 
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (authProvider.getAuth().getCurrentUser() != null) {
+            ViewedMessageHelper.updateOnline(false, this);
         }
     }
 }

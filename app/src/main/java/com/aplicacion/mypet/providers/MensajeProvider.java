@@ -31,6 +31,10 @@ public class MensajeProvider {
         return  collectionReference.whereEqualTo("idChat", idChat).whereEqualTo("idSender", idSender).whereEqualTo("visto", false);
     }
 
+    public Query getLastMensaje(String idChat) {
+        return  collectionReference.whereEqualTo("idChat", idChat).orderBy("timestamp", Query.Direction.DESCENDING).limit(1);
+    }
+
     public Task<Void> updateVisto(String idDocument, boolean estado) {
         Map<String,Object> map = new HashMap<>();
         map.put("visto",estado);

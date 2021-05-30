@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aplicacion.mypet.R;
 import com.aplicacion.mypet.adaptadores.AdaptadorPublicacion;
 import com.aplicacion.mypet.models.Publicacion;
+import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.PublicacionProvider;
+import com.aplicacion.mypet.utils.ViewedMessageHelper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
 
@@ -19,6 +21,7 @@ public class FiltrosActivity extends AppCompatActivity {
     private String extraTipoAnimal;
     private TextView tipoAnimalTextView;
     private TextView contadorAnimalesFiltros;
+    private AuthProvider auth;
 
     private RecyclerView recyclerView;
     private PublicacionProvider publicacionProvider;
@@ -32,6 +35,7 @@ public class FiltrosActivity extends AppCompatActivity {
         extraTipoAnimal = getIntent().getStringExtra("tipo");
 
         recyclerView = findViewById(R.id.listar_anuncios_filtro);
+        auth = new AuthProvider();
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -51,9 +55,23 @@ public class FiltrosActivity extends AppCompatActivity {
                 .setQuery(query,Publicacion.class)
                 .build();
 
+        if (auth.getAuth().getCurrentUser() != null) {
+            ViewedMessageHelper.updateOnline(true, FiltrosActivity.this);
+        }
+
         adaptadorPublicacion = new AdaptadorPublicacion(options,this,contadorAnimalesFiltros);
         recyclerView.setAdapter(adaptadorPublicacion);
         adaptadorPublicacion.startListening();
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (auth.getAuth().getCurrentUser() != null) {
+            ViewedMessageHelper.updateOnline(false, this);
+        }
     }
 
     @Override
