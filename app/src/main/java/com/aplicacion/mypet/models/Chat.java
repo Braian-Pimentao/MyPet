@@ -14,13 +14,13 @@ public class Chat {
     public Chat() {
     }
 
-    public Chat(String id, String idUser1, String idUser2, boolean isWriting, long timestamp, int idNotifiacion, ArrayList<String> ids) {
+    public Chat(String id, String idUser1, String idUser2, boolean isWriting, long timestamp, int idNotificacion, ArrayList<String> ids) {
         this.id = id;
         this.idUser1 = idUser1;
         this.idUser2 = idUser2;
         this.isWriting = isWriting;
         this.timestamp = timestamp;
-        this.idNotifiacion = idNotifiacion;
+        this.idNotifiacion = idNotificacion;
         this.ids = ids;
     }
 
@@ -72,11 +72,11 @@ public class Chat {
         this.ids = ids;
     }
 
-    public int getIdNotifiacion() {
+    public int getIdNotificacion() {
         return idNotifiacion;
     }
 
-    public void setIdNotifiacion(int idNotifiacion) {
-        this.idNotifiacion = idNotifiacion;
+    public void setIdNotificacion(int idNotificacion) {
+        this.idNotifiacion = idNotificacion;
     }
 }

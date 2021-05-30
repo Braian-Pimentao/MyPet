@@ -111,4 +111,5 @@
     <string name="nuevo_mensaje">Nuevo Mensaje</string>
     <string name="fecha">Fecha</string>
     <string name="online">En linea</string>
+    <string name="mensaje_nuevo">Mensaje nuevo</string>
 </resources>

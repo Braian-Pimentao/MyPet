@@ -10,8 +10,13 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.Person;
+import androidx.core.graphics.drawable.IconCompat;
 
 import com.aplicacion.mypet.R;
+import com.aplicacion.mypet.models.Mensaje;
+
+import java.util.Date;
 
 public class NotificationHelper extends ContextWrapper {
     private static final String CHANNEL_ID = "com.aplicacion.mypet";
@@ -53,7 +58,38 @@ public class NotificationHelper extends ContextWrapper {
                 .setContentText(body)
                 .setAutoCancel(true)
                 .setColor(Color.GRAY)
-                .setSmallIcon(R.mipmap.huesoicono)
+                .setSmallIcon(R.drawable.ic_hueso_notificacion)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title));
+    }
+
+    public NotificationCompat.Builder getNotificationMensaje(Mensaje[] mensajes) {
+        Person person1 = new Person.Builder()
+                .setName("Perro")
+                .setIcon(IconCompat.createWithResource(getApplicationContext(),R.mipmap.huesoicono))
+                .build();
+        Person person2 = new Person.Builder()
+                .setName("Gato")
+                .setIcon(IconCompat.createWithResource(getApplicationContext(),R.mipmap.huesoicono))
+                .build();
+
+        NotificationCompat.MessagingStyle messagingStyle = new NotificationCompat.MessagingStyle(person1);
+        NotificationCompat.MessagingStyle.Message message1 =
+                new NotificationCompat.MessagingStyle.Message(
+                        "ultimo Mensaje",
+                        new Date().getTime(),
+                        person1);
+        messagingStyle.addMessage(message1);
+
+        for (Mensaje m : mensajes) {
+            NotificationCompat.MessagingStyle.Message message2 =
+                    new NotificationCompat.MessagingStyle.Message(
+                            m.getMensaje(),
+                            m.getTimestamp(),
+                            person2);
+            messagingStyle.addMessage(message2);
+        }
+        return new  NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_hueso_notificacion)
+                .setStyle(messagingStyle);
     }
 }

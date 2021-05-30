@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,10 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aplicacion.mypet.R;
 import com.aplicacion.mypet.adaptadores.MessageAdapter;
 import com.aplicacion.mypet.models.Chat;
+import com.aplicacion.mypet.models.FCMBody;
+import com.aplicacion.mypet.models.FCMResponse;
 import com.aplicacion.mypet.models.Mensaje;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.ChatsProvider;
 import com.aplicacion.mypet.providers.MensajeProvider;
+import com.aplicacion.mypet.providers.NotificationProvider;
+import com.aplicacion.mypet.providers.TokenProvider;
 import com.aplicacion.mypet.providers.UserProvider;
 import com.aplicacion.mypet.utils.RelativeTime;
 import com.aplicacion.mypet.utils.ViewedMessageHelper;
@@ -35,12 +40,19 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityChat extends AppCompatActivity {
     private String extraIdUser1;
@@ -51,6 +63,8 @@ public class ActivityChat extends AppCompatActivity {
     private MensajeProvider mensajeProvider;
     private AuthProvider authProvider;
     private UserProvider userProvider;
+    private NotificationProvider notificationProvider;
+    private TokenProvider tokenProvider;
 
     private CircleImageView imagenUsuario;
     private TextView nombreUsuario;
@@ -62,10 +76,12 @@ public class ActivityChat extends AppCompatActivity {
     private RecyclerView recyclerViewMensajes;
     private LinearLayoutManager linearLayoutManager;
 
+
     private MessageAdapter messageAdapter;
 
 
-    View actionBarView;
+    private View actionBarView;
+    private long idNotificationChat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +92,8 @@ public class ActivityChat extends AppCompatActivity {
         mensajeProvider = new MensajeProvider();
         authProvider = new AuthProvider();
         userProvider = new UserProvider();
+        notificationProvider = new NotificationProvider();
+        tokenProvider = new TokenProvider();
 
         extraIdUser1 = getIntent().getStringExtra("idUser1");
         extraIdUser2 = getIntent().getStringExtra("idUser2");
@@ -159,8 +177,10 @@ public class ActivityChat extends AppCompatActivity {
                     createChat();
                 } else {
                     extraIdChat = queryDocumentSnapshots.getDocuments().get(0).getId();
+                    idNotificationChat = queryDocumentSnapshots.getDocuments().get(0).getLong("idNotificacion");
                     getMensajesChat();
                     updateViewed();
+
                 }
 
             }
@@ -236,6 +256,10 @@ public class ActivityChat extends AppCompatActivity {
         ArrayList<String> ids = new ArrayList<>();
         ids.add(extraIdUser1);
         ids.add(extraIdUser2);
+        Random random = new Random();
+        int numero = random.nextInt(1000000);
+        idNotificationChat = numero;
+        chat.setIdNotificacion(numero);
         chat.setIds(ids);
         chatsProvider.create(chat);
         extraIdChat = chat.getId();
@@ -249,7 +273,7 @@ public class ActivityChat extends AppCompatActivity {
     public void enviarMensaje(View view) {
         String textoMensaje = editTextMensaje.getText().toString();
         if (!textoMensaje.isEmpty()){
-            Mensaje mensaje = new Mensaje();
+            final Mensaje mensaje = new Mensaje();
             mensaje.setIdChat(extraIdChat);
             if (authProvider.getUid().equals(extraIdUser1)){
                 mensaje.setIdSender(extraIdUser1);
@@ -258,6 +282,7 @@ public class ActivityChat extends AppCompatActivity {
                 mensaje.setIdSender(extraIdUser2);
                 mensaje.setIdReceiver(extraIdUser1);
             }
+
             mensaje.setMensaje(textoMensaje);
             mensaje.setTimestamp(new Date().getTime());
             mensaje.setVisto(false);
@@ -268,11 +293,70 @@ public class ActivityChat extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         editTextMensaje.setText("");
                         messageAdapter.notifyDataSetChanged();
+                        sendNotification(mensaje);
                     }
                 }
             });
 
         }
+    }
+
+    private void sendNotification(final Mensaje mensaje) {
+        String idUser = "";
+        if (authProvider.getUid().equals(extraIdUser1)) {
+            idUser = extraIdUser2;
+        } else {
+            idUser = extraIdUser1;
+        }
+        if (idUser == null) {
+            return;
+        }
+        tokenProvider.getToken(idUser).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    if (documentSnapshot.contains("token")) {
+                        String token = documentSnapshot.getString("token");
+
+                        ArrayList<Mensaje> mensajeArrayList = new ArrayList<>();
+                        mensajeArrayList.add(mensaje);
+                        Gson gson = new Gson();
+                        String mensajes = gson.toJson(mensajeArrayList);
+
+                        Map<String, String> data = new HashMap<>();
+                        data.put("title", getString(R.string.mensaje_nuevo));
+                        data.put("body", mensaje.getMensaje());
+                        data.put("idNotification", String.valueOf(idNotificationChat));
+                        data.put("mensajes", mensajes);
+                        FCMBody body = new FCMBody(token, "high", "4500s", data);
+                        notificationProvider.sendNotification(body).enqueue(new Callback<FCMResponse>() {
+                            @Override
+                            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
+                                if (response.body() != null) {
+                                    if (response.body().getSuccess() == 1) {
+                                        Toast.makeText(ActivityChat.this, "La notificacion se envio correcatemente", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        Toast.makeText(ActivityChat.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(ActivityChat.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<FCMResponse> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                }
+                else {
+                    Toast.makeText(ActivityChat.this, "El token de notificaciones del usuario no existe", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
