@@ -31,6 +31,11 @@ public class MensajeProvider {
         return  collectionReference.whereEqualTo("idChat", idChat).whereEqualTo("idSender", idSender).whereEqualTo("visto", false);
     }
 
+    public Query getTresUltimosMensajesByChatAndSender(String idChat, String idSender) {
+        return  collectionReference.whereEqualTo("idChat", idChat).whereEqualTo("idSender", idSender).
+                whereEqualTo("visto", false).limit(3).orderBy("timestamp", Query.Direction.DESCENDING);
+    }
+
     public Query getLastMensaje(String idChat) {
         return  collectionReference.whereEqualTo("idChat", idChat).orderBy("timestamp", Query.Direction.DESCENDING).limit(1);
     }

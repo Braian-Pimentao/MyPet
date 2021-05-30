@@ -44,6 +44,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,6 +80,10 @@ public class ActivityChat extends AppCompatActivity {
 
     private MessageAdapter messageAdapter;
 
+    private String miNombreDeUsuario;
+    private String nombreDeUsuarioChat;
+    private String imagenSender;
+
 
     private View actionBarView;
     private long idNotificationChat;
@@ -108,6 +113,7 @@ public class ActivityChat extends AppCompatActivity {
         recyclerViewMensajes.setLayoutManager(linearLayoutManager);
 
         showCustomToolbar(R.layout.custom_chat_toolbar);
+        getMyInfoUser();
 
         checkifChatExist();
     }
@@ -142,8 +148,8 @@ public class ActivityChat extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 if (documentSnapshot.exists()){
                     if (documentSnapshot.contains("username")) {
-                        String username = documentSnapshot.getString("username");
-                        nombreUsuario.setText(username);
+                        nombreDeUsuarioChat = documentSnapshot.getString("username");
+                        nombreUsuario.setText(nombreDeUsuarioChat);
                     }
 
                     if (documentSnapshot.contains("online")) {
@@ -293,7 +299,7 @@ public class ActivityChat extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         editTextMensaje.setText("");
                         messageAdapter.notifyDataSetChanged();
-                        sendNotification(mensaje);
+                        getToken(mensaje);
                     }
                 }
             });
@@ -301,7 +307,7 @@ public class ActivityChat extends AppCompatActivity {
         }
     }
 
-    private void sendNotification(final Mensaje mensaje) {
+    private void getToken(final Mensaje mensaje) {
         String idUser = "";
         if (authProvider.getUid().equals(extraIdUser1)) {
             idUser = extraIdUser2;
@@ -317,43 +323,87 @@ public class ActivityChat extends AppCompatActivity {
                 if (documentSnapshot.exists()) {
                     if (documentSnapshot.contains("token")) {
                         String token = documentSnapshot.getString("token");
-
-                        ArrayList<Mensaje> mensajeArrayList = new ArrayList<>();
-                        mensajeArrayList.add(mensaje);
-                        Gson gson = new Gson();
-                        String mensajes = gson.toJson(mensajeArrayList);
-
-                        Map<String, String> data = new HashMap<>();
-                        data.put("title", getString(R.string.mensaje_nuevo));
-                        data.put("body", mensaje.getMensaje());
-                        data.put("idNotification", String.valueOf(idNotificationChat));
-                        data.put("mensajes", mensajes);
-                        FCMBody body = new FCMBody(token, "high", "4500s", data);
-                        notificationProvider.sendNotification(body).enqueue(new Callback<FCMResponse>() {
-                            @Override
-                            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
-                                if (response.body() != null) {
-                                    if (response.body().getSuccess() == 1) {
-                                        Toast.makeText(ActivityChat.this, "La notificacion se envio correcatemente", Toast.LENGTH_SHORT).show();
-                                    }
-                                    else {
-                                        Toast.makeText(ActivityChat.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                                else {
-                                    Toast.makeText(ActivityChat.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<FCMResponse> call, Throwable t) {
-
-                            }
-                        });
+                        getTresUltimosMensajes(mensaje,token);
                     }
                 }
                 else {
                     Toast.makeText(ActivityChat.this, "El token de notificaciones del usuario no existe", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void getTresUltimosMensajes(final Mensaje mensaje, final String token) {
+        mensajeProvider.getTresUltimosMensajesByChatAndSender(extraIdChat,authProvider.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                ArrayList<Mensaje> mensajeArrayList = new ArrayList<>();
+
+                for (DocumentSnapshot d: queryDocumentSnapshots.getDocuments()) {
+                    if (d.exists()){
+                        Mensaje mensaje = d.toObject(Mensaje.class);
+                        mensajeArrayList.add(mensaje);
+                    }
+                }
+
+                if (mensajeArrayList.size()==0) {
+                    mensajeArrayList.add(mensaje);
+                    Collections.reverse(mensajeArrayList);
+                }
+                Gson gson = new Gson();
+                String mensajes = gson.toJson(mensajeArrayList);
+
+                enviarNotificacion(token,mensajes,mensaje);
+
+            }
+        });
+    }
+
+    private void enviarNotificacion(String token, String mensajes, Mensaje mensaje) {
+
+        Map<String, String> data = new HashMap<>();
+        data.put("title", getString(R.string.mensaje_nuevo));
+        data.put("body", mensaje.getMensaje());
+        data.put("idNotification", String.valueOf(idNotificationChat));
+        data.put("mensajes", mensajes);
+        data.put("usernameSender", miNombreDeUsuario);
+        data.put("imagenSender", imagenSender);
+        FCMBody body = new FCMBody(token, "high", "4500s", data);
+        notificationProvider.sendNotification(body).enqueue(new Callback<FCMResponse>() {
+            @Override
+            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getSuccess() == 1) {
+                        Toast.makeText(ActivityChat.this, "La notificacion se envio correcatemente", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(ActivityChat.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(ActivityChat.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FCMResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void getMyInfoUser() {
+        userProvider.getUser(authProvider.getUid()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    if (documentSnapshot.contains("username")) {
+                        miNombreDeUsuario = documentSnapshot.getString("username");
+                    }
+
+                    if (documentSnapshot.contains("urlPerfil")) {
+                        imagenSender = documentSnapshot.getString("urlPerfil");
+                    }
                 }
             }
         });
@@ -366,5 +416,7 @@ public class ActivityChat extends AppCompatActivity {
         if (authProvider.getAuth().getCurrentUser() != null) {
             ViewedMessageHelper.updateOnline(false, this);
         }
+
+
     }
 }

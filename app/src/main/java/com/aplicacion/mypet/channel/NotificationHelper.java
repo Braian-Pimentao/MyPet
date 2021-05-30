@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 
@@ -15,8 +16,6 @@ import androidx.core.graphics.drawable.IconCompat;
 
 import com.aplicacion.mypet.R;
 import com.aplicacion.mypet.models.Mensaje;
-
-import java.util.Date;
 
 public class NotificationHelper extends ContextWrapper {
     private static final String CHANNEL_ID = "com.aplicacion.mypet";
@@ -62,30 +61,29 @@ public class NotificationHelper extends ContextWrapper {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title));
     }
 
-    public NotificationCompat.Builder getNotificationMensaje(Mensaje[] mensajes) {
-        Person person1 = new Person.Builder()
-                .setName("Perro")
-                .setIcon(IconCompat.createWithResource(getApplicationContext(),R.mipmap.huesoicono))
-                .build();
-        Person person2 = new Person.Builder()
-                .setName("Gato")
-                .setIcon(IconCompat.createWithResource(getApplicationContext(),R.mipmap.huesoicono))
-                .build();
+    public NotificationCompat.Builder getNotificationMensaje(Mensaje[] mensajes, String usernameSender, Bitmap bitmap) {
+        Person person = null;
+        if (bitmap!= null) {
+            person = new Person.Builder()
+                    .setName(usernameSender)
+                    .setIcon(IconCompat.createWithBitmap(bitmap))
+                    .build();
+        } else {
+            person = new Person.Builder()
+                    .setName(usernameSender)
+                    .setIcon(IconCompat.createWithResource(getApplicationContext(),R.drawable.ic_person_2))
+                    .build();
+        }
 
-        NotificationCompat.MessagingStyle messagingStyle = new NotificationCompat.MessagingStyle(person1);
-        NotificationCompat.MessagingStyle.Message message1 =
-                new NotificationCompat.MessagingStyle.Message(
-                        "ultimo Mensaje",
-                        new Date().getTime(),
-                        person1);
-        messagingStyle.addMessage(message1);
+        NotificationCompat.MessagingStyle messagingStyle = new NotificationCompat.MessagingStyle(person);
+
 
         for (Mensaje m : mensajes) {
             NotificationCompat.MessagingStyle.Message message2 =
                     new NotificationCompat.MessagingStyle.Message(
                             m.getMensaje(),
                             m.getTimestamp(),
-                            person2);
+                            person);
             messagingStyle.addMessage(message2);
         }
         return new  NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
