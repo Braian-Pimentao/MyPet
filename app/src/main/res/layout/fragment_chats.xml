@@ -4,23 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.FragmentChats"
-    android:layout_marginBottom="15dp">
-
-    <TextView
-        android:id="@+id/no_inicado"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="No has iniciado sesion"
-        android:visibility="invisible"/>
-
-    <TextView
-        android:id="@+id/no_mensajes"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="No Tienes mensajes"
-        android:visibility="invisible"/>
+    android:layout_marginBottom="55dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,6 +17,41 @@
             android:layout_height="match_parent"
             />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/mensaje_informativo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:theme="@style/LogoBuzon"
+            android:layout_width="100dp"
+            android:layout_gravity="center"
+            android:layout_height="100dp" />
+
+        <TextView
+            android:theme="@style/colorDeTexto"
+            android:id="@+id/text_no_mensajes"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/boton_iniciar_sesion"
+            android:background="@drawable/pulsar_boton_app"
+            android:layout_width="150dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:text="@string/iniciar"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </FrameLayout>

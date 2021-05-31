@@ -41,6 +41,9 @@
         <item name="android:tint">@color/white</item>
     </style>
 
+    <style name="LogoBuzon" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="srcCompat">@drawable/buzon_blanco</item>
+    </style>
 
     <style name="splashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_mypet</item>

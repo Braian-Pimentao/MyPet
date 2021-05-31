@@ -112,4 +112,7 @@
     <string name="fecha">Fecha</string>
     <string name="online">En linea</string>
     <string name="mensaje_nuevo">Mensaje nuevo</string>
+    <string name="no_iniciado_sesion">No has iniciado sesión</string>
+    <string name="sin_mensajes">No tienes mensajes</string>
+
 </resources>
