@@ -61,7 +61,7 @@ public class FragmentChats extends Fragment {
             }
         });
 
-        linearLayoutNoMensajes = view.findViewById(R.id.mensaje_informativo);
+        linearLayoutNoMensajes = view.findViewById(R.id.mensaje_informativo_chats);
 
         chatsProvider = new ChatsProvider();
         authProvider = new AuthProvider();
@@ -99,7 +99,6 @@ public class FragmentChats extends Fragment {
             textLinearLayout.setText(getString(R.string.no_iniciado_sesion));
             botonIniciar.setVisibility(View.VISIBLE);
             linearLayoutNoMensajes.setVisibility(View.VISIBLE);
-
         }
     }
 

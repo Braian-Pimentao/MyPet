@@ -89,7 +89,7 @@
     <string name="chat">Chat</string>
     <string name="sin_ubicaion">Sin ubicacion seleccionada</string>
     <string name="ocultar_ubicacion">Ocultar Ubicacion</string>
-    <string name="boton_me_gusta_desc">boton me gusta</string>
+    <string name="boton_me_gusta_desc" translatable="false">boton me gusta</string>
     <string name="hace_un_momento">Hace un momento</string>
     <string name="hace_una_hora">Hace una hora</string>
     <string name="hace_un_minuto">Hace un minuto</string>
@@ -114,5 +114,5 @@
     <string name="mensaje_nuevo">Mensaje nuevo</string>
     <string name="no_iniciado_sesion">No has iniciado sesión</string>
     <string name="sin_mensajes">No tienes mensajes</string>
-
+    <string name="sin_favoritos">No tienes ninguna mascota en favorito</string>
 </resources>

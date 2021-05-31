@@ -384,9 +384,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_enviar" />
-                            <entry key="sourceFile" value="D:\Usuarios\BRYAN\Descargas\me-gusta (1).svg" />
+                            <entry key="outputName" value="ic_no_favorito" />
+                            <entry key="sourceFile" value="D:\Usuarios\BRYAN\Descargas\me-gusta.svg" />
                           </map>
                         </option>
                       </PersistentState>

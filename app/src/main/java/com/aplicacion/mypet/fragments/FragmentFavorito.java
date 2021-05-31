@@ -1,9 +1,13 @@
 package com.aplicacion.mypet.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -11,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aplicacion.mypet.R;
+import com.aplicacion.mypet.activities.sesion.IniciarSesion;
 import com.aplicacion.mypet.adaptadores.AdaptadorPublicacion;
 import com.aplicacion.mypet.models.Publicacion;
 import com.aplicacion.mypet.providers.AuthProvider;
@@ -35,6 +40,10 @@ public class FragmentFavorito extends Fragment {
     private AdaptadorPublicacion adaptadorPublicacion;
     private RecyclerView recyclerView;
 
+    private TextView textLinearLayout;
+    private Button botonIniciar;
+    private LinearLayout linearLayoutNoFavoritos;
+
     private ListenerRegistration listener;
     public FragmentFavorito() {
         // Required empty public constructor
@@ -55,6 +64,17 @@ public class FragmentFavorito extends Fragment {
         publicacionProvider = new PublicacionProvider();
         recyclerView = view.findViewById(R.id.listar_anuncios_favoritos);
 
+        textLinearLayout = view.findViewById(R.id.text_no_favoritos);
+        botonIniciar = view.findViewById(R.id.boton_iniciar_sesion_favoritos);
+        botonIniciar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iniciarSesion = new Intent(getContext(), IniciarSesion.class);
+                startActivity(iniciarSesion);
+            }
+        });
+        linearLayoutNoFavoritos = view.findViewById(R.id.mensaje_informativo_favorito);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         return view;
@@ -63,24 +83,40 @@ public class FragmentFavorito extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        listener = favoritoProvider.getFavoritesByUser(authProvider.getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                ArrayList<String> idsPublicaciones = new ArrayList<>();
-                for (DocumentSnapshot d: value) {
-                    if (d.contains("idPublicacion")) {
-                        idsPublicaciones.add(d.getString("idPublicacion"));
+        if (authProvider.getAuth().getCurrentUser()!= null) {
+            listener = favoritoProvider.getFavoritesByUser(authProvider.getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if (value.size()== 0) {
+                        botonIniciar.setVisibility(View.GONE);
+                        textLinearLayout.setText(getString(R.string.sin_favoritos));
+                        linearLayoutNoFavoritos.setVisibility(View.VISIBLE);
+                    } else {
+                        linearLayoutNoFavoritos.setVisibility(View.GONE);
+                    }
+
+                    ArrayList<String> idsPublicaciones = new ArrayList<>();
+                    for (DocumentSnapshot d : value) {
+                        if (d.contains("idPublicacion")) {
+                            idsPublicaciones.add(d.getString("idPublicacion"));
+                        }
+                    }
+
+                    if (!idsPublicaciones.isEmpty())
+                        obtenerFavoritos(idsPublicaciones);
+                    else {
+                        recyclerView = null;
+                        if (adaptadorPublicacion!= null) {
+                            adaptadorPublicacion.stopListening();
+                        }
                     }
                 }
-
-                if (!idsPublicaciones.isEmpty())
-                    obtenerFavoritos(idsPublicaciones);
-                else {
-                    recyclerView = null;
-                    adaptadorPublicacion.stopListening();
-                }
-            }
-        });
+            });
+        } else {
+            textLinearLayout.setText(getString(R.string.no_iniciado_sesion));
+            botonIniciar.setVisibility(View.VISIBLE);
+            linearLayoutNoFavoritos.setVisibility(View.VISIBLE);
+        }
 
     }
 

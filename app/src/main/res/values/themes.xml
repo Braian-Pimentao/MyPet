@@ -44,6 +44,10 @@
         <item name="srcCompat">@drawable/buzon_negro</item>
     </style>
 
+    <style name="LogoFavorito" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="srcCompat">@drawable/ic_no_favorit_negro</item>
+    </style>
+
     <style name="splashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_mypet</item>
     </style>
