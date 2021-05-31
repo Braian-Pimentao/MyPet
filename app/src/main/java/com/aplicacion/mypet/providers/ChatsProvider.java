@@ -1,6 +1,7 @@
 package com.aplicacion.mypet.providers;
 
 import com.aplicacion.mypet.models.Chat;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -20,6 +21,10 @@ public class ChatsProvider {
 
     public Query getAll(String id) {
         return collectionReference.whereArrayContains("ids",id);
+    }
+
+    public Task<Void> deleteChat(String idChat) {
+        return collectionReference.document(idChat).delete();
     }
 
     public Query getChatByUser1AndUser2(String idUser1, String idUser2) {

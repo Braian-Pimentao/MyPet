@@ -86,7 +86,6 @@ public class IniciarSesion extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     dialog.dismiss();
                     if (task.isSuccessful()) {
-                        guardarPreferencias();
                         Toast.makeText(IniciarSesion.this, getString(R.string.inicio_correcto), Toast.LENGTH_LONG).show();
                         finish();
                     } else {
@@ -99,9 +98,7 @@ public class IniciarSesion extends AppCompatActivity {
         }
     }
 
-    private void guardarPreferencias() {
-        //SharedPreferences preferences = getSharedPreferences()
-    }
+
 
     private void signInGoogle() {
         Intent signInIntent = googleSignInClient.getSignInIntent();

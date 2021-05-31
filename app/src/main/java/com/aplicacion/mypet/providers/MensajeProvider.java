@@ -27,6 +27,7 @@ public class MensajeProvider {
         return  collectionReference.whereEqualTo("idChat", idChat).orderBy("timestamp", Query.Direction.ASCENDING);
     }
 
+
     public Query getMensajeByChatAndSender(String idChat, String idSender) {
         return  collectionReference.whereEqualTo("idChat", idChat).whereEqualTo("idSender", idSender).whereEqualTo("visto", false);
     }

@@ -28,7 +28,16 @@ public class FavoritoProvider {
         return collectionReference.whereEqualTo("idPublicacion", idPublicacion);
     }
 
+    public Query getFavoritesByUser(String idUser) {
+        return collectionReference.whereEqualTo("idUser", idUser);
+    }
+
+
     public Task<Void> delete(String id) {
         return collectionReference.document(id).delete();
+    }
+
+    public Query deleteByPublicacion(String idPublicacion) {
+        return collectionReference.whereEqualTo("idPublicacion", idPublicacion);
     }
 }

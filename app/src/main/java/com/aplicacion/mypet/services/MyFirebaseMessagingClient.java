@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.aplicacion.mypet.channel.NotificationHelper;
 import com.aplicacion.mypet.models.Mensaje;
+import com.aplicacion.mypet.utils.AppInfo;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
@@ -29,10 +30,14 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Map<String,String> data = remoteMessage.getData();
-        if (data.get("title") != null) {
-            showNotification(data);
+
+        if (!AppInfo.IN_ACTIVITY_CHAT){
+            if (data.get("title") != null) {
+                showNotification(data);
+            }
         }
     }
+
 
     private void showNotification(Map<String,String> data) {
         String title = data.get("title");
@@ -52,7 +57,7 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
                         Picasso.get().load(imagenSender).into(new Target() {
                             @Override
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------"+bitmap);
+
                                 NotificationHelper notificationHelper = new NotificationHelper(getBaseContext());
                                 NotificationCompat.Builder builder = notificationHelper.getNotificationMensaje(mensajes,usernameSender, bitmap);
                                 notificationHelper.getManager().notify(idNotificationChat,builder.build());
@@ -60,7 +65,6 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
 
                             @Override
                             public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                                System.out.println("----------------------------------------------------------------------------------------------------------------------------------------------------------"+e);
 
                             }
 

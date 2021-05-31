@@ -307,6 +307,19 @@ public class ActivityPublicacion extends AppCompatActivity {
     }
 
     private void deletePublicacion(String idPublicacion) {
+
+        favoritoProvider.deleteByPublicacion(idPublicacion).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.size() > 0) {
+                    List<DocumentSnapshot> querySnapshotList = queryDocumentSnapshots.getDocuments();
+
+                    for (DocumentSnapshot d: querySnapshotList ) {
+                        favoritoProvider.delete(d.getId());
+                    }
+                }
+            }
+        });
         publicacionProvider.delete(idPublicacion).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

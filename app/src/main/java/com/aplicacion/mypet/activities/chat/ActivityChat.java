@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +28,7 @@ import com.aplicacion.mypet.providers.MensajeProvider;
 import com.aplicacion.mypet.providers.NotificationProvider;
 import com.aplicacion.mypet.providers.TokenProvider;
 import com.aplicacion.mypet.providers.UserProvider;
+import com.aplicacion.mypet.utils.AppInfo;
 import com.aplicacion.mypet.utils.RelativeTime;
 import com.aplicacion.mypet.utils.ViewedMessageHelper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -73,7 +73,6 @@ public class ActivityChat extends AppCompatActivity {
 
 
     private EditText editTextMensaje;
-    private ImageView botonEnviarMensaje;
     private RecyclerView recyclerViewMensajes;
     private LinearLayoutManager linearLayoutManager;
 
@@ -105,7 +104,6 @@ public class ActivityChat extends AppCompatActivity {
         extraIdChat = getIntent().getStringExtra("idChat");
 
         editTextMensaje = findViewById(R.id.edit_text_mensaje);
-        botonEnviarMensaje = findViewById(R.id.boton_enviar_mensaje);
 
         recyclerViewMensajes = findViewById(R.id.recyclerViewMensajes);
         linearLayoutManager = new LinearLayoutManager(this);
@@ -115,6 +113,7 @@ public class ActivityChat extends AppCompatActivity {
         showCustomToolbar(R.layout.custom_chat_toolbar);
         getMyInfoUser();
 
+        AppInfo.init(true);
         checkifChatExist();
     }
 
@@ -250,6 +249,7 @@ public class ActivityChat extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         messageAdapter.stopListening();
+        AppInfo.init(false);
     }
 
     private void createChat() {
@@ -272,8 +272,21 @@ public class ActivityChat extends AppCompatActivity {
         getMensajesChat();
     }
 
-    public void cerrarPublicacion(View view) {
+    public void cerrarChat(View view) {
+        comprobarMensajes();
         finish();
+
+    }
+
+    private void comprobarMensajes() {
+        mensajeProvider.getMensajesByChat(extraIdChat).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.size() == 0) {
+                    chatsProvider.deleteChat(extraIdChat);
+                }
+            }
+        });
     }
 
     public void enviarMensaje(View view) {

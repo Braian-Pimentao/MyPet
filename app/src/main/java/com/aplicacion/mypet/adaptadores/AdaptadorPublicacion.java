@@ -70,7 +70,6 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
 
         if (contadorPublicaciones != null){
             int number = getSnapshots().size();
-            System.out.println("--------------------------------------------------------------"+number);
             contadorPublicaciones.setText(String.valueOf(number));
         }
 

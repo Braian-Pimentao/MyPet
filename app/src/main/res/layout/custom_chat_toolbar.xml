@@ -12,7 +12,7 @@
         android:layout_marginStart="10dp"
         android:background="@drawable/pulsar_publicar"
         android:contentDescription="@string/boton_publicar"
-        android:onClick="cerrarPublicacion"
+        android:onClick="cerrarChat"
         android:scaleType="centerCrop"
         android:layout_marginTop="5dp"
         android:src="@drawable/ic_flecha_atras_blanca" />

@@ -15,7 +15,7 @@
             android:background="@color/principal_app"
             android:elevation="5dp">
             <ImageButton
-                android:id="@+id/ir_atras_chat"
+                android:id="@+id/ir_atras_filtros"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="10dp"

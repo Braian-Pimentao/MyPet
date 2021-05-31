@@ -192,7 +192,7 @@
         android:textColor="@color/white" />
 
     <ImageButton
-        android:id="@+id/boton_atras"
+        android:id="@+id/boton_atras_registro"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="15dp"
