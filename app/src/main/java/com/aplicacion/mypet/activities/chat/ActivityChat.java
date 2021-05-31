@@ -20,7 +20,6 @@ import com.aplicacion.mypet.R;
 import com.aplicacion.mypet.adaptadores.MessageAdapter;
 import com.aplicacion.mypet.models.Chat;
 import com.aplicacion.mypet.models.FCMBody;
-import com.aplicacion.mypet.models.FCMResponse;
 import com.aplicacion.mypet.models.Mensaje;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.ChatsProvider;
@@ -51,9 +50,6 @@ import java.util.Map;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ActivityChat extends AppCompatActivity {
     private String extraIdUser1;
@@ -275,7 +271,6 @@ public class ActivityChat extends AppCompatActivity {
     public void cerrarChat(View view) {
         comprobarMensajes();
         finish();
-
     }
 
     private void comprobarMensajes() {
@@ -382,27 +377,7 @@ public class ActivityChat extends AppCompatActivity {
         data.put("usernameSender", miNombreDeUsuario);
         data.put("imagenSender", imagenSender);
         FCMBody body = new FCMBody(token, "high", "4500s", data);
-        notificationProvider.sendNotification(body).enqueue(new Callback<FCMResponse>() {
-            @Override
-            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
-                if (response.body() != null) {
-                    if (response.body().getSuccess() == 1) {
-                        Toast.makeText(ActivityChat.this, "La notificacion se envio correcatemente", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(ActivityChat.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else {
-                    Toast.makeText(ActivityChat.this, "La notificacion no se pudo enviar", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<FCMResponse> call, Throwable t) {
-
-            }
-        });
+        notificationProvider.sendNotification(body);
     }
 
     private void getMyInfoUser() {

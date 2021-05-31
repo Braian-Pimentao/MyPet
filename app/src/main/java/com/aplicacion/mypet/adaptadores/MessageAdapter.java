@@ -48,9 +48,9 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Mensaje, MessageAda
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.ALIGN_PARENT_END);
-            params.setMargins(150,0,0,0);
+            params.setMargins(0,0,0,0);
             holder.linearLayoutMensaje.setLayoutParams(params);
-            holder.linearLayoutMensaje.setPadding(30,20,25,20);
+            holder.linearLayoutMensaje.setPadding(30,20,20,20);
             holder.linearLayoutMensaje.setBackground(context.getDrawable(R.drawable.estilo_mensaje_enviado));
             holder.imagenVisto.setVisibility(View.VISIBLE);
         } else {
@@ -58,7 +58,7 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Mensaje, MessageAda
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.ALIGN_PARENT_START);
-            params.setMargins(0,0,150,0);
+            params.setMargins(0,0,0,0);
             holder.linearLayoutMensaje.setLayoutParams(params);
             holder.linearLayoutMensaje.setPadding(30,20,30,20);
             holder.linearLayoutMensaje.setBackground(context.getDrawable(R.drawable.estilo_mensaje_recibido));

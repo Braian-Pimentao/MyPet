@@ -20,7 +20,7 @@ public class MensajeProvider {
     public Task<Void> create(Mensaje mensaje) {
         DocumentReference documentReference = collectionReference.document();
         mensaje.setId(documentReference.getId());
-        return collectionReference.document().set(mensaje);
+        return documentReference.set(mensaje);
     }
 
     public Query getMensajesByChat(String idChat) {
