@@ -2,6 +2,7 @@ package com.aplicacion.mypet.activities.publicar;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +16,9 @@ import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.PublicacionProvider;
 import com.aplicacion.mypet.utils.ViewedMessageHelper;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class FiltrosActivity extends AppCompatActivity {
     private String extraTipoAnimal;
@@ -26,6 +29,8 @@ public class FiltrosActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PublicacionProvider publicacionProvider;
     private AdaptadorPublicacion adaptadorPublicacion;
+
+    private LinearLayout linearLayoutNoBusqueda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,8 @@ public class FiltrosActivity extends AppCompatActivity {
 
         tipoAnimalTextView = findViewById(R.id.tipo_animal_filtro);
         contadorAnimalesFiltros = findViewById(R.id.contador_animal_filtro);
+        linearLayoutNoBusqueda = findViewById(R.id.mensaje_informativo_filtros);
+
         seleccionartipo();
     }
 
@@ -51,6 +58,18 @@ public class FiltrosActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         Query query = publicacionProvider.getPublicacionByCategoryAndTimesTamp(extraTipoAnimal);
+
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.size()==0) {
+                    linearLayoutNoBusqueda.setVisibility(View.VISIBLE);
+                } else {
+                    linearLayoutNoBusqueda.setVisibility(View.GONE);
+                }
+            }
+        });
+
         FirestoreRecyclerOptions<Publicacion> options = new FirestoreRecyclerOptions.Builder<Publicacion>()
                 .setQuery(query,Publicacion.class)
                 .build();

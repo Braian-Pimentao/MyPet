@@ -33,7 +33,7 @@
         <TextView
             android:theme="@style/colorDeTexto"
             android:id="@+id/text_no_favoritos"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_height="wrap_content"

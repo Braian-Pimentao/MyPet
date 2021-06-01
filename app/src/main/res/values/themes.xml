@@ -41,11 +41,19 @@
     </style>
 
     <style name="LogoBuzon" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="srcCompat">@drawable/buzon_negro</item>
+        <item name="srcCompat">@drawable/ic_buzon_negro</item>
     </style>
 
     <style name="LogoFavorito" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="srcCompat">@drawable/ic_no_favorit_negro</item>
+        <item name="srcCompat">@drawable/ic_no_favorito_negro</item>
+    </style>
+
+    <style name="LogoGatoTriste" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="srcCompat">@drawable/ic_gato_triste_negro</item>
+    </style>
+
+    <style name="LogoCasaChat" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="srcCompat">@drawable/ic_casa_chat_negro</item>
     </style>
 
     <style name="splashTheme" parent="Theme.AppCompat.Light.NoActionBar">

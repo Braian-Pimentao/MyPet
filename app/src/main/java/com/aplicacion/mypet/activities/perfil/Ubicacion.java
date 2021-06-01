@@ -86,6 +86,8 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, G
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
 
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+
 
         if (latLngRecibida!=null) {
                 ubicacionMarca.setLatitude(latLngRecibida.latitude);

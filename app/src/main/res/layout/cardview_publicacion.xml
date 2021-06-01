@@ -97,6 +97,7 @@
 
     </LinearLayout>
         <ImageView
+            android:theme="@style/coloresIconos"
             android:id="@+id/iamgen_favorito"
             android:layout_width="25dp"
             android:layout_height="25dp"

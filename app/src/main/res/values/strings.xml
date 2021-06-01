@@ -49,8 +49,8 @@
     <string name="publicar_anuncio">Publicar anuncio</string>
     <string name="subir_imagen_correcta">Imagen subida</string>
     <string name="error_subir_imagen">No se ha podido subir la imagen</string>
-    <string name="desc_masculino">masculino</string>
-    <string name="desc_femenino">femenino</string>
+    <string name="desc_masculino" translatable="false">masculino</string>
+    <string name="desc_femenino" translatable="false">femenino</string>
     <string name="camara">Cámara</string>
     <string name="galeria">Galería</string>
     <string name="permisos">Debes habilitar los permisos de cámara</string>
@@ -58,7 +58,7 @@
     <string name="animal_publicado">Se ha publicado el anuncio</string>
     <string name="error_animal_publicado">No se ha publicado el anuncio</string>
     <string name="subiendo_publicacion">Subiendo anuncio...</string>
-    <string name="elegirimagen">elegirImagen</string>
+    <string name="elegirimagen" translatable="false">elegirImagen</string>
     <string name="configuration">Configuración</string>
     <string name="publicaciones">Publicaciones:</string>
     <string name="editar_perfil">Editar perfil</string>
@@ -84,9 +84,9 @@
     <string name="notificaciones">Notificaciones</string>
     <string name="guardar_ubicacion">Guardar ubicacion</string>
     <string name="guardar_marca">Guardar Marca</string>
-    <string name="actualizar_perfil">Actualizar Perfil</string>
+    <string name="actualizar_perfil">Actualizar perfil</string>
     <string name="ver_perfil">Ver perfil</string>
-    <string name="chat">Chat</string>
+    <string name="chat" translatable="false">Chat</string>
     <string name="sin_ubicaion">Sin ubicacion seleccionada</string>
     <string name="ocultar_ubicacion">Ocultar Ubicacion</string>
     <string name="boton_me_gusta_desc" translatable="false">boton me gusta</string>
@@ -115,4 +115,7 @@
     <string name="no_iniciado_sesion">No has iniciado sesión</string>
     <string name="sin_mensajes">No tienes mensajes</string>
     <string name="sin_favoritos">No tienes ninguna mascota en favorito</string>
+    <string name="no_encontrado">Vaya! No encontramos lo que buscas</string>
+    <string name="mensaje_chat_info">Este es el comienzo de un bonito hogar para la mascota</string>
+    <string name="sin_publicaciones">No hay publicaciones</string>
 </resources>

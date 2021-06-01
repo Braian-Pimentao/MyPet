@@ -164,4 +164,8 @@ public class IniciarSesion extends AppCompatActivity {
             }
         });
     }
+
+    public void cerrarIniciarSesion(View view) {
+        finish();
+    }
 }

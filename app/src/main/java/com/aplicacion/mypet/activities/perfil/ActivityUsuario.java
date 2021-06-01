@@ -2,6 +2,7 @@ package com.aplicacion.mypet.activities.perfil;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,12 +34,14 @@ public class ActivityUsuario extends AppCompatActivity {
     private TextView publicacionesContador;
     private String idUser;
     private RecyclerView recyclerView;
-    private TextView noHayPublicaciones;
+
 
     private PublicacionProvider publicacionProvider;
     private AuthProvider auth;
     private UserProvider userProvider;
     private AdaptadorPublicacion adaptadorPublicacion;
+
+    private LinearLayout noHayPublicaciones;
 
 
     @Override
@@ -52,7 +55,7 @@ public class ActivityUsuario extends AppCompatActivity {
         nombrePerfil = findViewById(R.id.nombre_perfil_user);
         publicacionesContador = findViewById(R.id.numero_publicaciones);
         publicacionProvider = new PublicacionProvider();
-        noHayPublicaciones = findViewById(R.id.no_hay_publicaciones);
+        noHayPublicaciones = findViewById(R.id.mensaje_informativo_usuario);
 
         recyclerView = findViewById(R.id.listar_anuncios_usuario);
 

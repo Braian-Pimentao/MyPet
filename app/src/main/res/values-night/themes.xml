@@ -32,8 +32,16 @@
         <item name="android:background">@color/gris</item>
     </style>
 
-    <style name="logoInicio" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="logoInicio" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="srcCompat">@drawable/logo_blanco</item>
+    </style>
+
+    <style name="LogoCasaChat" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="srcCompat">@drawable/ic_casa_chat_blanco</item>
+    </style>
+
+    <style name="LogoGatoTriste" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="srcCompat">@drawable/ic_gato_triste_blanco</item>
     </style>
 
 
@@ -42,7 +50,7 @@
     </style>
 
     <style name="LogoBuzon" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="srcCompat">@drawable/buzon_blanco</item>
+        <item name="srcCompat">@drawable/ic_buzon_blanco</item>
     </style>
 
     <style name="LogoFavorito" parent="Theme.AppCompat.Light.NoActionBar">

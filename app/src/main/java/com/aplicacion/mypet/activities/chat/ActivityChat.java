@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
@@ -79,9 +81,12 @@ public class ActivityChat extends AppCompatActivity {
     private String nombreDeUsuarioChat;
     private String imagenSender;
 
+    private LinearLayout linearLayoutInformativo;
+
 
     private View actionBarView;
     private long idNotificationChat;
+    private ListenerRegistration listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +111,9 @@ public class ActivityChat extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         recyclerViewMensajes.setLayoutManager(linearLayoutManager);
 
+        linearLayoutInformativo = findViewById(R.id.mensaje_informativo_chat);
+
+
         showCustomToolbar(R.layout.custom_chat_toolbar);
         getMyInfoUser();
 
@@ -126,6 +134,8 @@ public class ActivityChat extends AppCompatActivity {
         imagenUsuario = actionBarView.findViewById(R.id.imagen_perfil_chat);
         nombreUsuario = actionBarView.findViewById(R.id.user_chat_toolbar);
         infoChat = actionBarView.findViewById(R.id.info_user_toolbar);
+
+
 
         getUserInfo();
 
@@ -175,8 +185,10 @@ public class ActivityChat extends AppCompatActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 int size = queryDocumentSnapshots.size();
                 if (size == 0) {
+                    linearLayoutInformativo.setVisibility(View.VISIBLE);
                     createChat();
                 } else {
+                    linearLayoutInformativo.setVisibility(View.GONE);
                     extraIdChat = queryDocumentSnapshots.getDocuments().get(0).getId();
                     idNotificationChat = queryDocumentSnapshots.getDocuments().get(0).getLong("idNotificacion");
                     getMensajesChat();
@@ -186,6 +198,12 @@ public class ActivityChat extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkifChatExist();
     }
 
     private void updateViewed() {
@@ -244,6 +262,7 @@ public class ActivityChat extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
+        comprobarMensajes();
         messageAdapter.stopListening();
         AppInfo.init(false);
     }
@@ -287,6 +306,7 @@ public class ActivityChat extends AppCompatActivity {
     public void enviarMensaje(View view) {
         String textoMensaje = editTextMensaje.getText().toString();
         if (!textoMensaje.isEmpty()){
+            linearLayoutInformativo.setVisibility(View.GONE);
             final Mensaje mensaje = new Mensaje();
             mensaje.setIdChat(extraIdChat);
             if (authProvider.getUid().equals(extraIdUser1)){

@@ -16,6 +16,7 @@
             app:mt_searchBarColor="@color/principal_app"
             app:mt_placeholderColor="@color/white"
             app:mt_placeholder="@string/busqueda"
+            app:mt_textColor="@color/white"
             app:mt_hintColor="@color/white"
             app:mt_hint="@string/busqueda"
             app:mt_maxSuggestionsCount="10"
@@ -121,6 +122,34 @@
 
         </LinearLayout>
     </HorizontalScrollView>
+
+    <LinearLayout
+        android:id="@+id/mensaje_informativo_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="150dp"
+        android:layout_gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:theme="@style/LogoGatoTriste"
+            android:layout_width="150dp"
+            android:layout_gravity="center"
+            android:layout_height="150dp" />
+
+        <TextView
+            android:theme="@style/colorDeTexto"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:text="@string/no_encontrado"
+            android:visibility="visible" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -132,5 +161,4 @@
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
     </LinearLayout>
 
-    <!-- TODO: Update blank fragment layout -->
 </LinearLayout>

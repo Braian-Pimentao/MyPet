@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -18,7 +19,9 @@ import com.aplicacion.mypet.adaptadores.AdaptadorPublicacion;
 import com.aplicacion.mypet.models.Publicacion;
 import com.aplicacion.mypet.providers.PublicacionProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearchActionListener {
@@ -38,6 +41,8 @@ public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearch
     private ImageView imagenReptil;
     private MaterialSearchBar searchBar;
 
+    private LinearLayout linearLayoutNoBusqueda;
+
     public FragmentHome() {
         // Required empty public constructor
     }
@@ -55,6 +60,8 @@ public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearch
         publicacionProvider = new PublicacionProvider();
 
         PulsarAnimal pulsarAnimal = new PulsarAnimal();
+
+        linearLayoutNoBusqueda = view.findViewById(R.id.mensaje_informativo_home);
 
         imagenPerro = view.findViewById(R.id.imagen_perro);
         imagenGato = view.findViewById(R.id.imagen_gato);
@@ -100,6 +107,16 @@ public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearch
 
     private void buscarPorRaza(String raza) {
         Query query = publicacionProvider.getPublicacionByRaza(raza);
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.size()==0) {
+                    linearLayoutNoBusqueda.setVisibility(View.VISIBLE);
+                } else {
+                    linearLayoutNoBusqueda.setVisibility(View.GONE);
+                }
+            }
+        });
         FirestoreRecyclerOptions<Publicacion> options = new FirestoreRecyclerOptions.Builder<Publicacion>()
                 .setQuery(query,Publicacion.class)
                 .build();
@@ -122,6 +139,7 @@ public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearch
     @Override
     public void onSearchStateChanged(boolean enabled) {
         if (!enabled) {
+            linearLayoutNoBusqueda.setVisibility(View.GONE);
             getTodasPublicaciones();
         }
     }

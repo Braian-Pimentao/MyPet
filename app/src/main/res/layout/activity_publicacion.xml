@@ -227,11 +227,11 @@
                 android:layout_marginTop="10dp"
                 app:cardCornerRadius="10dp"
                 android:elevation="3dp">
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/map_publicacion"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/map_publicacion"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
             </androidx.cardview.widget.CardView>
 
             <View

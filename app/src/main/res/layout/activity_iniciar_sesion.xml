@@ -123,6 +123,7 @@
         >
 
         <TextView
+            android:theme="@style/colorDeTexto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
@@ -135,8 +136,22 @@
             android:layout_height="wrap_content"
             android:onClick="registrarUsuario"
             android:text="@string/regristrate"
+            android:textColor="@color/principal_app"
             android:textSize="17sp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <ImageButton
+        android:theme="@style/coloresIconos"
+        android:id="@+id/cancelar_publicacion"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:onClick="cerrarIniciarSesion"
+        android:background="@drawable/pulsar_publicar"
+        android:contentDescription="@string/boton_publicar"
+        android:scaleType="center"
+        android:src="@drawable/ic_cancelar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

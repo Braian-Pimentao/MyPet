@@ -99,15 +99,34 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        <TextView
-            android:id="@+id/no_hay_publicaciones"
-            android:theme="@style/colorDeTexto"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:layout_marginStart="15dp"
-            android:text="No hay publicaciones"/>
+            <LinearLayout
+                android:id="@+id/mensaje_informativo_usuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="150dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                >
+
+                <ImageView
+                    android:theme="@style/LogoGatoTriste"
+                    android:layout_width="150dp"
+                    android:layout_gravity="center"
+                    android:layout_height="150dp" />
+
+                <TextView
+                    android:theme="@style/colorDeTexto"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:text="@string/sin_publicaciones"
+                    android:visibility="visible" />
+            </LinearLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/listar_anuncios_usuario"

@@ -38,11 +38,30 @@
     </LinearLayout>
 
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/mensaje_informativo_chat"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_gravity="center"
-        android:text="HOLAAA"/>
+        android:visibility="gone">
+
+        <ImageView
+            android:theme="@style/LogoCasaChat"
+            android:layout_width="150dp"
+            android:layout_gravity="center"
+            android:layout_height="150dp" />
+
+        <TextView
+            android:theme="@style/colorDeTexto"
+            android:layout_width="200dp"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:text="@string/mensaje_chat_info"
+            android:visibility="visible" />
+    </LinearLayout>
 
 
 

@@ -59,5 +59,31 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/mensaje_informativo_filtros"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:theme="@style/LogoGatoTriste"
+            android:layout_width="150dp"
+            android:layout_gravity="center"
+            android:layout_height="150dp" />
+
+        <TextView
+            android:theme="@style/colorDeTexto"
+            android:layout_width="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:text="@string/no_encontrado"
+            android:visibility="visible" />
+    </LinearLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
