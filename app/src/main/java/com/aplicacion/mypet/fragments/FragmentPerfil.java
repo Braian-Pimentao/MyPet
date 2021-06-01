@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.aplicacion.mypet.R;
 import com.aplicacion.mypet.activities.configuracion.ActivityConfiguracion;
+import com.aplicacion.mypet.activities.configuracion.ActivityInformacion;
 import com.aplicacion.mypet.activities.perfil.ActivityUsuario;
 import com.aplicacion.mypet.activities.sesion.IniciarSesion;
 import com.aplicacion.mypet.providers.AuthProvider;
@@ -28,8 +29,11 @@ public class FragmentPerfil extends Fragment {
     private View vista;
 
     private Button botonConfiguracion;
+    private Button botonSobreNosotros;
     private TextView nombrePerfil;
     private UserProvider userProvider;
+
+    private LinearLayout linearLayoutConf;
 
     private LinearLayout layoutPerfil;
 
@@ -47,11 +51,16 @@ public class FragmentPerfil extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista = inflater.inflate(R.layout.fragment_perfil, container, false);
-
         botonConfiguracion = vista.findViewById(R.id.configuracion);
-        botonConfiguracion.setOnClickListener(new pulsarBoton());
+        botonSobreNosotros = vista.findViewById(R.id.sobre_nosotros);
+
+        PulsarBoton pulsarBoton = new PulsarBoton();
+        botonConfiguracion.setOnClickListener(pulsarBoton);
+        botonSobreNosotros.setOnClickListener(pulsarBoton);
 
         layoutPerfil = vista.findViewById(R.id.banner_perfil);
+
+        linearLayoutConf = vista.findViewById(R.id.linear_conf_perfil);
 
         imagenPerfil = vista.findViewById(R.id.foto_fragment_perfil);
         layoutPerfil.setOnClickListener(new View.OnClickListener() {
@@ -70,20 +79,19 @@ public class FragmentPerfil extends Fragment {
 
         nombrePerfil = vista.findViewById(R.id.nombre_perfil);
 
-
-
         auth = new AuthProvider();
         userProvider = new UserProvider();
 
         if (auth.getAuth().getCurrentUser()!=null) {
             getUser();
+            linearLayoutConf.setVisibility(View.VISIBLE);
+        } else {
+            linearLayoutConf.setVisibility(View.GONE);
         }
         return vista;
     }
 
-
-
-    private class pulsarBoton implements View.OnClickListener {
+    private class PulsarBoton implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
@@ -91,6 +99,9 @@ public class FragmentPerfil extends Fragment {
             if (botonPulsado.getId() == R.id.configuracion) {
                 Intent configuracion = new Intent(getContext(), ActivityConfiguracion.class);
                 startActivity(configuracion);
+            } else if (botonPulsado.getId() == R.id.sobre_nosotros) {
+                Intent sobreNosotros = new Intent(getContext(), ActivityInformacion.class);
+                startActivity(sobreNosotros);
             }
         }
     }
@@ -99,7 +110,9 @@ public class FragmentPerfil extends Fragment {
     public void onResume() {
         if (auth.getAuth().getCurrentUser()!= null) {
             getUser();
+            linearLayoutConf.setVisibility(View.VISIBLE);
         } else {
+            linearLayoutConf.setVisibility(View.GONE);
             imagenPerfil.setImageResource(R.drawable.ic_person_2);
             nombrePerfil.setText(getString(R.string.iniciar));
         }

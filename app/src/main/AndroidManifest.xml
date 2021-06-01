@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/huesoicono"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPet">
-        <activity android:name=".activities.chat.ActivityChat"></activity>
+        <activity android:name=".activities.configuracion.ActivityInformacion"></activity>
+        <activity android:name=".activities.chat.ActivityChat" />
         <activity android:name=".activities.publicar.FiltrosActivity" />
         <activity android:name=".activities.publicar.ActivityPublicacion" />
         <!--

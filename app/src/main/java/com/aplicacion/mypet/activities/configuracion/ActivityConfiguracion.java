@@ -3,7 +3,6 @@ package com.aplicacion.mypet.activities.configuracion;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.utils.ViewedMessageHelper;
 
 public class ActivityConfiguracion extends AppCompatActivity {
-    private LinearLayout linearSesion;
     private AuthProvider auth;
 
     @Override
@@ -23,10 +21,6 @@ public class ActivityConfiguracion extends AppCompatActivity {
         setContentView(R.layout.activity_configuracion);
         auth = new AuthProvider();
 
-        linearSesion = findViewById(R.id.linear_conf_perfil);
-        if (auth.getAuth().getCurrentUser() == null) {
-            linearSesion.setVisibility(View.INVISIBLE);
-        }
     }
 
     public void cerrarConfiguracion(View view) {

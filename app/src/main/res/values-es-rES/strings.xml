@@ -75,7 +75,7 @@
     <string name="guardar_marca">Guardar Marca</string>
     <string name="actualizar_perfil">Actualizar perfil</string>
     <string name="ver_perfil">Ver perfil</string>
-    <string name="sin_ubicaion">Sin ubicacion seleccionada</string>
+    <string name="sin_ubicacion_seleccionada">Sin ubicacion seleccionada</string>
     <string name="ocultar_ubicacion">Ocultar Ubicacion</string>
     <string name="hace_un_momento">Hace un momento</string>
     <string name="hace_una_hora">Hace una hora</string>

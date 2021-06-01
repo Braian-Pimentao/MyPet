@@ -192,21 +192,20 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
         String city = direccion.get(0).getLocality();
         String postalCode = direccion.get(0).getPostalCode();
         String country = direccion.get(0).getCountryName();
-        String state = direccion.get(0).getLocality();
 
         if (postalCode!=null) {
             if (city!= null){
                 botonUbicacion.setText(String.format("%s, %s", city, postalCode));
             } else {
-                if (state!=null){
-                    botonUbicacion.setText(String.format("%s, %s", state,country));
+                if (city!=null){
+                    botonUbicacion.setText(String.format("%s, %s", city,country));
                 } else {
                     botonUbicacion.setText(String.format("%s", country));
                 }
             }
         } else {
-            if (state!=null){
-                botonUbicacion.setText(String.format("%s, %s", state,country));
+            if (city!=null){
+                botonUbicacion.setText(String.format("%s, %s", city,country));
             } else {
                 botonUbicacion.setText(String.format("%s", country));
             }

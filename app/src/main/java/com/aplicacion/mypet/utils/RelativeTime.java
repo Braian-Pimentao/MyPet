@@ -26,7 +26,6 @@ public class RelativeTime extends Application {
             return null;
         }
 
-        // TODO: localize
         final long diff = now - time;
         if (diff < MINUTE_MILLIS) {
             return ctx.getString(R.string.hace_un_momento);
@@ -58,7 +57,7 @@ public class RelativeTime extends Application {
             return formatter.format(new Date(time));
         }
 
-        // TODO: localize
+
         final long diff = now - time;
          if (diff < 24 * HOUR_MILLIS) {
             return formatter.format(new Date(time));

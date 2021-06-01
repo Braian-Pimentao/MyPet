@@ -74,7 +74,7 @@
     <string name="guardar_marca">Save mark</string>
     <string name="actualizar_perfil">Update profile</string>
     <string name="ver_perfil">View profile</string>
-    <string name="sin_ubicaion">No location selected</string>
+    <string name="sin_ubicacion_seleccionada">No location selected</string>
     <string name="ocultar_ubicacion">Hide Location</string>
     <string name="hace_un_momento">Just now</string>
     <string name="hace_una_hora">An hour ago</string>

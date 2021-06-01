@@ -376,21 +376,20 @@ public class ActivityPublicacion extends AppCompatActivity {
         String city = direccion.get(0).getLocality();
         String postalCode = direccion.get(0).getPostalCode();
         String country = direccion.get(0).getCountryName();
-        String state = direccion.get(0).getLocality();
 
         if (postalCode!=null) {
             if (city!= null){
                 ubicacion.setText(String.format("%s, %s", city, postalCode));
             } else {
-                if (state!=null){
-                    ubicacion.setText(String.format("%s, %s", state,country));
+                if (city!=null){
+                    ubicacion.setText(String.format("%s, %s", city,country));
                 } else {
                     ubicacion.setText(String.format("%s", country));
                 }
             }
         } else {
-            if (state!=null){
-                ubicacion.setText(String.format("%s, %s", state,country));
+            if (city!=null){
+                ubicacion.setText(String.format("%s, %s", city,country));
             } else {
                 ubicacion.setText(String.format("%s", country));
             }
@@ -415,7 +414,7 @@ public class ActivityPublicacion extends AppCompatActivity {
                                     .findFragmentById(R.id.map_publicacion);
                             mapFragment.getMapAsync(new mapa());
                         } else {
-                            ubicacion.setText(getString(R.string.sin_ubicaion));
+                            ubicacion.setText(getString(R.string.sin_ubicacion_seleccionada));
                         }
 
                         if (documentSnapshot.contains("ocultarUbicacion")) {

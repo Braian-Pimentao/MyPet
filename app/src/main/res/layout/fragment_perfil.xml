@@ -7,14 +7,13 @@
     tools:context=".fragments.FragmentPerfil"
     android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
 
         <LinearLayout
             android:id="@+id/banner_perfil"
             android:background="@color/principal_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
             <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/foto_fragment_perfil"
@@ -39,49 +38,38 @@
                 app:drawableEndCompat="@drawable/ic_flecha" />
         </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linear_conf_perfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+            <Button
+                android:theme="@style/colorDeTexto"
+                android:background="?android:attr/selectableItemBackground"
+                android:id="@+id/configuracion"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"
+                app:drawableEndCompat="@drawable/ic_flecha"
+                android:text="@string/configuration" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/principal_app"/>
+    </LinearLayout>
         <Button
             android:theme="@style/colorDeTexto"
-            android:background="@drawable/pulsar_publicar"
-            android:id="@+id/configuracion"
+            android:background="?android:attr/selectableItemBackground"
+            android:id="@+id/sobre_nosotros"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="textStart"
             app:drawableEndCompat="@drawable/ic_flecha"
-            android:text="@string/configuration" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/principal_app"/>
-        <Button
-            android:theme="@style/colorDeTexto"
-            android:background="@color/opaco"
-            android:id="@+id/prueba2"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="textStart"
-            app:drawableEndCompat="@drawable/ic_flecha"
-            android:text="@string/configuration" />
-    
-    <!--
-    <Button
-        android:id="@+id/prueba"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="pulsarBotonPrueba"
-        android:text="Button" />
-
-    <Button
-        android:layout_marginTop="100dp"
-        android:id="@+id/cerrar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="cerrarSesion"
-        android:text="Cerrar Sesion" />
-    -->
+            android:text="@string/sobre_nosotros" />
 
 </LinearLayout>

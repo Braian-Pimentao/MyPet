@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:orientation="horizontal">
         <androidx.cardview.widget.CardView
             android:layout_width="80dp"
@@ -72,7 +72,7 @@
                     android:textSize="15sp" />
 
                 <View
-                    android:theme="@style/colorLinea"
+                    android:background="@color/principal_app"
                     android:layout_width="1dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -86,13 +86,37 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
-            <TextView
-                android:theme="@style/colorDeTexto"
-                android:id="@+id/edad_animal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/edad_animal"
-                android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:theme="@style/colorDeTexto"
+                    android:id="@+id/edad_animal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edad_animal"
+                    android:textSize="15sp" />
+
+                <View
+                    android:background="@color/principal_app"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"/>
+
+                <TextView
+                    android:theme="@style/colorDeTexto"
+                    android:id="@+id/ubicacion_cardview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sin_ubicacion"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>

@@ -87,7 +87,7 @@
     <string name="actualizar_perfil">Actualizar perfil</string>
     <string name="ver_perfil">Ver perfil</string>
     <string name="chat" translatable="false">Chat</string>
-    <string name="sin_ubicaion">Sin ubicacion seleccionada</string>
+    <string name="sin_ubicacion_seleccionada">Sin ubicación seleccionada</string>
     <string name="ocultar_ubicacion">Ocultar Ubicacion</string>
     <string name="boton_me_gusta_desc" translatable="false">boton me gusta</string>
     <string name="hace_un_momento">Hace un momento</string>
@@ -118,4 +118,6 @@
     <string name="no_encontrado">Vaya! No encontramos lo que buscas</string>
     <string name="mensaje_chat_info">Este es el comienzo de un bonito hogar para la mascota</string>
     <string name="sin_publicaciones">No hay publicaciones</string>
+    <string name="sobre_nosotros">Sobre nosotros</string>
+    <string name="sin_ubicacion">Sin ubicación</string>
 </resources>

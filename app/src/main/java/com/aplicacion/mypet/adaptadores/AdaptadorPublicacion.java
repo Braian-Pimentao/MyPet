@@ -2,6 +2,8 @@ package com.aplicacion.mypet.adaptadores;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +28,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, AdaptadorPublicacion.ViewHolder> {
     private Context context;
@@ -121,6 +127,48 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         if (authProvider.getAuth().getCurrentUser()!=null){
             ocultarBotones(publicacion.getIdUser(),holder);
         }
+
+        if (publicacion.getIdUser() != null) {
+            getUserInfo(publicacion.getIdUser(), holder);
+        }
+    }
+
+    private void getUserInfo(String idUser, ViewHolder holder) {
+        userProvider.getUser(idUser).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()){
+                    if (documentSnapshot.contains("ubicacion")){
+                        ArrayList<Double> ubicacionRecogida = (ArrayList<Double>) documentSnapshot.get("ubicacion");
+                        if (ubicacionRecogida!=null){
+                            localizacion(ubicacionRecogida.get(0),ubicacionRecogida.get(1), holder);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void localizacion(double latitude, double longitude, ViewHolder holder){
+        Geocoder geocoder;
+        List<Address> direccion = null;
+        geocoder = new Geocoder(context, Locale.getDefault());
+
+        try {
+            direccion = geocoder.getFromLocation(latitude, longitude, 1); // 1 representa la cantidad de resultados a obtener
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String city = direccion.get(0).getLocality();
+        String postalCode = direccion.get(0).getPostalCode();
+        String country = direccion.get(0).getCountryName();
+
+        if (city!=null)
+            holder.ubicacion.setText(city);
+        else
+            holder.ubicacion.setText(country);
+
     }
 
     private void favorito(final Favorito favorito, final ViewHolder holder) {
@@ -149,6 +197,9 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
     }
 
 
+
+
+
     private void checkIsExistFavorite(String idPublicacion, String idUser, final ViewHolder holder) {
         favoritoProvider.getFavoriteByPostAndUser(idPublicacion,idUser).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -169,16 +220,19 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         TextView tipo;
         TextView raza;
         TextView edad;
+        TextView ubicacion;
         ImageView foto;
         ImageView favorito;
         ImageView sexo;
         View viewHolder;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.nombre);
             tipo = itemView.findViewById(R.id.tipo_animal);
             raza = itemView.findViewById(R.id.raza_animal);
             edad = itemView.findViewById(R.id.edad_animal);
+            ubicacion = itemView.findViewById(R.id.ubicacion_cardview);
             foto = itemView.findViewById(R.id.imagen_animal);
             sexo = itemView.findViewById(R.id.sexo);
             favorito = itemView.findViewById(R.id.iamgen_favorito);
