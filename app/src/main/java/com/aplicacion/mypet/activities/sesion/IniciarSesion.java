@@ -35,7 +35,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import dmax.dialog.SpotsDialog;
 
 public class IniciarSesion extends AppCompatActivity {
-    private static final int RC_SIGN_IN = 1;
     private static final String TAG = "INFO_SING_IN";
     private TextInputEditText textInputEmail;
     private TextInputEditText textInputPassword;
@@ -134,29 +133,8 @@ public class IniciarSesion extends AppCompatActivity {
 
         resultGoogle.launch(signInIntent);
 
-
-
-        //startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
-            }
-        }
-    }
 
     private void firebaseAuthWithGoogle(String idToken) {
         dialog.show();

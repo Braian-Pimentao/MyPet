@@ -1,6 +1,7 @@
 package com.aplicacion.mypet.activities.publicar;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,8 +17,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
@@ -217,7 +221,8 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
-        startActivityForResult(galleryIntent,GALLERY_REQUEST_CODE);
+        resultGaleria.launch(galleryIntent);
+
     }
 
     private void openCamera() {
@@ -237,29 +242,43 @@ public class ActivityCrearPublicacion extends AppCompatActivity implements Botto
                         "com.aplicacion.mypet",
                         fotoCamaraArchivo);
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fotoUri);
-                startActivityForResult(cameraIntent,CAMARA_REQUEST_CODE);
+                resultCamara.launch(cameraIntent);
+
             }
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==GALLERY_REQUEST_CODE && resultCode == RESULT_OK) {
-            try {
-                File imagen = FileUtil.from(this,data.getData());
-                asignarImagenesArray(imagen);
-                imagenSeleccionada.setImageBitmap(BitmapFactory.decodeFile(imagen.getAbsolutePath()));
-            }catch (Exception e){
-                Log.d("ERROR: ", e.getMessage());
-                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == CAMARA_REQUEST_CODE && resultCode == RESULT_OK){
-            asignarImagenesArray(fotoCamaraArchivo);
+    ActivityResultLauncher<Intent> resultGaleria = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        try {
+                            File imagen = FileUtil.from(ActivityCrearPublicacion.this,result.getData().getData());
+                            asignarImagenesArray(imagen);
+                            imagenSeleccionada.setImageBitmap(BitmapFactory.decodeFile(imagen.getAbsolutePath()));
+                        }catch (Exception e){
+                            Log.d("ERROR: ", e.getMessage());
+                            Toast.makeText(ActivityCrearPublicacion.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
 
-            imagenSeleccionada.setImageBitmap(BitmapFactory.decodeFile(fotoCamaraArchivo.getAbsolutePath()));
-        }
-    }
+    ActivityResultLauncher<Intent> resultCamara = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        asignarImagenesArray(fotoCamaraArchivo);
+
+                        imagenSeleccionada.setImageBitmap(BitmapFactory.decodeFile(fotoCamaraArchivo.getAbsolutePath()));
+                    }
+                }
+            });
+
 
     private void asignarImagenesArray(File file) {
         if (imagenSeleccionada.getId() == R.id.imagen_publicar_1){

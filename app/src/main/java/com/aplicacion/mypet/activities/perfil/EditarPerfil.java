@@ -17,8 +17,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
@@ -49,8 +52,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import dmax.dialog.SpotsDialog;
 
 public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragmentPersonalizado.BottomSheetListener {
-    private final int GALLERY_REQUEST_CODE=1;
-    private final int CAMARA_REQUEST_CODE=2;
+
     private final int REQUEST_PERMISSION_CAMERA=100;
     private final int REQUEST_PERMISSION_GALLERY=101;
     private AlertDialog dialog;
@@ -64,7 +66,6 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
 
     private Double latitude;
     private Double longitude;
-    private final int REQUEST_CODE_UBICACION = 5;
     private Button botonUbicacion;
 
     private CircleImageView fotoPerfil;
@@ -111,7 +112,8 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
             ubicacion.putExtra("longitude", longitude);
             ubicacion.putExtra("ocultarUbicacion",ocultarUbicacion);
         }
-        startActivityForResult(ubicacion, REQUEST_CODE_UBICACION);
+        resultUbicacion.launch(ubicacion);
+
     }
 
     private void getUser(){
@@ -150,32 +152,52 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode==REQUEST_CODE_UBICACION){
-            if (resultCode== Activity.RESULT_OK){
-                Bundle extras = data.getExtras();
-                latitude =  extras.getDouble("latitude");
-                longitude = extras.getDouble("longitude");
-                ocultarUbicacion = extras.getBoolean("ocultarUbicacion");
 
-                localizacion(latitude,longitude);
-            }
-        } else if(requestCode==GALLERY_REQUEST_CODE && resultCode == RESULT_OK) {
-            try {
-                imagen = FileUtil.from(this,data.getData());
+    ActivityResultLauncher<Intent> resultUbicacion = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Bundle extras = result.getData().getExtras();
+                        latitude =  extras.getDouble("latitude");
+                        longitude = extras.getDouble("longitude");
+                        ocultarUbicacion = extras.getBoolean("ocultarUbicacion");
 
-                fotoPerfil.setImageBitmap(BitmapFactory.decodeFile(imagen.getAbsolutePath()));
-            }catch (Exception e){
-                Log.d("ERROR: ", e.getMessage());
-                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        } else if (requestCode == CAMARA_REQUEST_CODE && resultCode == RESULT_OK){
-            fotoPerfil.setImageBitmap(BitmapFactory.decodeFile(imagen.getAbsolutePath()));
-        }
+                        localizacion(latitude,longitude);
+                    }
+                }
+            });
 
-        super.onActivityResult(requestCode, resultCode, data);
-    }
+    ActivityResultLauncher<Intent> resultGaleria = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        try {
+                            imagen = FileUtil.from(EditarPerfil.this,result.getData().getData());
+
+                            fotoPerfil.setImageBitmap(BitmapFactory.decodeFile(imagen.getAbsolutePath()));
+                        }catch (Exception e){
+                            Log.d("ERROR: ", e.getMessage());
+                            Toast.makeText(EditarPerfil.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
+
+    ActivityResultLauncher<Intent> resultCamara = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        fotoPerfil.setImageBitmap(BitmapFactory.decodeFile(imagen.getAbsolutePath()));
+                    }
+                }
+            });
+
 
 
     private void localizacion(double latitude, double longitude){
@@ -282,7 +304,7 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
-        startActivityForResult(galleryIntent,GALLERY_REQUEST_CODE);
+        resultGaleria.launch(galleryIntent);
     }
 
     private void openCamera() {
@@ -302,7 +324,7 @@ public class EditarPerfil extends AppCompatActivity  implements BottomSheetFragm
                         "com.aplicacion.mypet",
                         imagen);
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fotoUri);
-                startActivityForResult(cameraIntent,CAMARA_REQUEST_CODE);
+                resultCamara.launch(cameraIntent);
             }
         }
     }

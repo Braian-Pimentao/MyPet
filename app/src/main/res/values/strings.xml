@@ -7,11 +7,11 @@
     <string name="nombre_animal">Nombre</string>
     <string name="raza_animal">Raza/Especie</string>
     <string name="tipo_animal">Tipo</string>
-    <string name="correo_electronico">Correo Electronico</string>
+    <string name="correo_electronico">Correo Electrónico</string>
     <string name="pssword">Contraseña</string>
     <string name="iniciar">Iniciar Sesión</string>
     <string name="pregunta">¿No tienes cuenta?</string>
-    <string name="regristrate">REGISTRATE AQUI</string>
+    <string name="regristrate">REGISTRATE AQUÍ</string>
     <string name="google">Iniciar con Google</string>
     <string name="ic_email" translatable="false">ic_email</string>
     <string name="ic_candado" translatable="false">ic_candado</string>
@@ -82,13 +82,13 @@
     <string name="title_activity_ubicacion">Map</string>
     <string name="mapa">Mapa</string>
     <string name="notificaciones">Notificaciones</string>
-    <string name="guardar_ubicacion">Guardar ubicacion</string>
+    <string name="guardar_ubicacion">Guardar ubicación</string>
     <string name="guardar_marca">Guardar Marca</string>
     <string name="actualizar_perfil">Actualizar perfil</string>
     <string name="ver_perfil">Ver perfil</string>
     <string name="chat" translatable="false">Chat</string>
     <string name="sin_ubicacion_seleccionada">Sin ubicación seleccionada</string>
-    <string name="ocultar_ubicacion">Ocultar Ubicacion</string>
+    <string name="ocultar_ubicacion">Ocultar Ubicación</string>
     <string name="boton_me_gusta_desc" translatable="false">boton me gusta</string>
     <string name="hace_un_momento">Hace un momento</string>
     <string name="hace_una_hora">Hace una hora</string>
@@ -102,15 +102,15 @@
     <string name="eliminar">Eliminar Publicación</string>
     <string name="publicacion_eliminada">Publicación eliminada</string>
     <string name="comprobar_eliminar">¿Desea eliminar la publicación?</string>
-    <string name="si">Si</string>
+    <string name="si">Sí</string>
     <string name="no">No</string>
     <string name="busqueda">Buscar Animal</string>
-    <string name="ultimo_mensaje">Ultimo mensaje</string>
+    <string name="ultimo_mensaje">Último mensaje</string>
     <string name="usuario">Usuario</string>
     <string name="escribe_un_mensaje">Escribe un mensaje</string>
     <string name="nuevo_mensaje">Nuevo Mensaje</string>
     <string name="fecha">Fecha</string>
-    <string name="online">En linea</string>
+    <string name="online">En línea</string>
     <string name="mensaje_nuevo">Mensaje nuevo</string>
     <string name="no_iniciado_sesion">No has iniciado sesión</string>
     <string name="sin_mensajes">No tienes mensajes</string>
@@ -120,7 +120,7 @@
     <string name="sin_publicaciones">No hay publicaciones</string>
     <string name="sobre_nosotros">Sobre nosotros</string>
     <string name="sin_ubicacion">Sin ubicación</string>
-    <string name="informacion_app">Esta aplicación se realizó de forma altruista para poder dar un hogar a las mascotas que más lo necesitan.Para ello se podrá publicar anuncios de animales que estén en adopción y poder contactar con el usuario y así darle un hogar al animal.Queremos que este animal tenga un buen hogar así que pedimos por favor si estás pensando en adoptar un animal hazlo con cabeza y que nosea un capricho.
+    <string name="informacion_app">Esta aplicación se realizó de forma altruista para poder dar un hogar a las mascotas que más lo necesitan. Para ello se podrá publicar anuncios de animales que estén en adopción y poder contactar con el usuario y así darle un hogar al animal. Queremos que este animal tenga un buen hogar así que pedimos por favor si estás pensando en adoptar un animal hazlo con cabeza y que no sea un capricho.
     </string>
     <string name="contactar">Contacta con nosotros</string>
     <string name="enviar_mail">Enviar email</string>
@@ -128,8 +128,8 @@
     <string name="comprobar_reportar">¿Estás seguro de reportar esta publicación?</string>
     <string name="report_confirm">Se ha reportado la publicación</string>
     <string name="precauciones">Cuidado, estas son unas recomendaciones a seguir para la seguridad de todos:</string>
-    <string name="precaucion1">No de datos bancarios a ninguna persona.</string>
-    <string name="precaucion2">La compra/venta de animales está prohibido en la aplicación.</string>
+    <string name="precaucion1">No aporte datos bancarios a ninguna persona.</string>
+    <string name="precaucion2">La compra/venta de animales está prohibida.</string>
     <string name="precaucion3">No acepte intercambios por otros animales u objetos.</string>
     <string name="precaucion4">A la hora de entregar la mascota, se recomienda quedar en un lugar concurrido.</string>
 
@@ -139,6 +139,5 @@
         <item>Contenido ofensivo</item>
         <item>Anuncio Duplicado</item>
         <item>Publicidad o Spam</item>
-
     </string-array>
 </resources>

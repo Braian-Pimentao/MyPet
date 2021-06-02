@@ -116,4 +116,11 @@
     <string name="precaucion3">Do not accept exchanges for other animals or objects.</string>
     <string name="precaucion4">When delivering the pet, it is recommended to stay in a crowded place.</string>
     <string name="informacion_app">This application was made altruistically to be able to give a home to the pets that need it most. For this, it will be possible to publish post of animals that are for adoption and to be able to contact the user and this give the animal a home. We want this animal to have a good home so we ask if you are thinking of adopting an animal, please do so wisely and not be a whim.</string>
+    <string-array name="lista_reportes">
+        <item>Joke</item>
+        <item>Animal sale</item>
+        <item>Offensive content</item>
+        <item>Duplicate Ad</item>
+        <item>Spam</item>
+    </string-array>
 </resources>
