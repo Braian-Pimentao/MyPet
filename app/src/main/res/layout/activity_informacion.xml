@@ -62,8 +62,29 @@
             android:layout_marginStart="15dp"
             android:textSize="15sp"
             android:layout_marginEnd="15dp"
-            android:layout_marginBottom="20dp"
             android:text="@string/informacion_app"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginEnd="15sp"
+            android:layout_gravity="end">
+            <ImageView
+                android:id="@+id/boton_instagram"
+                android:onClick="pulsarBotonRedesSociales"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_instagram"/>
+            <ImageView
+                android:id="@+id/boton_twitter"
+                android:onClick="pulsarBotonRedesSociales"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_twitter"/>
+        </LinearLayout>
 
         <Button
             android:background="@drawable/pulsar_boton_app"
@@ -91,7 +112,7 @@
             android:textSize="15sp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="5dp"
-            android:text="Cuidado, estas son unas recomendaciones a seguir para la seguridad de todos:" />
+            android:text="@string/precauciones" />
         <TextView
             android:layout_width="match_parent"
             android:theme="@style/colorDeTexto"
@@ -100,7 +121,7 @@
             android:layout_marginEnd="15dp"
             android:textSize="15sp"
             android:layout_marginBottom="5dp"
-            android:text="No de datos bancarios a ninguna persona."
+            android:text="@string/precaucion1"
             android:drawablePadding="10dp"
             app:drawableStartCompat="@drawable/ic_punto" />
 
@@ -112,7 +133,7 @@
             android:layout_marginEnd="15dp"
             android:textSize="15sp"
             android:layout_marginBottom="5dp"
-            android:text="La compra/venta de animales está prohibido en la aplicación."
+            android:text="@string/precaucion2"
             android:drawablePadding="10dp"
             app:drawableStartCompat="@drawable/ic_punto" />
 
@@ -124,7 +145,7 @@
             android:layout_marginEnd="15dp"
             android:textSize="15sp"
             android:layout_marginBottom="5dp"
-            android:text="No acepte intercambios por otros animales u objetos."
+            android:text="@string/precaucion3"
             android:drawablePadding="10dp"
             app:drawableStartCompat="@drawable/ic_punto" />
 
@@ -136,21 +157,10 @@
             android:layout_marginEnd="15dp"
             android:textSize="15sp"
             android:layout_marginBottom="5dp"
-            android:text="A la hora de entregar la mascota, se recomienda quedar en un lugar concurrido."
+            android:text="@string/precaucion4"
             android:drawablePadding="10dp"
             app:drawableStartCompat="@drawable/ic_punto" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:theme="@style/colorDeTexto"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:textSize="15sp"
-            android:layout_marginBottom="5dp"
-            android:text="No acepte intercambios por otros animales u objetos."
-            android:drawablePadding="10dp"
-            app:drawableStartCompat="@drawable/ic_punto" />
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

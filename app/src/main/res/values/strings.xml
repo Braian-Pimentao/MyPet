@@ -120,12 +120,25 @@
     <string name="sin_publicaciones">No hay publicaciones</string>
     <string name="sobre_nosotros">Sobre nosotros</string>
     <string name="sin_ubicacion">Sin ubicación</string>
-    <string name="informacion_app">Esta aplicación se realizó de forma altruista para poder dar un hogar a las mascotas que más lo necesitan.
-    Para ello se podrá publicar anuncios de animales que estén en adopcción y poder contactar con el usuario y así darle un hogar al animal.
-        Queremos que este animal tenga un buen hogar así que pedimos por favor si estás pensando en adoptar un animal hazlo con cabeza y que no
-        sea un capricho.
+    <string name="informacion_app">Esta aplicación se realizó de forma altruista para poder dar un hogar a las mascotas que más lo necesitan.Para ello se podrá publicar anuncios de animales que estén en adopción y poder contactar con el usuario y así darle un hogar al animal.Queremos que este animal tenga un buen hogar así que pedimos por favor si estás pensando en adoptar un animal hazlo con cabeza y que nosea un capricho.
     </string>
     <string name="contactar">Contacta con nosotros</string>
     <string name="enviar_mail">Enviar email</string>
-    <string name="asunto">INCIDENCIA-MYPET</string>
+    <string name="asunto" translatable="false">INCIDENCIA-MYPET</string>
+    <string name="comprobar_reportar">¿Estás seguro de reportar esta publicación?</string>
+    <string name="report_confirm">Se ha reportado la publicación</string>
+    <string name="precauciones">Cuidado, estas son unas recomendaciones a seguir para la seguridad de todos:</string>
+    <string name="precaucion1">No de datos bancarios a ninguna persona.</string>
+    <string name="precaucion2">La compra/venta de animales está prohibido en la aplicación.</string>
+    <string name="precaucion3">No acepte intercambios por otros animales u objetos.</string>
+    <string name="precaucion4">A la hora de entregar la mascota, se recomienda quedar en un lugar concurrido.</string>
+
+    <string-array name="lista_reportes">
+        <item>Broma</item>
+        <item>Venta animal</item>
+        <item>Contenido ofensivo</item>
+        <item>Anuncio Duplicado</item>
+        <item>Publicidad o Spam</item>
+
+    </string-array>
 </resources>

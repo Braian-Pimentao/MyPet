@@ -384,9 +384,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_punto" />
-                            <entry key="sourceFile" value="D:\Usuarios\BRYAN\Descargas\me-gusta.svg" />
+                            <entry key="outputName" value="ic_twitter" />
+                            <entry key="sourceFile" value="D:\Usuarios\BRYAN\Descargas\gorjeo.svg" />
                           </map>
                         </option>
                       </PersistentState>

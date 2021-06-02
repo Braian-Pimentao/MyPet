@@ -32,6 +32,8 @@ import com.aplicacion.mypet.models.SliderItem;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.FavoritoProvider;
 import com.aplicacion.mypet.providers.PublicacionProvider;
+import com.aplicacion.mypet.providers.Reporte;
+import com.aplicacion.mypet.providers.ReporterProvider;
 import com.aplicacion.mypet.providers.UserProvider;
 import com.aplicacion.mypet.utils.RelativeTime;
 import com.aplicacion.mypet.utils.ViewedMessageHelper;
@@ -80,6 +82,7 @@ public class ActivityPublicacion extends AppCompatActivity {
     private UserProvider userProvider;
     private FavoritoProvider favoritoProvider;
     private AuthProvider authProvider;
+    private ReporterProvider reporterProvider;
 
 
     private TextView nombreAnimal;
@@ -143,6 +146,7 @@ public class ActivityPublicacion extends AppCompatActivity {
         userProvider = new UserProvider();
         favoritoProvider = new FavoritoProvider();
         authProvider = new AuthProvider();
+        reporterProvider = new ReporterProvider();
 
         if (authProvider.getAuth().getCurrentUser()!=null){
             checkIsExistFavorite(idPublicacion,authProvider.getUid());
@@ -287,9 +291,48 @@ public class ActivityPublicacion extends AppCompatActivity {
         if (item.equals(borrarAnuncio)) {
             mostrarConfirmacionBorrar(idPublicacion);
         } else if (item.equals(reportarAnuncio)){
-            Toast.makeText(this,"Adioos",Toast.LENGTH_LONG).show();
+            reportar();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void reportar() {
+        Reporte reporte = new Reporte();
+        reporte.setIdUser(idUser);
+        reporte.setIdPublicacion(idPublicacion);
+        android.app.AlertDialog dialogo;
+        String[] array = getResources().getStringArray(R.array.lista_reportes);
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.tipo_animal))
+                .setSingleChoiceItems(array,0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        reporte.setTipoReporte(array[which]);
+                        new AlertDialog.Builder(ActivityPublicacion.this)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setTitle(getString(R.string.reportar))
+                                .setMessage(getString(R.string.comprobar_reportar))
+                                .setPositiveButton(getString(R.string.si), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        reporterProvider.crearReporte(reporte);
+                                        new AlertDialog.Builder(ActivityPublicacion.this)
+                                                .setTitle(getString(R.string.reportar))
+                                                .setMessage(getString(R.string.report_confirm))
+                                                .setPositiveButton("OK",null)
+                                                .show();
+
+                                    }
+                                })
+                                .setNegativeButton(getString(R.string.no),null).show();
+                        dialog.cancel();
+                    }
+                });
+        dialogo = builder.create();
+        dialogo.show();
+
+
+
     }
 
     private void mostrarConfirmacionBorrar(String idPublicacion) {

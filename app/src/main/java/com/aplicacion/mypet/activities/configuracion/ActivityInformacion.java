@@ -1,10 +1,12 @@
 package com.aplicacion.mypet.activities.configuracion;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +42,44 @@ public class ActivityInformacion extends AppCompatActivity {
         }
         catch (android.content.ActivityNotFoundException e) {
             Toast.makeText(this, "NO existe ningún cliente de email instalado!.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void pulsarBotonRedesSociales(View view) {
+        ImageView imagenPulsada = (ImageView) view;
+
+        if (imagenPulsada.getId() == R.id.boton_instagram) {
+            abrirInstagram();
+        } else if (imagenPulsada.getId() == R.id.boton_twitter){
+            abrirTwitter();
+        }
+    }
+
+    private void abrirTwitter() {
+        Uri uri = Uri.parse("twitter://user?screen_name=MyPet06694712");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setPackage("com.twitter.android");
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://twitter.com/#!/MyPet06694712")));
+        }
+    }
+
+    private void abrirInstagram() {
+        Uri uri = Uri.parse("http://instagram.com/_u/mypet.application");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setPackage("com.instagram.android");
+
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+
+            //No encontró la aplicación, abre la versión web.
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://instagram.com/mypet.application")));
+
         }
     }
 }

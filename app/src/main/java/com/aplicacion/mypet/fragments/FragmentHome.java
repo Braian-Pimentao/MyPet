@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,8 @@ import com.aplicacion.mypet.models.Publicacion;
 import com.aplicacion.mypet.providers.PublicacionProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.mancj.materialsearchbar.MaterialSearchBar;
@@ -94,6 +97,16 @@ public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearch
 
     private void getTodasPublicaciones() {
         Query query = publicacionProvider.getAll();
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value.size()==0) {
+                    linearLayoutNoBusqueda.setVisibility(View.VISIBLE);
+                } else {
+                    linearLayoutNoBusqueda.setVisibility(View.GONE);
+                }
+            }
+        });
 
         FirestoreRecyclerOptions<Publicacion> options = new FirestoreRecyclerOptions.Builder<Publicacion>()
                 .setQuery(query,Publicacion.class)
