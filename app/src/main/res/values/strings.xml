@@ -120,4 +120,12 @@
     <string name="sin_publicaciones">No hay publicaciones</string>
     <string name="sobre_nosotros">Sobre nosotros</string>
     <string name="sin_ubicacion">Sin ubicación</string>
+    <string name="informacion_app">Esta aplicación se realizó de forma altruista para poder dar un hogar a las mascotas que más lo necesitan.
+    Para ello se podrá publicar anuncios de animales que estén en adopcción y poder contactar con el usuario y así darle un hogar al animal.
+        Queremos que este animal tenga un buen hogar así que pedimos por favor si estás pensando en adoptar un animal hazlo con cabeza y que no
+        sea un capricho.
+    </string>
+    <string name="contactar">Contacta con nosotros</string>
+    <string name="enviar_mail">Enviar email</string>
+    <string name="asunto">INCIDENCIA-MYPET</string>
 </resources>

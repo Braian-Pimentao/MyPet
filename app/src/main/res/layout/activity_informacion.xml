@@ -7,35 +7,150 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.configuracion.ActivityInformacion">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolBar_anuncio"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_collapseMode="pin"
-        android:elevation="5dp">
-        <ImageButton
-            android:id="@+id/ir_atras_publicacion"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/pulsar_publicar"
-            android:theme="@style/coloresIconos"
-            android:contentDescription="@string/boton_publicar"
-            android:onClick="cerrarInformacion"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_flecha_atras_blanca" />
+        android:layout_height="wrap_content"
+        android:background="@color/opaco">
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/principal_app"
+            android:elevation="5dp">
+            <ImageButton
+                android:id="@+id/ir_atras_publicacion"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/pulsar_publicar"
+                android:contentDescription="@string/boton_publicar"
+                android:onClick="cerrarInformacion"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_flecha_atras_blanca" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="45dp"
+                android:text="@string/sobre_nosotros"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_info"
+            android:theme="@style/coloresIconos" />
 
         <TextView
-            android:theme="@style/colorDeTexto"
             android:layout_width="match_parent"
+            android:theme="@style/colorDeTexto"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="45dp"
-            android:text="@string/nueva_mascota"
-            android:textAlignment="center"
+            android:layout_marginStart="15dp"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/informacion_app"/>
 
-    </androidx.appcompat.widget.Toolbar>
+        <Button
+            android:background="@drawable/pulsar_boton_app"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_marginEnd="15dp"
+            android:onClick="enviarCorreo"
+            android:layout_gravity="end"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/white"
+            android:text="@string/contactar" />
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_warning"
+            android:theme="@style/coloresIconos" />
+        <TextView
+            android:layout_width="match_parent"
+            android:theme="@style/colorDeTexto"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:textSize="15sp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="5dp"
+            android:text="Cuidado, estas son unas recomendaciones a seguir para la seguridad de todos:" />
+        <TextView
+            android:layout_width="match_parent"
+            android:theme="@style/colorDeTexto"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:textSize="15sp"
+            android:layout_marginBottom="5dp"
+            android:text="No de datos bancarios a ninguna persona."
+            android:drawablePadding="10dp"
+            app:drawableStartCompat="@drawable/ic_punto" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:theme="@style/colorDeTexto"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:textSize="15sp"
+            android:layout_marginBottom="5dp"
+            android:text="La compra/venta de animales está prohibido en la aplicación."
+            android:drawablePadding="10dp"
+            app:drawableStartCompat="@drawable/ic_punto" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:theme="@style/colorDeTexto"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:textSize="15sp"
+            android:layout_marginBottom="5dp"
+            android:text="No acepte intercambios por otros animales u objetos."
+            android:drawablePadding="10dp"
+            app:drawableStartCompat="@drawable/ic_punto" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:theme="@style/colorDeTexto"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:textSize="15sp"
+            android:layout_marginBottom="5dp"
+            android:text="A la hora de entregar la mascota, se recomienda quedar en un lugar concurrido."
+            android:drawablePadding="10dp"
+            app:drawableStartCompat="@drawable/ic_punto" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:theme="@style/colorDeTexto"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:textSize="15sp"
+            android:layout_marginBottom="5dp"
+            android:text="No acepte intercambios por otros animales u objetos."
+            android:drawablePadding="10dp"
+            app:drawableStartCompat="@drawable/ic_punto" />
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
