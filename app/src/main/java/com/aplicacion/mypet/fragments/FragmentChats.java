@@ -23,6 +23,7 @@ import com.aplicacion.mypet.providers.ChatsProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -37,6 +38,8 @@ public class FragmentChats extends Fragment {
     private TextView textLinearLayout;
     private Button botonIniciar;
     private LinearLayout linearLayoutNoMensajes;
+
+    private ListenerRegistration mListener;
 
     public FragmentChats() {
         // Required empty public constructor
@@ -72,9 +75,9 @@ public class FragmentChats extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (authProvider.getAuth().getCurrentUser()!= null) {
+         if (authProvider.getAuth().getCurrentUser()!= null) {
             Query query = chatsProvider.getAll(authProvider.getUid());
-            query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+             mListener = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                     if (value.size()== 0) {
@@ -86,6 +89,8 @@ public class FragmentChats extends Fragment {
                     }
                 }
             });
+
+
 
             FirestoreRecyclerOptions<Chat> options = new FirestoreRecyclerOptions.Builder<Chat>()
                     .setQuery(query,Chat.class)
@@ -107,6 +112,20 @@ public class FragmentChats extends Fragment {
         super.onStop();
         if (chatsAdapter != null){
             chatsAdapter.stopListening();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (chatsAdapter.getListener() != null) {
+            chatsAdapter.getListener().remove();
+        }
+        if (chatsAdapter.getListenerLastMessage() != null) {
+            chatsAdapter.getListenerLastMessage().remove();
+        }
+        if (mListener != null) {
+            mListener.remove();
         }
     }
 

@@ -47,7 +47,8 @@ import java.util.Date;
 
 import dmax.dialog.SpotsDialog;
 
-public class ActivityCrearPublicacion extends AppCompatActivity implements BottomSheetFragmentPersonalizado.BottomSheetListener {
+public class
+ActivityCrearPublicacion extends AppCompatActivity implements BottomSheetFragmentPersonalizado.BottomSheetListener {
     private final int GALLERY_REQUEST_CODE=1;
     private final int CAMARA_REQUEST_CODE=2;
     private final int REQUEST_PERMISSION_CAMERA=100;

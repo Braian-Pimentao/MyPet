@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "837219363259",
-    "project_id": "mypet-f055e",
-    "storage_bucket": "mypet-f055e.appspot.com"
+    "project_number": "428772138926",
+    "project_id": "mypet-b326b",
+    "storage_bucket": "mypet-b326b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:837219363259:android:a0889793a5029489f53c9e",
+        "mobilesdk_app_id": "1:428772138926:android:e24aea877c53be80bbb23f",
         "android_client_info": {
           "package_name": "com.aplicacion.mypet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "837219363259-4n2eqdnumhmseep53gfbore5ta0009p2.apps.googleusercontent.com",
+          "client_id": "428772138926-kq8n6os5jna8bfa1b4mg1uqs9kqr8vof.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aplicacion.mypet",
+            "certificate_hash": "9a5b4fd6dfa70b15e4e309de6e0a90108f49d09b"
+          }
+        },
+        {
+          "client_id": "428772138926-j3a0fo99clvfosjp7hlo9n2vbc60kt5n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD2LE6nFPmOpuvvyaTQgG2d_iJxOdesRIc"
+          "current_key": "AIzaSyCW1aFdm6LIZnj8eYN5PX5mblZrNS0sExY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "837219363259-4n2eqdnumhmseep53gfbore5ta0009p2.apps.googleusercontent.com",
+              "client_id": "428772138926-j3a0fo99clvfosjp7hlo9n2vbc60kt5n.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

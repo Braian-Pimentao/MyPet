@@ -26,7 +26,7 @@ public class ActivityInformacion extends AppCompatActivity {
     }
 
     public void enviarCorreo(View view) {
-        String[] TO = {"aplication.mypet@gmail.com"};
+        String[] TO = {"application.mypet@gmail.com"};
 
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
@@ -56,14 +56,14 @@ public class ActivityInformacion extends AppCompatActivity {
     }
 
     private void abrirTwitter() {
-        Uri uri = Uri.parse("twitter://user?screen_name=MyPet06694712");
+        Uri uri = Uri.parse("twitter://user?screen_name=MyPetApplicati1");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setPackage("com.twitter.android");
         try {
             startActivity(intent);
         } catch (Exception e) {
             startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://twitter.com/#!/MyPet06694712")));
+                    Uri.parse("https://twitter.com/#!/MyPetApplicati1")));
         }
     }
 

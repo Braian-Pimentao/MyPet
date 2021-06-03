@@ -86,8 +86,6 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, G
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
 
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-
 
         if (latLngRecibida!=null) {
                 ubicacionMarca.setLatitude(latLngRecibida.latitude);
@@ -144,7 +142,7 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, G
                 setResult(Activity.RESULT_OK,data);
                 finish();
             }else{
-                Toast.makeText(this, "Coloca un marcador", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.colocar_marcador), Toast.LENGTH_LONG).show();
 
             }
         }

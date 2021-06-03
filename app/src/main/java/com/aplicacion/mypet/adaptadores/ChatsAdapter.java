@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
@@ -37,6 +38,9 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
     private AuthProvider authProvider;
     private ChatsProvider chatsProvider;
     private MensajeProvider mensajeProvider;
+
+    private ListenerRegistration mListener;
+     private ListenerRegistration mListenerLastMessage;
 
 
     public ChatsAdapter(FirestoreRecyclerOptions<Chat> options, Context context) {
@@ -53,7 +57,6 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
 
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
         final String chatId = document.getId();
-        String idUser = document.getString("idUser");
 
         if (authProvider.getUid().equals(chat.getIdUser1())){
             getUserInfo(chat.getIdUser2(), holder);
@@ -79,28 +82,32 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
     }
 
     private void getMensajesNoLeidos(String chatId, String idSender, TextView mensajesNoLeidos, FrameLayout frameLayout) {
-        mensajeProvider.getMensajeByChatAndSender(chatId,idSender).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        mListener = mensajeProvider.getMensajeByChatAndSender(chatId,idSender).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                int size = value.size();
-                if (size>0){
-                    frameLayout.setVisibility(View.VISIBLE);
-                    mensajesNoLeidos.setText(String.valueOf(size));
-                } else {
-                    frameLayout.setVisibility(View.GONE);
+                if (value != null) {
+                    int size = value.size();
+                    if (size>0){
+                        frameLayout.setVisibility(View.VISIBLE);
+                        mensajesNoLeidos.setText(String.valueOf(size));
+                    } else {
+                        frameLayout.setVisibility(View.GONE);
+                    }
                 }
             }
         });
     }
 
     private void getUltimoMensaje(String chatId, TextView textViewUltimoMensaje) {
-        mensajeProvider.getLastMensaje(chatId).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        mListenerLastMessage = mensajeProvider.getLastMensaje(chatId).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                int size = value.size();
-                if (size > 0) {
-                    String ultimoMensaje = value.getDocuments().get(0).getString("mensaje");
-                    textViewUltimoMensaje.setText(ultimoMensaje);
+                if (value != null) {
+                    int size = value.size();
+                    if (size > 0) {
+                        String ultimoMensaje = value.getDocuments().get(0).getString("mensaje");
+                        textViewUltimoMensaje.setText(ultimoMensaje);
+                    }
                 }
             }
         });
@@ -160,6 +167,14 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.Vi
             frameLayoutMensajesNoLeidos = view.findViewById(R.id.circulo_mensajes_no_leidos);
             viewHolder = view;
         }
+    }
+
+    public ListenerRegistration getListener() {
+        return mListener;
+    }
+
+    public ListenerRegistration getListenerLastMessage() {
+        return mListenerLastMessage;
     }
 
 }

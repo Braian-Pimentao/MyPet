@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aplicacion.mypet.R;
 import com.aplicacion.mypet.models.Mensaje;
 import com.aplicacion.mypet.providers.AuthProvider;
-import com.aplicacion.mypet.providers.UserProvider;
 import com.aplicacion.mypet.utils.RelativeTime;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -24,14 +23,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 public class MessageAdapter extends FirestoreRecyclerAdapter<Mensaje, MessageAdapter.ViewHolder> {
 
     private Context context;
-    private UserProvider userProvider;
     private AuthProvider authProvider;
 
 
     public MessageAdapter(FirestoreRecyclerOptions<Mensaje> options, Context context) {
         super(options);
         this.context = context;
-        userProvider = new UserProvider();
         authProvider = new AuthProvider();
     }
 

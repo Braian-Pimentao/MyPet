@@ -10,7 +10,6 @@ import androidx.core.app.NotificationCompat;
 
 import com.aplicacion.mypet.channel.NotificationHelper;
 import com.aplicacion.mypet.models.Mensaje;
-import com.aplicacion.mypet.utils.AppInfo;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
@@ -18,6 +17,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.Map;
+import java.util.Random;
 
 public class MyFirebaseMessagingClient extends FirebaseMessagingService {
 
@@ -31,11 +31,22 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         Map<String,String> data = remoteMessage.getData();
 
-        if (!AppInfo.IN_ACTIVITY_CHAT){
+        //if (!AppInfo.IN_ACTIVITY_CHAT){
+                System.out.println("----------------------------------------------------------------------------------------------------MyFitrbsdfsd");
             if (data.get("title") != null) {
+                System.out.println("----------------------------------------------------------------------------------------------------MyFitrbsdfsdasdasdasdasdsadasdsa");
+                //showNotification(data.get("title"),data.get("body"));
                 showNotification(data);
             }
-        }
+        //}
+    }
+
+    private void showNotification(String title, String body) {
+        NotificationHelper notificationHelper = new NotificationHelper(getBaseContext());
+        NotificationCompat.Builder builder = notificationHelper.getNotification(title, body);
+        Random random = new Random();
+        int n = random.nextInt(10000);
+        notificationHelper.getManager().notify(n, builder.build());
     }
 
 

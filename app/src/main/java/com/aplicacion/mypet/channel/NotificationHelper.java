@@ -90,4 +90,14 @@ public class NotificationHelper extends ContextWrapper {
                 .setSmallIcon(R.drawable.ic_hueso_notificacion)
                 .setStyle(messagingStyle);
     }
+
+    public NotificationCompat.Builder getNotification(String title, String body) {
+        return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setAutoCancel(true)
+                .setColor(Color.GRAY)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title));
+    }
 }

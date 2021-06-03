@@ -12,7 +12,7 @@ public interface IFCMApi {
 
     @Headers({
             "Content-Type:application/json",
-            "Authorization:key=AAAAwu4pqbs:APA91bEJhFT1pK_j60Cj1IRy6i99nkH2saPDNgyfaRZuL7PHNlHvJ9g6NkrDgEudxJ0Qe7FK4Mdo0IQKd92S4008iUIAjI1mdAcrvWm_sIFKLcs5K-Iq4NXrOUedIfJOWs4l2hWVeWJD"
+            "Authorization:key=AAAAY9TPn64:APA91bEs5HlxXYrNP2XrHuODGrFeK0hb_Dmst74J7Ni84dGN9TCsIvvg88A4XD7J0FQYavtlPFiL14R85w7sWx6iKWk97Vrc1BcdusTNNdMGfSdnDtX-MipnEySoFP1ZddoDR_uOlUVS"
     })
     @POST("fcm/send")
     Call<FCMResponse> send(@Body FCMBody body);

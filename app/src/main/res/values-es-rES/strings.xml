@@ -40,7 +40,7 @@
         <item>Roedor</item>
         <item>Tortuga</item>
         <item>Pez</item>
-        <item>Pajaro</item>
+        <item>Pájaro</item>
         <item>Reptil</item>
     </string-array>
     <string name="nueva_mascota">Nueva Mascota</string>
@@ -117,6 +117,7 @@
     <string name="precaucion2">La compra/venta de animales está prohibida.</string>
     <string name="precaucion3">No acepte intercambios por otros animales u objetos.</string>
     <string name="precaucion4">A la hora de entregar la mascota, se recomienda quedar en un lugar concurrido.</string>
+    <string name="colocar_marcador">Coloca un marcador</string>
 
     <string-array name="lista_reportes">
         <item>Broma</item>

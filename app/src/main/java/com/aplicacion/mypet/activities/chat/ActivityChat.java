@@ -1,6 +1,7 @@
 package com.aplicacion.mypet.activities.chat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.aplicacion.mypet.R;
 import com.aplicacion.mypet.adaptadores.MessageAdapter;
 import com.aplicacion.mypet.models.Chat;
 import com.aplicacion.mypet.models.FCMBody;
+import com.aplicacion.mypet.models.FCMResponse;
 import com.aplicacion.mypet.models.Mensaje;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.ChatsProvider;
@@ -52,6 +54,9 @@ import java.util.Map;
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityChat extends AppCompatActivity {
     private String extraIdUser1;
@@ -75,7 +80,7 @@ public class ActivityChat extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
 
 
-    private MessageAdapter messageAdapter;
+    private MessageAdapter mAdapter;
 
     private String miNombreDeUsuario;
     private String nombreDeUsuarioChat;
@@ -86,7 +91,10 @@ public class ActivityChat extends AppCompatActivity {
 
     private View actionBarView;
     private long idNotificationChat;
-    private ListenerRegistration listener;
+    private Register register;
+
+
+    private ListenerRegistration mListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,9 +115,10 @@ public class ActivityChat extends AppCompatActivity {
         editTextMensaje = findViewById(R.id.edit_text_mensaje);
 
         recyclerViewMensajes = findViewById(R.id.recyclerViewMensajes);
-        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(ActivityChat.this);
         linearLayoutManager.setStackFromEnd(true);
         recyclerViewMensajes.setLayoutManager(linearLayoutManager);
+        register = new Register();
 
         linearLayoutInformativo = findViewById(R.id.mensaje_informativo_chat);
 
@@ -127,7 +136,7 @@ public class ActivityChat extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("");
         actionBar.setDisplayShowCustomEnabled(true);
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) ActivityChat.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         actionBarView = inflater.inflate(resource,null);
         actionBar.setCustomView(actionBarView);
 
@@ -148,7 +157,7 @@ public class ActivityChat extends AppCompatActivity {
         } else {
             idUserInfo = extraIdUser1;
         }
-        userProvider.getUserRealTime(idUserInfo).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        mListener = userProvider.getUserRealTime(idUserInfo).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                 if (documentSnapshot.exists()){
@@ -228,8 +237,8 @@ public class ActivityChat extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        if (messageAdapter != null) {
-            messageAdapter.startListening();
+        if (mAdapter != null) {
+            mAdapter.startListening();
         }
         ViewedMessageHelper.updateOnline(true, ActivityChat.this);
 
@@ -241,29 +250,20 @@ public class ActivityChat extends AppCompatActivity {
                 .setQuery(query,Mensaje.class)
                 .build();
 
-        messageAdapter = new MessageAdapter(options,this);
-        recyclerViewMensajes.setAdapter(messageAdapter);
-        messageAdapter.startListening();
-        messageAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                super.onItemRangeInserted(positionStart, itemCount);
-                updateViewed();
-                int numeroMensajes = messageAdapter.getItemCount();
-                int ultimoMensajePsocion = linearLayoutManager.findLastCompletelyVisibleItemPosition();
-                if (ultimoMensajePsocion == -1 || (positionStart >= (numeroMensajes-1)
-                        && ultimoMensajePsocion == (positionStart-1))) {
-                    recyclerViewMensajes.scrollToPosition(positionStart);
-                }
-            }
-        });
+        mAdapter = new MessageAdapter(options,ActivityChat.this);
+        recyclerViewMensajes.setAdapter(mAdapter);
+        mAdapter.startListening();
+        mAdapter.registerAdapterDataObserver(register);
     }
+
 
     @Override
     public void onStop() {
         super.onStop();
+        register = null;
+        getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        mAdapter.stopListening();
         comprobarMensajes();
-        messageAdapter.stopListening();
         AppInfo.init(false);
     }
 
@@ -277,11 +277,11 @@ public class ActivityChat extends AppCompatActivity {
         ArrayList<String> ids = new ArrayList<>();
         ids.add(extraIdUser1);
         ids.add(extraIdUser2);
+        chat.setIds(ids);
         Random random = new Random();
         int numero = random.nextInt(1000000);
         idNotificationChat = numero;
         chat.setIdNotificacion(numero);
-        chat.setIds(ids);
         chatsProvider.create(chat);
         extraIdChat = chat.getId();
         getMensajesChat();
@@ -290,6 +290,14 @@ public class ActivityChat extends AppCompatActivity {
     public void cerrarChat(View view) {
         comprobarMensajes();
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mListener != null) {
+            mListener.remove();
+        }
     }
 
     private void comprobarMensajes() {
@@ -303,12 +311,17 @@ public class ActivityChat extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     public void enviarMensaje(View view) {
         String textoMensaje = editTextMensaje.getText().toString();
         if (!textoMensaje.isEmpty()){
             linearLayoutInformativo.setVisibility(View.GONE);
             final Mensaje mensaje = new Mensaje();
-            mensaje.setIdChat(extraIdChat);
             if (authProvider.getUid().equals(extraIdUser1)){
                 mensaje.setIdSender(extraIdUser1);
                 mensaje.setIdReceiver(extraIdUser2);
@@ -317,6 +330,7 @@ public class ActivityChat extends AppCompatActivity {
                 mensaje.setIdReceiver(extraIdUser1);
             }
 
+            mensaje.setIdChat(extraIdChat);
             mensaje.setMensaje(textoMensaje);
             mensaje.setTimestamp(new Date().getTime());
             mensaje.setVisto(false);
@@ -326,7 +340,7 @@ public class ActivityChat extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         editTextMensaje.setText("");
-                        messageAdapter.notifyDataSetChanged();
+                        mAdapter.notifyDataSetChanged();
                         getToken(mensaje);
                     }
                 }
@@ -342,9 +356,7 @@ public class ActivityChat extends AppCompatActivity {
         } else {
             idUser = extraIdUser1;
         }
-        if (idUser == null) {
-            return;
-        }
+
         tokenProvider.getToken(idUser).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -376,8 +388,9 @@ public class ActivityChat extends AppCompatActivity {
 
                 if (mensajeArrayList.size()==0) {
                     mensajeArrayList.add(mensaje);
-                    Collections.reverse(mensajeArrayList);
                 }
+
+                Collections.reverse(mensajeArrayList);
                 Gson gson = new Gson();
                 String mensajes = gson.toJson(mensajeArrayList);
 
@@ -397,7 +410,12 @@ public class ActivityChat extends AppCompatActivity {
         data.put("usernameSender", miNombreDeUsuario);
         data.put("imagenSender", imagenSender);
         FCMBody body = new FCMBody(token, "high", "4500s", data);
-        notificationProvider.sendNotification(body);
+        notificationProvider.sendNotification(body).enqueue(new Callback<FCMResponse>() {
+            @Override
+            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {}
+            @Override
+            public void onFailure(Call<FCMResponse> call, Throwable t) { }
+        });
     }
 
     private void getMyInfoUser() {
@@ -421,10 +439,24 @@ public class ActivityChat extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (authProvider.getAuth().getCurrentUser() != null) {
-            ViewedMessageHelper.updateOnline(false, this);
+        ViewedMessageHelper.updateOnline(false, ActivityChat.this);
+
+
+    }
+
+    private class Register extends RecyclerView.AdapterDataObserver {
+        @Override
+        public void onItemRangeInserted(int positionStart, int itemCount) {
+            super.onItemRangeInserted(positionStart, itemCount);
+            if (register!= null){
+                updateViewed();
+            }
+            int numberMessage = mAdapter.getItemCount();
+            int lastMessagePosition = linearLayoutManager.findLastCompletelyVisibleItemPosition();
+
+            if (lastMessagePosition == -1 || (positionStart >= (numberMessage -1) && lastMessagePosition == (positionStart - 1))) {
+                recyclerViewMensajes.scrollToPosition(positionStart);
+            }
         }
-
-
     }
 }
