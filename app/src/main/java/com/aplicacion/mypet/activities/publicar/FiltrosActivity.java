@@ -62,7 +62,9 @@ public class FiltrosActivity extends AppCompatActivity {
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    System.out.println("-------------------------------------------------------------------"+queryDocumentSnapshots.size());
                 if (queryDocumentSnapshots.size()==0) {
+                    System.out.println("-------------------------------------------------------------------Holaaaaaaa");
                     linearLayoutNoBusqueda.setVisibility(View.VISIBLE);
                 } else {
                     linearLayoutNoBusqueda.setVisibility(View.GONE);

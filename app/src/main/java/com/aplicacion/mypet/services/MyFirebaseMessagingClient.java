@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.aplicacion.mypet.channel.NotificationHelper;
 import com.aplicacion.mypet.models.Mensaje;
+import com.aplicacion.mypet.utils.AppInfo;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
@@ -31,14 +32,11 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         Map<String,String> data = remoteMessage.getData();
 
-        //if (!AppInfo.IN_ACTIVITY_CHAT){
-                System.out.println("----------------------------------------------------------------------------------------------------MyFitrbsdfsd");
+        if (!AppInfo.IN_ACTIVITY_CHAT){
             if (data.get("title") != null) {
-                System.out.println("----------------------------------------------------------------------------------------------------MyFitrbsdfsdasdasdasdasdsadasdsa");
-                //showNotification(data.get("title"),data.get("body"));
                 showNotification(data);
             }
-        //}
+        }
     }
 
     private void showNotification(String title, String body) {

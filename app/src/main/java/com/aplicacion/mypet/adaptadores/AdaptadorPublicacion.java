@@ -89,10 +89,10 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         holder.edad.setText(publicacion.getEdad());
         Picasso.get().load(publicacion.getImagenes().get(0)).into(holder.foto);
 
-        if (publicacion.getSexo().equalsIgnoreCase(context.getString(R.string.femenino))) {
-            holder.sexo.setImageDrawable(context.getDrawable(R.drawable.ic_femenine));
-        } else if (publicacion.getSexo().equalsIgnoreCase(context.getString(R.string.masculino))) {
-            holder.sexo.setImageDrawable(context.getDrawable(R.drawable.ic_masculino));
+        if (publicacion.getSexo().equalsIgnoreCase(context.getString(R.string.desc_femenino))) {
+            holder.sexo.setImageResource(R.drawable.ic_femenine);
+        } else if (publicacion.getSexo().equalsIgnoreCase(context.getString(R.string.desc_masculino))) {
+            holder.sexo.setImageResource(R.drawable.ic_masculino);
         }
 
         holder.viewHolder.setOnClickListener(new View.OnClickListener() {

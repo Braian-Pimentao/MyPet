@@ -206,10 +206,10 @@ public class ActivityPublicacion extends AppCompatActivity {
 
                     if(documentSnapshot.contains("sexo")){
                         String sexo = documentSnapshot.getString("sexo");
-                        if (sexo.equalsIgnoreCase(getString(R.string.femenino))) {
-                            imagenSexo.setImageDrawable(getDrawable(R.drawable.ic_femenine));
-                        } else if (sexo.equalsIgnoreCase(getString(R.string.masculino))) {
-                            imagenSexo.setImageDrawable(getDrawable(R.drawable.ic_masculino));
+                        if (sexo.equalsIgnoreCase(getString(R.string.desc_femenino))) {
+                            imagenSexo.setImageResource(R.drawable.ic_femenine);
+                        } else if (sexo.equalsIgnoreCase(getString(R.string.desc_masculino))) {
+                            imagenSexo.setImageResource(R.drawable.ic_masculino);
                         }
                     }
 
