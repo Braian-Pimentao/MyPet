@@ -17,36 +17,43 @@
         android:layout_marginTop="5dp"
         android:src="@drawable/ic_flecha_atras_blanca" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imagen_perfil_chat"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:civ_circle_background_color="@color/white"
-        android:src="@drawable/ic_person_2"
-        android:scaleType="centerCrop"
-        android:layout_marginEnd="10dp"
-        android:layout_toEndOf="@+id/ir_atras_chat"
-        android:layout_marginStart="10dp"/>
-
-    <TextView
-        android:id="@+id/user_chat_toolbar"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/mostrarPerfilUsuarioChat"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/usuario"
-        android:textColor="@color/white"
-        android:maxLines="1"
-        android:layout_toEndOf="@+id/imagen_perfil_chat"
-        android:textSize="16sp" />
+        android:layout_toEndOf="@+id/ir_atras_chat">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imagen_perfil_chat"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:civ_circle_background_color="@color/white"
+            android:src="@drawable/ic_person_2"
+            android:scaleType="centerCrop"
+            android:layout_marginEnd="10dp"
 
-    <TextView
-        android:id="@+id/info_user_toolbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:maxLines="1"
-        android:layout_toEndOf="@+id/imagen_perfil_chat"
-        android:layout_below="@id/user_chat_toolbar"
-        android:textSize="14sp" />
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/user_chat_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/usuario"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            android:layout_toEndOf="@+id/imagen_perfil_chat"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/info_user_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:maxLines="1"
+            android:layout_toEndOf="@+id/imagen_perfil_chat"
+            android:layout_below="@id/user_chat_toolbar"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
 
 
 

@@ -51,15 +51,7 @@ public class NotificationHelper extends ContextWrapper {
         return manager;
     }
 
-    public NotificationCompat.Builder getNotificationCompat(String title, String body) {
-        return new NotificationCompat.Builder(getApplicationContext(),CHANNEL_ID)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setAutoCancel(true)
-                .setColor(Color.GRAY)
-                .setSmallIcon(R.drawable.ic_hueso_notificacion)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title));
-    }
+
 
     public NotificationCompat.Builder getNotificationMensaje(Mensaje[] mensajes, String usernameSender, Bitmap bitmap) {
         Person person = null;

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aplicacion.mypet.R;
+import com.aplicacion.mypet.activities.perfil.ActivityUsuario;
 import com.aplicacion.mypet.adaptadores.MessageAdapter;
 import com.aplicacion.mypet.models.Chat;
 import com.aplicacion.mypet.models.FCMBody;
@@ -144,11 +146,30 @@ public class ActivityChat extends AppCompatActivity {
         nombreUsuario = actionBarView.findViewById(R.id.user_chat_toolbar);
         infoChat = actionBarView.findViewById(R.id.info_user_toolbar);
 
+        RelativeLayout layout = actionBarView.findViewById(R.id.mostrarPerfilUsuarioChat);
+
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String idUser = "";
+                if (authProvider.getUid().equals(extraIdUser1)){
+                    idUser = extraIdUser2;
+                } else {
+                    idUser = extraIdUser1;
+                }
+                Intent userIntent = new Intent(ActivityChat.this, ActivityUsuario.class);
+                userIntent.putExtra("idUser", idUser);
+                startActivity(userIntent);
+            }
+        });
+
 
 
         getUserInfo();
 
     }
+
+
 
     private void getUserInfo() {
         String idUserInfo = "";
@@ -213,6 +234,7 @@ public class ActivityChat extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         checkifChatExist();
+        register = new Register();
     }
 
     private void updateViewed() {
@@ -409,6 +431,9 @@ public class ActivityChat extends AppCompatActivity {
         data.put("mensajes", mensajes);
         data.put("usernameSender", miNombreDeUsuario);
         data.put("imagenSender", imagenSender);
+        data.put("idSender", mensaje.getIdSender());
+        data.put("idReceiver", mensaje.getIdReceiver());
+        data.put("idChat", mensaje.getIdChat());
         FCMBody body = new FCMBody(token, "high", "4500s", data);
         notificationProvider.sendNotification(body).enqueue(new Callback<FCMResponse>() {
             @Override
