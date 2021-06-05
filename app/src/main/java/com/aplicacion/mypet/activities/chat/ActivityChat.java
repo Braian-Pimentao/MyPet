@@ -340,7 +340,7 @@ public class ActivityChat extends AppCompatActivity {
     }
 
     public void enviarMensaje(View view) {
-        String textoMensaje = editTextMensaje.getText().toString();
+        String textoMensaje = editTextMensaje.getText().toString().trim();
         if (!textoMensaje.isEmpty()){
             linearLayoutInformativo.setVisibility(View.GONE);
             final Mensaje mensaje = new Mensaje();

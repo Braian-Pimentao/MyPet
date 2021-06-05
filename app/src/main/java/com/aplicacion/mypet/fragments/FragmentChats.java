@@ -118,12 +118,15 @@ public class FragmentChats extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (chatsAdapter.getListener() != null) {
-            chatsAdapter.getListener().remove();
+        if (chatsAdapter!= null) {
+            if (chatsAdapter.getListener() != null) {
+                chatsAdapter.getListener().remove();
+            }
+            if (chatsAdapter.getListenerLastMessage() != null) {
+                chatsAdapter.getListenerLastMessage().remove();
+            }
         }
-        if (chatsAdapter.getListenerLastMessage() != null) {
-            chatsAdapter.getListenerLastMessage().remove();
-        }
+
         if (mListener != null) {
             mListener.remove();
         }
