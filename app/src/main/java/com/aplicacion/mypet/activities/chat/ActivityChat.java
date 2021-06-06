@@ -293,7 +293,6 @@ public class ActivityChat extends AppCompatActivity {
         Chat chat = new Chat();
         chat.setIdUser1(extraIdUser1);
         chat.setIdUser2(extraIdUser2);
-        chat.setWriting(false);
         chat.setTimestamp(new Date().getTime());
         chat.setId(extraIdUser1+extraIdUser2);
         ArrayList<String> ids = new ArrayList<>();
