@@ -14,7 +14,6 @@ import id.zelory.compressor.Compressor;
  */
 
 public class CompressorBitmapImage {
-
     /*
      * Metodo que permite comprimir imagenes y transformarlas a bitmap
      */

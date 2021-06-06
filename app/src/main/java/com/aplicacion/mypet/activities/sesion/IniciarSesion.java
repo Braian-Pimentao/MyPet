@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.aplicacion.mypet.R;
 import com.aplicacion.mypet.models.User;
 import com.aplicacion.mypet.providers.AuthProvider;
+import com.aplicacion.mypet.providers.TokenProvider;
 import com.aplicacion.mypet.providers.UserProvider;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -42,6 +43,7 @@ public class IniciarSesion extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
     private UserProvider userProvider;
     private AlertDialog dialog;
+    private TokenProvider tokenProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class IniciarSesion extends AppCompatActivity {
         textInputPassword = findViewById(R.id.inicio_sesion_password);
 
         auth = new AuthProvider();
+        tokenProvider = new TokenProvider();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -91,6 +94,7 @@ public class IniciarSesion extends AppCompatActivity {
                     dialog.dismiss();
                     if (task.isSuccessful()) {
                         Toast.makeText(IniciarSesion.this, getString(R.string.inicio_correcto), Toast.LENGTH_LONG).show();
+                        tokenProvider.create(auth.getUid());
                         finish();
                     } else {
                         Toast.makeText(IniciarSesion.this, getString(R.string.inicio_incorrecto), Toast.LENGTH_LONG).show();
@@ -173,6 +177,7 @@ public class IniciarSesion extends AppCompatActivity {
                 }
 
                 Toast.makeText(IniciarSesion.this, getString(R.string.inicio_correcto_google), Toast.LENGTH_LONG).show();
+                tokenProvider.create(auth.getUid());
                 finish();
             }
         });

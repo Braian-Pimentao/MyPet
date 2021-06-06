@@ -21,7 +21,6 @@ import com.aplicacion.mypet.fragments.FragmentFavorito;
 import com.aplicacion.mypet.fragments.FragmentHome;
 import com.aplicacion.mypet.fragments.FragmentPerfil;
 import com.aplicacion.mypet.providers.AuthProvider;
-import com.aplicacion.mypet.providers.TokenProvider;
 import com.aplicacion.mypet.providers.UserProvider;
 import com.aplicacion.mypet.utils.ViewedMessageHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,7 +30,6 @@ public class MainActivity extends AppCompatActivity{
     private BottomNavigationView bottomNavigation;
     private AuthProvider auth;
     private UserProvider userProvider;
-    TokenProvider tokenProvider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_MyPet);
@@ -50,11 +48,9 @@ public class MainActivity extends AppCompatActivity{
         bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
         auth = new AuthProvider();
-        tokenProvider = new TokenProvider();
         userProvider = new UserProvider();
 
         openFragment(new FragmentHome());
-        createToken();
 
 
 
@@ -121,11 +117,6 @@ public class MainActivity extends AppCompatActivity{
                 }
             };
 
-    private void createToken() {
-        if (auth.getAuth().getCurrentUser()!=null) {
-            tokenProvider.create(auth.getUid());
-        }
-    }
 
     public void botonPublicar(View v){
         if (auth.getAuth().getCurrentUser()!=null) {

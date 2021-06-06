@@ -32,7 +32,7 @@ import com.aplicacion.mypet.models.SliderItem;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.FavoritoProvider;
 import com.aplicacion.mypet.providers.PublicacionProvider;
-import com.aplicacion.mypet.providers.Reporte;
+import com.aplicacion.mypet.models.Reporte;
 import com.aplicacion.mypet.providers.ReporterProvider;
 import com.aplicacion.mypet.providers.UserProvider;
 import com.aplicacion.mypet.utils.RelativeTime;

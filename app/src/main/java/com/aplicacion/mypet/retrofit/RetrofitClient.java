@@ -9,8 +9,6 @@ public class RetrofitClient {
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-        System.out.println("-------------------------------------------------------------SendNotification22222222222222222");
         return retrofit;
     }
 }

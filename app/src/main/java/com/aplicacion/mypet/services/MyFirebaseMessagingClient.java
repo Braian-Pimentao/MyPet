@@ -22,7 +22,6 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.util.Map;
-import java.util.Random;
 
 public class MyFirebaseMessagingClient extends FirebaseMessagingService {
 
@@ -44,15 +43,6 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         }
     }
 
-    private void showNotification(String title, String body) {
-        NotificationHelper notificationHelper = new NotificationHelper(getBaseContext());
-        NotificationCompat.Builder builder = notificationHelper.getNotification(title, body);
-        Random random = new Random();
-        int n = random.nextInt(10000);
-        notificationHelper.getManager().notify(n, builder.build());
-    }
-
-
     private void showNotification(Map<String,String> data) {
         String title = data.get("title");
         String body = data.get("body");
@@ -64,7 +54,6 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         String idChat = data.get("idChat");
         int idNotificationChat = Integer.parseInt(data.get("idNotification"));
 
-
         Intent activityChat = new Intent(this, ActivityChat.class);
         activityChat.putExtra("idChat",idChat);
         activityChat.putExtra("idUser1",idSender);
@@ -73,9 +62,6 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
         stackBuilder.addParentStack(ActivityChat.class);
         stackBuilder.addNextIntent(activityChat);
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(1,PendingIntent.FLAG_UPDATE_CURRENT);
-
-
-
 
         Gson gson = new Gson();
         Mensaje[] mensajes = gson.fromJson(mensajeJSON,Mensaje[].class);
