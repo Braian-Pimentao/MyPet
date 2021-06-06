@@ -99,6 +99,7 @@ ActivityCrearPublicacion extends AppCompatActivity implements BottomSheetFragmen
 
 
         urlImagenes = new ArrayList<>();
+        imagenesAlmacenadas = new ArrayList<>();
         publicacionProvider = new PublicacionProvider();
 
         authProvider = new AuthProvider();

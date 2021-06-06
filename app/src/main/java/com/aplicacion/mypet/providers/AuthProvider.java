@@ -22,6 +22,10 @@ public class AuthProvider {
         return auth.signInWithCredential(credential);
     }
 
+    public Task<AuthResult> registerUser(String email, String password){
+        return auth.createUserWithEmailAndPassword(email,password);
+    }
+
     public String getUid() {
         if (auth.getCurrentUser()!=null)
             return  auth.getCurrentUser().getUid();
@@ -43,9 +47,6 @@ public class AuthProvider {
             return null;
     }
 
-    public Task<AuthResult> registerUser(String email, String password){
-        return auth.createUserWithEmailAndPassword(email,password);
-    }
 
     public FirebaseAuth getAuth() {
         return auth;

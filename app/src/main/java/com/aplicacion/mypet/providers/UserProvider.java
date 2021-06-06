@@ -22,13 +22,11 @@ public class UserProvider {
         return collectionReference.document(id).get();
     }
 
-    public DocumentReference getUserRealTime(String id) {
-        return collectionReference.document(id);
-    }
-
     public Task<Void> create(User user){
         return collectionReference.document(user.getId()).set(user);
     }
+
+
 
     public Task<Void> update(User user){
         Map<String, Object> map = new HashMap<>();
@@ -37,6 +35,10 @@ public class UserProvider {
         map.put("urlPerfil",user.getUrlPerfil());
         map.put("ocultarUbicacion",user.isOcultarUbicacion());
         return collectionReference.document(user.getId()).update(map);
+    }
+
+    public DocumentReference getUserRealTime(String id) {
+        return collectionReference.document(id);
     }
 
     public Task<Void> updateOnline(String idUser, boolean estado){
