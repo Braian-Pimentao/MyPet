@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION_UBICATION);
@@ -52,6 +55,10 @@ public class MainActivity extends AppCompatActivity{
 
         openFragment(new FragmentHome());
         createToken();
+
+
+
+
     }
 
     public void openFragment(Fragment fragment) {
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onStart() {
         super.onStart();
+
         if (auth.getAuth().getCurrentUser() != null) {
             ViewedMessageHelper.updateOnline(true, this);
         }
@@ -121,8 +129,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void botonPublicar(View v){
         if (auth.getAuth().getCurrentUser()!=null) {
-            System.out.println(auth.getEmail());
-            System.out.println(auth.getNombreUsuario());
+
             Intent publicar = new Intent(this, ActivityCrearPublicacion.class);
             startActivity(publicar);
         } else {
