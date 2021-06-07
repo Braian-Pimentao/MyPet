@@ -165,13 +165,13 @@ public class ActivityPublicacion extends AppCompatActivity {
     }
 
     private void instanciarSlider() {
-        sliderAdaptador = new SliderAdaptador(ActivityPublicacion.this,listaSliderItem);
+        sliderAdaptador = new SliderAdaptador
+                (ActivityPublicacion.this,listaSliderItem);
         sliderView.setSliderAdapter(sliderAdaptador);
         sliderView.setIndicatorSelectedColor(R.color.principal_app);
         sliderView.setIndicatorAnimation(IndicatorAnimationType.THIN_WORM);
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
         sliderView.setIndicatorUnselectedColor(Color.GRAY);
-
     }
 
     private void getPost(){

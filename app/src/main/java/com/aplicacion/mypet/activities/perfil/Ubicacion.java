@@ -192,7 +192,7 @@ public class Ubicacion extends FragmentActivity implements OnMapReadyCallback, G
 
         } else {
             if (circuloMarca != null) {
-            marcador = mMap.addMarker(new MarkerOptions().position(circuloMarca.getCenter())
+                marcador = mMap.addMarker(new MarkerOptions().position(circuloMarca.getCenter())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true));
                 circuloMarca.remove();
             }

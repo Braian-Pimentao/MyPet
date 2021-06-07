@@ -41,9 +41,7 @@
                 app:sliderIndicatorPadding="3dp"
                 app:sliderIndicatorRadius="2dp"
                 app:sliderIndicatorSelectedColor="@color/principal_app"
-
                 app:sliderIndicatorUnselectedColor="@color/gris"
-
                 app:sliderScrollTimeInSec="1" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
