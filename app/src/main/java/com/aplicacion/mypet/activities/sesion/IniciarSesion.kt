@@ -79,7 +79,7 @@ class IniciarSesion : AppCompatActivity() {
                 mDialog.dismiss()
                 if (task.isSuccessful) {
                     Toast.makeText(this@IniciarSesion, getString(R.string.inicio_correcto), Toast.LENGTH_LONG).show()
-                    mTokenProvider.create(mAuth.getUid())
+                    mTokenProvider.create(mAuth.uid)
                     finish()
                 } else {
                     Toast.makeText(this@IniciarSesion, getString(R.string.inicio_incorrecto), Toast.LENGTH_LONG).show()
