@@ -1,6 +1,6 @@
 package com.aplicacion.mypet.providers;
 
-import com.aplicacion.mypet.models.User;
+import com.aplicacion.mypet.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,7 +33,7 @@ public class UserProvider {
         map.put("username",user.getUsername());
         map.put("ubicacion",user.getUbicacion());
         map.put("urlPerfil",user.getUrlPerfil());
-        map.put("ocultarUbicacion",user.isOcultarUbicacion());
+        map.put("ocultarUbicacion",user.getOcultarUbicacion());
         return collectionReference.document(user.getId()).update(map);
     }
 
