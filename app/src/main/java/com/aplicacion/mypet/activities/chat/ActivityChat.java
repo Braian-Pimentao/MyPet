@@ -163,10 +163,7 @@ public class ActivityChat extends AppCompatActivity {
             }
         });
 
-
-
         getUserInfo();
-
     }
 
 
@@ -464,8 +461,6 @@ public class ActivityChat extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         ViewedMessageHelper.updateOnline(false, ActivityChat.this);
-
-
     }
 
     private class Register extends RecyclerView.AdapterDataObserver {
