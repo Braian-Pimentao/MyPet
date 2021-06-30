@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.aplicacion.mypet.R
-import com.aplicacion.mypet.User
+import com.aplicacion.mypet.models.User
 import com.aplicacion.mypet.providers.AuthProvider
 import com.aplicacion.mypet.providers.TokenProvider
 import com.aplicacion.mypet.providers.UserProvider

@@ -1,6 +1,6 @@
 package com.aplicacion.mypet.providers;
 
-import com.aplicacion.mypet.User;
+import com.aplicacion.mypet.models.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;

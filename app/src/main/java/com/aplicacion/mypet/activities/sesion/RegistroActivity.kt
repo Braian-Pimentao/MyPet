@@ -14,27 +14,27 @@ import dmax.dialog.SpotsDialog
 import java.util.regex.Pattern
 
 class RegistroActivity : AppCompatActivity() {
-    private lateinit var textNombre: TextInputEditText
-    private lateinit var textEmail: TextInputEditText
-    private lateinit var textPassword: TextInputEditText
-    private lateinit var textConfirmPassword: TextInputEditText
-    private lateinit var auth: AuthProvider
-    private lateinit var userProvider: UserProvider
-    private lateinit var dialog: AlertDialog
+    private lateinit var mTextNombre: TextInputEditText
+    private lateinit var mTextEmail: TextInputEditText
+    private lateinit var mTextPassword: TextInputEditText
+    private lateinit var mTextConfirmPassword: TextInputEditText
+    private lateinit var mAuth: AuthProvider
+    private lateinit var mUserProvider: UserProvider
+    private lateinit var mDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)
 
-        textNombre = findViewById(R.id.campo_nombre)
-        textEmail = findViewById(R.id.campo_email)
-        textPassword = findViewById(R.id.campo_password)
-        textConfirmPassword = findViewById(R.id.campo_confirmar_password)
+        mTextNombre = findViewById(R.id.campo_nombre)
+        mTextEmail = findViewById(R.id.campo_email)
+        mTextPassword = findViewById(R.id.campo_password)
+        mTextConfirmPassword = findViewById(R.id.campo_confirmar_password)
 
-        auth = AuthProvider()
-        userProvider = UserProvider()
+        mAuth = AuthProvider()
+        mUserProvider = UserProvider()
 
-        dialog = SpotsDialog.Builder()
+        mDialog = SpotsDialog.Builder()
                 .setContext(this)
                 .setMessage(R.string.cargando_registro)
                 .setCancelable(false).build()
@@ -46,10 +46,10 @@ class RegistroActivity : AppCompatActivity() {
     }
 
     fun registrarUsuario(view: View?) {
-        val nombreUsuario = textNombre.text.toString()
-        val email = textEmail.text.toString()
-        val password = textPassword.text.toString()
-        val confirmPassword = textConfirmPassword.text.toString()
+        val nombreUsuario = mTextNombre.text.toString()
+        val email = mTextEmail.text.toString()
+        val password = mTextPassword.text.toString()
+        val confirmPassword = mTextConfirmPassword.text.toString()
         if (nombreUsuario.isNotEmpty()
                 && email.isNotEmpty()
                 && password.isNotEmpty()
@@ -73,8 +73,8 @@ class RegistroActivity : AppCompatActivity() {
     }
 
     private fun createUser(nombreUsuario: String, email: String, password: String) {
-        dialog.show()
-        auth.registerUser(email, password).addOnCompleteListener { task ->
+        mDialog.show()
+        mAuth.registerUser(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 addDataUser(email, nombreUsuario)
             } else {
@@ -84,14 +84,14 @@ class RegistroActivity : AppCompatActivity() {
     }
 
     private fun addDataUser(email: String, nombreUsuario: String) {
-        val id = auth.uid
+        val id = mAuth.uid
         val user = User()
         user.id = id
         user.email = email
         user.username = nombreUsuario
-        userProvider.create(user).addOnCompleteListener { task ->
+        mUserProvider.create(user).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                dialog.dismiss()
+                mDialog.dismiss()
                 Toast.makeText(this@RegistroActivity, getString(R.string.register_complete), Toast.LENGTH_LONG).show()
                 finish()
             } else Toast.makeText(this@RegistroActivity, getString(R.string.register_incomplete), Toast.LENGTH_LONG).show()
