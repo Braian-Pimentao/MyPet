@@ -22,9 +22,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_PERMISSION_UBICATION = 102
-    private lateinit var bottomNavigation: BottomNavigationView
-    private lateinit var auth: AuthProvider
-    private lateinit var userProvider: UserProvider
+    private lateinit var mBottomNavigation: BottomNavigationView
+    private lateinit var mAuth: AuthProvider
+    private lateinit var mUserProvider: UserProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_MyPet)
@@ -36,33 +36,21 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), REQUEST_PERMISSION_UBICATION)
         }
         var prueba = true
-        bottomNavigation = findViewById(R.id.nav_view)
-        bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
+        mBottomNavigation = findViewById(R.id.nav_view)
+        mBottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
 
-        auth = AuthProvider()
-        userProvider = UserProvider()
+        mAuth = AuthProvider()
+        mUserProvider = UserProvider()
 
         openFragment(FragmentHome())
     }
 
     var navigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> {
-                openFragment(FragmentHome())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_fav -> {
-                openFragment(FragmentFavorito())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_mensajes -> {
-                openFragment(FragmentChats())
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_perfil -> {
-                openFragment(FragmentPerfil())
-                return@OnNavigationItemSelectedListener true
-            }
+            R.id.navigation_home -> openFragment(FragmentHome())
+            R.id.navigation_fav -> openFragment(FragmentFavorito())
+            R.id.navigation_mensajes -> openFragment(FragmentChats())
+            R.id.navigation_perfil ->  openFragment(FragmentPerfil())
         }
         true
     }
@@ -76,14 +64,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (auth.auth.currentUser != null) {
+        if (mAuth.auth.currentUser != null) {
             ViewedMessageHelper.updateOnline(true, this)
         }
     }
 
     override fun onPause() {
         super.onPause()
-        if (auth.auth.currentUser != null) {
+        if (mAuth.auth.currentUser != null) {
             ViewedMessageHelper.updateOnline(false, this)
         }
     }
@@ -99,7 +87,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun botonPublicar(v: View?) {
-        if (auth.auth.currentUser != null) {
+        if (mAuth.auth.currentUser != null) {
             val publicar = Intent(this, ActivityCrearPublicacion::class.java)
             startActivity(publicar)
         } else {
