@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), REQUEST_PERMISSION_UBICATION)
         }
-        var prueba = true
         mBottomNavigation = findViewById(R.id.nav_view)
         mBottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
 
@@ -86,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun botonPublicar(v: View?) {
+    fun botonPublicar(view: View?) {
         if (mAuth.auth.currentUser != null) {
             val publicar = Intent(this, ActivityCrearPublicacion::class.java)
             startActivity(publicar)

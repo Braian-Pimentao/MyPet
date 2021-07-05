@@ -61,19 +61,19 @@ class ActivityUsuario : AppCompatActivity() {
     }
 
     private fun getPostNumber() {
-        publicacionProvider!!.getPostByUser(idUser).get().addOnSuccessListener { queryDocumentSnapshots ->
+        publicacionProvider.getPostByUser(idUser).get().addOnSuccessListener { queryDocumentSnapshots ->
             val numeroPublicaciones = queryDocumentSnapshots.size()
             publicacionesContador.text = numeroPublicaciones.toString()
             if (numeroPublicaciones > 0) {
-                noHayPublicaciones!!.visibility = View.GONE
+                noHayPublicaciones.visibility = View.GONE
             } else {
-                noHayPublicaciones!!.visibility = View.VISIBLE
+                noHayPublicaciones.visibility = View.VISIBLE
             }
         }
     }
 
     private fun getUser() {
-        userProvider!!.getUser(idUser).addOnSuccessListener { documentSnapshot ->
+        userProvider.getUser(idUser).addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot.exists()) {
                 if (documentSnapshot.contains("username")) {
                     nombre = documentSnapshot.getString("username")!!
@@ -93,7 +93,7 @@ class ActivityUsuario : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val query = publicacionProvider!!.getPostByUser(idUser)
+        val query = publicacionProvider.getPostByUser(idUser)
         val options = FirestoreRecyclerOptions.Builder<Publicacion>()
                 .setQuery(query, Publicacion::class.java)
                 .build()
