@@ -34,9 +34,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".activities.perfil.Ubicacion"
-            android:label="@string/title_activity_ubicacion"></activity>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6229697190551796~4873626265"/>
+
+
         <activity android:name=".activities.configuracion.ActivityInformacion" />
         <activity
             android:name=".activities.chat.ActivityChat"

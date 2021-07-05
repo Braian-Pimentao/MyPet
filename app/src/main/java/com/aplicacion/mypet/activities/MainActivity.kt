@@ -18,18 +18,25 @@ import com.aplicacion.mypet.fragments.FragmentPerfil
 import com.aplicacion.mypet.providers.AuthProvider
 import com.aplicacion.mypet.providers.UserProvider
 import com.aplicacion.mypet.utils.ViewedMessageHelper
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.analytics.FirebaseAnalytics
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_PERMISSION_UBICATION = 102
     private lateinit var mBottomNavigation: BottomNavigationView
     private lateinit var mAuth: AuthProvider
     private lateinit var mUserProvider: UserProvider
+    private lateinit var mFirebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_MyPet)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

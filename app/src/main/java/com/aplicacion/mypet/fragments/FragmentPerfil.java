@@ -19,6 +19,11 @@ import com.aplicacion.mypet.activities.perfil.ActivityUsuario;
 import com.aplicacion.mypet.activities.sesion.IniciarSesion;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.UserProvider;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
@@ -41,6 +46,8 @@ public class FragmentPerfil extends Fragment {
     private String nombre;
     private CircleImageView imagenPerfil;
 
+    private AdView mAdView;
+
     public FragmentPerfil() {
         // Required empty public constructor
     }
@@ -53,6 +60,17 @@ public class FragmentPerfil extends Fragment {
         vista = inflater.inflate(R.layout.fragment_perfil, container, false);
         botonConfiguracion = vista.findViewById(R.id.configuracion);
         botonSobreNosotros = vista.findViewById(R.id.sobre_nosotros);
+
+
+        MobileAds.initialize(vista.getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = vista.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         PulsarBoton pulsarBoton = new PulsarBoton();
         botonConfiguracion.setOnClickListener(pulsarBoton);

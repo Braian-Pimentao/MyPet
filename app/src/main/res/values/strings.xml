@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MyPet</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-6229697190551796/4776782710</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="recyclerview" translatable="false">RecyclerView</string>
     <string name="textview" translatable="false">TextView</string>
