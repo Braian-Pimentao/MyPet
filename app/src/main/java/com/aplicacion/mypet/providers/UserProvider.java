@@ -33,7 +33,7 @@ public class UserProvider {
         map.put("username",user.getUsername());
         map.put("ubicacion",user.getUbicacion());
         map.put("urlPerfil",user.getUrlPerfil());
-        map.put("ocultarUbicacion",user.isOcultarUbicacion());
+        map.put("ocultarUbicacion",user.getOcultarUbicacion());
         return collectionReference.document(user.getId()).update(map);
     }
 

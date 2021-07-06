@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
 
     <application
         android:allowBackup="true"
@@ -20,15 +21,7 @@
         android:roundIcon="@mipmap/huesoicono"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPet">
-        <activity android:name=".activities.configuracion.ActivityInformacion" />
-        <activity android:name=".activities.chat.ActivityChat"
-            android:parentActivityName=".activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity" />
-        </activity>
-        <activity android:name=".activities.publicar.FiltrosActivity" />
-        <activity android:name=".activities.publicar.ActivityPublicacion" />
+        <activity android:name=".activities.publicar.ActivityCrearPublicacion"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -40,6 +33,21 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6229697190551796~4873626265" />
+
+        <activity android:name=".activities.configuracion.ActivityInformacion" />
+        <activity
+            android:name=".activities.chat.ActivityChat"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+        <activity android:name=".activities.publicar.FiltrosActivity" />
+        <activity android:name=".activities.publicar.ActivityPublicacion" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
