@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/huesoicono"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyPet">
-        <activity android:name=".activities.publicar.FiltrosActivity"></activity>
+        <activity android:name=".activities.configuracion.ActivityConfiguracion"></activity>
+        <activity android:name=".activities.publicar.FiltrosActivity" />
         <activity android:name=".activities.publicar.ActivityPublicacion" />
         <activity android:name=".activities.publicar.ActivityCrearPublicacion" />
         <!--
