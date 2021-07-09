@@ -24,7 +24,7 @@ class TokenProvider() {
         }
     }
 
-    fun getToken(idUser: String?): Task<DocumentSnapshot?>? {
+    fun getToken(idUser: String?): Task<DocumentSnapshot?> {
         return collectionReference.document(idUser!!).get()
     }
 
