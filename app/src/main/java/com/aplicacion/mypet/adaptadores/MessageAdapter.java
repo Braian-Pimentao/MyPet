@@ -62,7 +62,7 @@ public class MessageAdapter extends FirestoreRecyclerAdapter<Mensaje, MessageAda
             holder.imagenVisto.setVisibility(View.GONE);
         }
 
-        if(mensaje.isVisto()) {
+        if(mensaje.getVisto()) {
             holder.imagenVisto.setImageResource(R.drawable.ic_check_azul);
         } else {
             holder.imagenVisto.setImageResource(R.drawable.ic_check_gris);

@@ -32,6 +32,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class ActivityChat : AppCompatActivity() {
     private lateinit var extraIdUser1: String
@@ -286,7 +287,7 @@ class ActivityChat : AppCompatActivity() {
             mensaje.idChat = extraIdChat
             mensaje.mensaje = textoMensaje
             mensaje.timestamp = Date().time
-            mensaje.isVisto = false
+            mensaje.visto = false
 
             mensajeProvider.create(mensaje).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -338,16 +339,19 @@ class ActivityChat : AppCompatActivity() {
 
     private fun enviarNotificacion(token: String, mensajes: String, mensaje: Mensaje) {
         val data: MutableMap<String, String> = HashMap()
+
         data["title"] = getString(R.string.mensaje_nuevo)
-        data["body"] = mensaje.mensaje
+        data["body"] = mensaje.mensaje.toString()
         data["idNotification"] = idNotificationChat.toString()
         data["mensajes"] = mensajes
         data["usernameSender"] = miNombreDeUsuario
         data["imagenSender"] = imagenSender
-        data["idSender"] = mensaje.idSender
-        data["idReceiver"] = mensaje.idReceiver
-        data["idChat"] = mensaje.idChat
+        data["idSender"] = mensaje.idSender.toString()
+        data["idReceiver"] = mensaje.idReceiver.toString()
+        data["idChat"] = mensaje.idChat.toString()
+        print("-------------------------------------------$data")
         val body = FCMBody(token, "high", "4500s", data)
+        println("-------------------------------dfgdfgdfgdfgdfgdfgdfgdf------------" + body.data)
         notificationProvider.sendNotification(body).enqueue(object : Callback<FCMResponse?> {
             override fun onResponse(call: Call<FCMResponse?>, response: Response<FCMResponse?>) {}
             override fun onFailure(call: Call<FCMResponse?>, t: Throwable) {}

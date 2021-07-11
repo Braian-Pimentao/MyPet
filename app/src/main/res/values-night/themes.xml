@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.MyPet" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.MyPet" parent="Theme.MaterialComponents.NoActionBar.Bridge">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/principal_app</item>
         <item name="colorPrimaryDark">@color/principal_app</item>
@@ -8,14 +8,14 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="estiloCampoDeTexto" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="estiloCampoDeTexto">
         <item name="android:textColorHint">@color/white</item>
         <item name="colorAccent">@color/principal_app</item>
         <item name="colorControlNormal">@color/principal_app</item>
         <item name="colorControlActivated">@color/principal_app</item>
     </style>
 
-    <style name="colorDeTexto" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="colorDeTexto">
         <item name="android:textColor">@color/white</item>
         <item name="android:drawableTint">@color/white</item>
     </style>
@@ -59,5 +59,11 @@
 
     <style name="splashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_mypet</item>
+    </style>
+
+    <style name="myBottomNavigationStyle">
+        <item name="backgroundTint">@color/grisOscuro</item>
+        <item name="itemIconTint">@drawable/bottom_navigation_colors_oscuro</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_colors_oscuro</item>
     </style>
 </resources>

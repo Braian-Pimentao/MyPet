@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -47,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         mBottomNavigation = findViewById(R.id.nav_view)
         mBottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
         mBadge = mBottomNavigation.getOrCreateBadge(R.id.navigation_mensajes)
+        mBadge.backgroundColor = getColor(R.color.secundario_app)
+        mBadge.maxCharacterCount = 10
+
 
         mAuth = AuthProvider()
         mUserProvider = UserProvider()
@@ -108,7 +112,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun contadorMensajes() {
-
         if (mAuth.auth.currentUser != null) {
             mMensajeProvider.getMensajesNoLeidosUsuario(mAuth.uid).addSnapshotListener {value, error ->
                 if (value!!.size()>0) {

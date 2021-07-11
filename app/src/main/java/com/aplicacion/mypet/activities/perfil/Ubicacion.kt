@@ -28,7 +28,7 @@ class Ubicacion : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickL
     private lateinit var mMap: GoogleMap
     private val RADIO: Double = 600.0
     private lateinit var locationManager: LocationManager
-    private lateinit var ubicacionReal: Location
+    private var ubicacionReal: Location? = null
 
     private lateinit var ubicacionMarca: Location
     private lateinit var marcador: Marker
@@ -90,7 +90,7 @@ class Ubicacion : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickL
         }
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        ubicacionReal = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)!!
+        ubicacionReal = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         mMap.isMyLocationEnabled=true
     }
 
@@ -108,8 +108,8 @@ class Ubicacion : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickL
         if (botonPulsado.id == R.id.boton_gurdar_ubicacion) {
             if (locationManager!= null) {
                 val data = Intent()
-                data.putExtra("latitude", ubicacionReal.latitude)
-                data.putExtra("longitude", ubicacionReal.longitude)
+                data.putExtra("latitude", ubicacionReal?.latitude)
+                data.putExtra("longitude", ubicacionReal?.longitude)
                 data.putExtra("ocultarUbicacion", verificarOcultarUbicacion)
                 setResult(RESULT_OK, data)
                 finish()
