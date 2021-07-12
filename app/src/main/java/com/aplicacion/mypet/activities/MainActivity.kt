@@ -1,12 +1,14 @@
 package com.aplicacion.mypet.activities
 
 import android.Manifest
+import android.R.attr
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.MenuItem
+import android.os.Parcelable
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.aplicacion.mypet.R
@@ -20,10 +22,11 @@ import com.aplicacion.mypet.providers.AuthProvider
 import com.aplicacion.mypet.providers.MensajeProvider
 import com.aplicacion.mypet.providers.UserProvider
 import com.aplicacion.mypet.utils.ViewedMessageHelper
-import com.google.android.gms.ads.MobileAds
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.analytics.FirebaseAnalytics
+import java.io.Serializable
+
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_PERMISSION_UBICATION = 102
@@ -33,12 +36,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mFirebaseAnalytics: FirebaseAnalytics
     private lateinit var mMensajeProvider: MensajeProvider
     private lateinit var mBadge: BadgeDrawable
+    private lateinit var mLayout : CoordinatorLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_MyPet)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        mLayout = findViewById(R.id.main_activity)
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -60,12 +65,12 @@ class MainActivity : AppCompatActivity() {
         contadorMensajes()
     }
 
-    var navigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    private var navigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> openFragment(FragmentHome())
             R.id.navigation_fav -> openFragment(FragmentFavorito())
             R.id.navigation_mensajes -> openFragment(FragmentChats())
-            R.id.navigation_perfil ->  openFragment(FragmentPerfil())
+            R.id.navigation_perfil -> openFragment(FragmentPerfil())
         }
         true
     }
@@ -113,7 +118,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun contadorMensajes() {
         if (mAuth.auth.currentUser != null) {
-            mMensajeProvider.getMensajesNoLeidosUsuario(mAuth.uid).addSnapshotListener {value, error ->
+            mMensajeProvider.getMensajesNoLeidosUsuario(mAuth.uid).addSnapshotListener { value, error ->
                 if (value!!.size()>0) {
                     mBadge.isVisible = true
                     mBadge.number = value.size()

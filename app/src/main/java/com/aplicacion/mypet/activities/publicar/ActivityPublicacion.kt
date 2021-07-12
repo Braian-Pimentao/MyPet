@@ -146,6 +146,7 @@ class ActivityPublicacion : AppCompatActivity() {
         publicacionProvider.getPostById(idPublicacion).addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot.exists()) {
                 if (documentSnapshot.contains("imagenes")) {
+                    listaSliderItem.clear()
                     urlImagenes = documentSnapshot["imagenes"] as ArrayList<String>?
                     for (i in urlImagenes!!.indices) {
                         val item = SliderItem()
@@ -205,7 +206,7 @@ class ActivityPublicacion : AppCompatActivity() {
         if (authProvider.auth.currentUser != null) {
             if (idUser == authProvider.uid) {
                 botonFavorito.visibility = View.INVISIBLE
-                botonChat.text = getString(R.string.eliminar)
+                botonChat.text = getString(R.string.actualizar_publicacion)
             }
         }
     }
@@ -365,7 +366,7 @@ class ActivityPublicacion : AppCompatActivity() {
                     nombreUsuario.text = documentSnapshot.getString("username")
                 }
                 if (documentSnapshot.contains("ubicacion")) {
-                    ubicacionRecogida = documentSnapshot["ubicacion"] as ArrayList<Double>
+                    ubicacionRecogida = documentSnapshot["ubicacion"] as ArrayList<Double>?
                     if (ubicacionRecogida != null) {
                         localizacion(ubicacionRecogida!![0], ubicacionRecogida!![1])
                         val mapFragment = supportFragmentManager
@@ -442,11 +443,10 @@ class ActivityPublicacion : AppCompatActivity() {
 
     fun botonChat(view: View) {
         val boton = view as Button
-        if (boton.text == getString(R.string.eliminar)) {
+        if (boton.text == getString(R.string.actualizar_publicacion)) {
             var intent = Intent(this,ActivityCrearPublicacion::class.java)
             intent.putExtra("idPublicacion", idPublicacion)
             startActivity(intent)
-            //mostrarConfirmacionBorrar(idPublicacion)
         } else if (boton.text == getString(R.string.chat)) {
             if (authProvider.auth.currentUser != null) {
                 val intent = Intent(this, ActivityChat::class.java)

@@ -1,15 +1,20 @@
 package com.aplicacion.mypet.activities.sesion
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.aplicacion.mypet.R
+import com.aplicacion.mypet.activities.perfil.EditarPerfil
 import com.aplicacion.mypet.models.User
 import com.aplicacion.mypet.providers.AuthProvider
 import com.aplicacion.mypet.providers.UserProvider
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.gson.Gson
 import dmax.dialog.SpotsDialog
 import java.util.regex.Pattern
 
@@ -21,11 +26,14 @@ class RegistroActivity : AppCompatActivity() {
     private lateinit var mAuth: AuthProvider
     private lateinit var mUserProvider: UserProvider
     private lateinit var mDialog: AlertDialog
+    private lateinit var mLayout : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)
 
+
+        mLayout = intent.extras?.get("layout").toString()
         mTextNombre = findViewById(R.id.campo_nombre)
         mTextEmail = findViewById(R.id.campo_email)
         mTextPassword = findViewById(R.id.campo_password)
@@ -92,6 +100,15 @@ class RegistroActivity : AppCompatActivity() {
         mUserProvider.create(user).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 mDialog.dismiss()
+                val gson = Gson()
+                val layout = gson.fromJson<CoordinatorLayout>(mLayout, CoordinatorLayout::class.java)
+                Snackbar.make(layout,R.string.recomendacion, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.actualizar) {v ->
+                            val intent = Intent(this, EditarPerfil::class.java)
+                            startActivity(intent)
+                        }
+                        .setAction("Despues", null)
+                        .show()
                 Toast.makeText(this@RegistroActivity, getString(R.string.register_complete), Toast.LENGTH_LONG).show()
                 finish()
             } else Toast.makeText(this@RegistroActivity, getString(R.string.register_incomplete), Toast.LENGTH_LONG).show()

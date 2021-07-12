@@ -10,7 +10,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.aplicacion.mypet.R
+import com.aplicacion.mypet.activities.perfil.EditarPerfil
 import com.aplicacion.mypet.models.User
 import com.aplicacion.mypet.providers.AuthProvider
 import com.aplicacion.mypet.providers.TokenProvider
@@ -20,9 +22,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.AuthResult
+import com.google.gson.Gson
 import dmax.dialog.SpotsDialog
+
 
 class IniciarSesion : AppCompatActivity() {
     private val TAG = "INFO_SING_IN"
@@ -33,11 +38,14 @@ class IniciarSesion : AppCompatActivity() {
     private lateinit var mUserProvider: UserProvider
     private lateinit var mDialog: AlertDialog
     private lateinit var mTokenProvider: TokenProvider
+    private lateinit var mLayout : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_iniciar_sesion)
 
+
+        mLayout = intent.extras?.get("layout").toString()
         mTextInputEmail = findViewById(R.id.inicio_sesion_email)
         mTextInputPassword = findViewById(R.id.inicio_sesion_password)
 
@@ -59,6 +67,7 @@ class IniciarSesion : AppCompatActivity() {
 
     fun registrarUsuario(view: View?) {
         val registro = Intent(this, RegistroActivity::class.java)
+        registro.putExtra("layout", mLayout)
         startActivity(registro)
     }
 
@@ -140,6 +149,15 @@ class IniciarSesion : AppCompatActivity() {
                 user.email = email
                 user.username = nombreUsuario
                 mUserProvider.create(user)
+                val gson = Gson()
+                val layout = gson.fromJson<CoordinatorLayout>(mLayout, CoordinatorLayout::class.java)
+                Snackbar.make(layout, R.string.recomendacion, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.actualizar) { v ->
+                            val intent = Intent(this, EditarPerfil::class.java)
+                            startActivity(intent)
+                        }
+                        .setAction("Despues", null)
+                        .show()
             }
             Toast.makeText(this@IniciarSesion, getString(R.string.inicio_correcto_google), Toast.LENGTH_LONG).show()
             mTokenProvider.create(mAuth.uid)

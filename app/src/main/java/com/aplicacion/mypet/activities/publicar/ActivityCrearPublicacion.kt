@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -125,20 +126,13 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
                 for (i in urlImagenes.indices) {
 
                     imageProvider.getImageFile(urlImagenes[i]).addOnSuccessListener { task ->
+
                         var bitmap = BitmapFactory.decodeByteArray(task, 0, task.size)
                         cuadrosDeImagenes[i].setImageBitmap(bitmap)
                         imagenSeleccionada = cuadrosDeImagenes[i]
 
-                        val f: File = File(this.cacheDir, "imagen$i")
-                        f.createNewFile()
-                        val bos = ByteArrayOutputStream()
-                        val bitmapdata: ByteArray = bos.toByteArray()
-
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos)
-                        val fos = FileOutputStream(f)
-                        fos.write(bitmapdata)
-                        fos.flush()
-                        fos.close()
+                        val f: File = File.createTempFile("imagen$i", ".jpg")
+                        f.writeBytes(task)
                         asignarImagenesArray(f)
                     }
                 }
@@ -169,7 +163,7 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
                 val imagenMasculino: ImageView = findViewById(R.id.masculino)
                 val imagenFemenino: ImageView = findViewById(R.id.femenino)
 
-                val sexo = documentSnapshot.getString("sexo")
+                sexo = documentSnapshot.getString("sexo").toString()
                 if (sexo.equals(getString(R.string.desc_femenino), ignoreCase = true)) {
                     imagenFemenino.setBackgroundColor(resources.getColor(R.color.white, theme))
                     imagenMasculino.setBackgroundColor(resources.getColor(R.color.principal_app, theme))
@@ -177,6 +171,8 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
                     imagenMasculino.setBackgroundColor(resources.getColor(R.color.white, theme))
                     imagenFemenino.setBackgroundColor(resources.getColor(R.color.principal_app, theme))
                 }
+
+
             }
         }
     }
@@ -229,7 +225,11 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
         if(nombre.isNotEmpty() && edad.isNotEmpty() && !tipo.equals(getString(R.string.tipo_animal))
                 && raza.isNotEmpty() && sexo.isNotEmpty() && descripcion.isNotEmpty() && imagenesAlmacenadas.size > 0) {
             dialog.show()
-            saveImages()
+            if (idPublicacion == "null") {
+                saveImages()
+            } else {
+                actualizarPublicacion()
+            }
         } else {
             Toast.makeText(this@ActivityCrearPublicacion, getString(R.string.campos_vacios), Toast.LENGTH_LONG).show()
         }
@@ -266,6 +266,50 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
                         }
                     }
                     saveImages()
+                }
+            }
+        }
+    }
+
+    private fun actualizarPublicacion(){
+        for (i in urlImagenes!!.indices) {
+            imageProvider.deleteByUrl(urlImagenes!![i])
+        }
+        urlImagenes.clear()
+        saveImageUpdate()
+    }
+
+    private fun saveImageUpdate() {
+        if (contador < imagenesAlmacenadas.size) {
+            contador++
+            imageProvider.save(this, imagenesAlmacenadas[contador - 1], contador - 1).addOnSuccessListener { taskSnapshot ->
+                imageProvider.storage.addOnSuccessListener { uri ->
+                    urlImagenes.add(uri.toString())
+
+                    if (contador == imagenesAlmacenadas.size) {
+                        val publicacion = Publicacion()
+
+                        publicacion.nombre = nombre.trim()
+                        publicacion.edad = edad.trim()
+                        publicacion.tipo = posicionArraytipo.toString()
+                        publicacion.raza = raza.trim()
+                        publicacion.descripcion = descripcion.trim()
+                        publicacion.sexo = sexo.trim()
+                        publicacion.id = idPublicacion
+                        publicacion.fechaPublicacion = Date().time
+                        publicacion.imagenes = urlImagenes
+
+                        publicacionProvider.update(publicacion).addOnCompleteListener { taskSave ->
+                            if (taskSave.isSuccessful) {
+                                dialog.dismiss()
+                                Toast.makeText(this@ActivityCrearPublicacion, getString(R.string.publicacion_actualizada), Toast.LENGTH_LONG).show()
+                                finish()
+                            } else {
+                                Toast.makeText(this@ActivityCrearPublicacion, getString(R.string.error_animal_publicado), Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                    saveImageUpdate()
                 }
             }
         }

@@ -11,6 +11,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PublicacionProvider {
     CollectionReference collectionReference;
@@ -50,6 +52,20 @@ public class PublicacionProvider {
 
     public Task<DocumentSnapshot> getPostById(String id) {
         return  collectionReference.document(id).get();
+    }
+
+    public Task<Void> update(Publicacion publicacion) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("nombre", publicacion.getNombre());
+        map.put("edad", publicacion.getEdad());
+        map.put("raza", publicacion.getRaza());
+        map.put("sexo", publicacion.getSexo());
+        map.put("tipo", publicacion.getTipo());
+        map.put("descripcion", publicacion.getDescripcion());
+        map.put("fechaPublicacion", publicacion.getFechaPublicacion());
+        map.put("imagenes", publicacion.getImagenes());
+        return collectionReference.document(publicacion.getId()).update(map);
+
     }
 
     public Task<Void> delete(String id) {

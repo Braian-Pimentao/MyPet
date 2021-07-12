@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/layout_registro"
     tools:context=".activities.sesion.RegistroActivity">
     <ScrollView
         android:layout_width="match_parent"

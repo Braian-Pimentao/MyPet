@@ -186,6 +186,9 @@ class EditarPerfil : AppCompatActivity(), BottomSheetFragmentPersonalizado.Botto
 
     private fun subirActualizacionPerfil() {
         if (imagen != null) {
+            if (urlFotoPerfil!= "")
+                imageProvider.deleteByUrl(urlFotoPerfil)
+
             imageProvider.save(this@EditarPerfil, imagen, 0).addOnSuccessListener {
                 imageProvider.storage.addOnSuccessListener { uri ->
                     val url = uri.toString()

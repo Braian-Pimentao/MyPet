@@ -2,6 +2,7 @@ package com.aplicacion.mypet.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 
 import com.aplicacion.mypet.R;
@@ -26,7 +28,10 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import java.io.Serializable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -62,8 +67,11 @@ public class FragmentPerfil extends Fragment {
         botonSobreNosotros = vista.findViewById(R.id.sobre_nosotros);
 
 
+
+
         MobileAds.initialize(vista.getContext(), new OnInitializationCompleteListener() {
             @Override
+
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
@@ -90,6 +98,9 @@ public class FragmentPerfil extends Fragment {
                     startActivity(perfil);
                 } else {
                     Intent iniciarSesion = new Intent(getContext(), IniciarSesion.class);
+                    Gson gson = new Gson();
+                    String myJson = gson.toJson(vista.getRootView().findViewById(R.id.main_activity));
+                    iniciarSesion.putExtra("layout", myJson);
                     startActivity(iniciarSesion);
                 }
             }
