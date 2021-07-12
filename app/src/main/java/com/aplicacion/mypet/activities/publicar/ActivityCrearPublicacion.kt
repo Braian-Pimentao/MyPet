@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
@@ -27,7 +28,9 @@ import com.aplicacion.mypet.utils.FileUtil
 import com.aplicacion.mypet.utils.ViewedMessageHelper
 import com.google.android.material.textfield.TextInputEditText
 import dmax.dialog.SpotsDialog
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -40,6 +43,7 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
     private var contador = 0
 
 
+
     private lateinit var publicacionProvider: PublicacionProvider
     private lateinit var imagenes: Array<File?>
     private lateinit var imagenesAlmacenadas: ArrayList<File?>
@@ -47,7 +51,9 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
     private lateinit var imagenSeleccionada: ImageView
     private var fotoCamaraArchivo: File? = null
 
-    private lateinit var boton_tipo: Button
+    private lateinit var cuadrosDeImagenes: ArrayList<ImageView>
+
+    private lateinit var botonTipo: Button
     private lateinit var inputTextNombre: TextInputEditText
     private lateinit var inputTextEdad: TextInputEditText
     private lateinit var inputTextRaza: TextInputEditText
@@ -62,6 +68,8 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
     private lateinit var sexo: String
     private lateinit var urlImagenes: ArrayList<String>
 
+    private var idPublicacion : String? = null
+
     private lateinit var dialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,14 +80,25 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
         authProvider = AuthProvider()
         publicacionProvider = PublicacionProvider()
 
+        idPublicacion = intent.extras?.getString("idPublicacion").toString()
+
+        cuadrosDeImagenes = ArrayList()
+        cuadrosDeImagenes.add(findViewById(R.id.imagen_publicar_1))
+        cuadrosDeImagenes.add(findViewById(R.id.imagen_publicar_2))
+        cuadrosDeImagenes.add(findViewById(R.id.imagen_publicar_3))
+        cuadrosDeImagenes.add(findViewById(R.id.imagen_publicar_4))
+        cuadrosDeImagenes.add(findViewById(R.id.imagen_publicar_5))
+
         sexo =""
         imagenes = arrayOfNulls(5)
 
-        boton_tipo = findViewById(R.id.boton_cambiar_tipo)
+        botonTipo = findViewById(R.id.boton_cambiar_tipo)
         inputTextNombre = findViewById(R.id.campo_nombre_animal)
         inputTextEdad = findViewById(R.id.campo_edad)
         inputTextRaza = findViewById(R.id.campo_raza)
         inputTextDescripcion = findViewById(R.id.campo_descripcion)
+
+
 
         urlImagenes = ArrayList()
         imagenesAlmacenadas = ArrayList()
@@ -90,11 +109,76 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
                 .setCancelable(false).build()
 
 
-
+        if (idPublicacion != null) {
+            getPublicacion()
+        }
     }
 
     fun cancelarPublicacion(v: View?) {
         finish()
+    }
+
+    fun getPublicacion() {
+        publicacionProvider.getPostById(idPublicacion).addOnSuccessListener { documentSnapshot ->
+            if (documentSnapshot.contains("imagenes")) {
+                urlImagenes = documentSnapshot["imagenes"] as ArrayList<String>
+                for (i in urlImagenes.indices) {
+
+                    imageProvider.getImageFile(urlImagenes[i]).addOnSuccessListener { task ->
+                        var bitmap = BitmapFactory.decodeByteArray(task, 0, task.size)
+                        cuadrosDeImagenes[i].setImageBitmap(bitmap)
+                        imagenSeleccionada = cuadrosDeImagenes[i]
+
+                        val f: File = File(this.cacheDir, "imagen$i")
+                        f.createNewFile()
+                        val bos = ByteArrayOutputStream()
+                        val bitmapdata: ByteArray = bos.toByteArray()
+
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos)
+                        val fos = FileOutputStream(f)
+                        fos.write(bitmapdata)
+                        fos.flush()
+                        fos.close()
+                        asignarImagenesArray(f)
+                    }
+                }
+            }
+
+            if (documentSnapshot.contains("nombre")) {
+                inputTextNombre.setText(documentSnapshot.getString("nombre"))
+            }
+
+            if (documentSnapshot.contains("edad")) {
+                inputTextEdad.setText(documentSnapshot.getString("edad"))
+            }
+
+            if (documentSnapshot.contains("raza")) {
+                inputTextRaza.setText(documentSnapshot.getString("raza"))
+            }
+
+            if (documentSnapshot.contains("tipo")) {
+                val tipo = documentSnapshot.getString("tipo")!!.toInt()
+                botonTipo.text = resources.getStringArray(R.array.lista_animales)[tipo]
+            }
+
+            if (documentSnapshot.contains("descripcion")) {
+                inputTextDescripcion.setText(documentSnapshot.getString("descripcion"))
+            }
+
+            if (documentSnapshot.contains("sexo")) {
+                val imagenMasculino: ImageView = findViewById(R.id.masculino)
+                val imagenFemenino: ImageView = findViewById(R.id.femenino)
+
+                val sexo = documentSnapshot.getString("sexo")
+                if (sexo.equals(getString(R.string.desc_femenino), ignoreCase = true)) {
+                    imagenFemenino.setBackgroundColor(resources.getColor(R.color.white, theme))
+                    imagenMasculino.setBackgroundColor(resources.getColor(R.color.principal_app, theme))
+                } else if (sexo.equals(getString(R.string.desc_masculino), ignoreCase = true)) {
+                    imagenMasculino.setBackgroundColor(resources.getColor(R.color.white, theme))
+                    imagenFemenino.setBackgroundColor(resources.getColor(R.color.principal_app, theme))
+                }
+            }
+        }
     }
 
     fun cambiarTipoAnimal(view: View?) {
@@ -103,7 +187,7 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.tipo_animal))
                 .setSingleChoiceItems(array, 0) { dialog, which ->
-                    boton_tipo.text = array[which]
+                    botonTipo.text = array[which]
                     posicionArraytipo = which
                     dialog.cancel()
                 }
@@ -138,7 +222,7 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
     fun subirPublicacion(view: View?) {
         nombre = inputTextNombre.text.toString()
         edad = inputTextEdad.text.toString()
-        tipo = boton_tipo.text.toString()
+        tipo = botonTipo.text.toString()
         raza = inputTextRaza.text.toString()
         descripcion = inputTextDescripcion.text.toString()
 

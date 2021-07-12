@@ -50,6 +50,7 @@ class ActivityPublicacion : AppCompatActivity() {
     private var ubicacionRecogida: ArrayList<Double>? = null
     private lateinit var idUser: String
     private var ocultarUbicacion = false
+    private var urlImagenes: ArrayList<String>? = null
 
 
     private lateinit var publicacionProvider: PublicacionProvider
@@ -57,6 +58,7 @@ class ActivityPublicacion : AppCompatActivity() {
     private lateinit var favoritoProvider: FavoritoProvider
     private lateinit var authProvider: AuthProvider
     private lateinit var reporterProvider: ReporterProvider
+    private lateinit var imageProvider: ImageProvider
 
 
     private lateinit var nombreAnimal: TextView
@@ -81,6 +83,8 @@ class ActivityPublicacion : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_publicacion)
+
+
 
         toolbar = findViewById<View>(R.id.toolBar_anuncio) as Toolbar
         toolbar!!.title = ""
@@ -113,10 +117,13 @@ class ActivityPublicacion : AppCompatActivity() {
         favoritoProvider = FavoritoProvider()
         authProvider = AuthProvider()
         reporterProvider = ReporterProvider()
+        imageProvider = ImageProvider()
 
         if (authProvider!!.auth.currentUser != null) {
             checkIsExistFavorite(idPublicacion, authProvider!!.uid)
         }
+
+
     }
 
     private fun getNumberFavorites() {
@@ -139,10 +146,10 @@ class ActivityPublicacion : AppCompatActivity() {
         publicacionProvider.getPostById(idPublicacion).addOnSuccessListener { documentSnapshot ->
             if (documentSnapshot.exists()) {
                 if (documentSnapshot.contains("imagenes")) {
-                    val urlImagenes = documentSnapshot["imagenes"] as ArrayList<String>?
+                    urlImagenes = documentSnapshot["imagenes"] as ArrayList<String>?
                     for (i in urlImagenes!!.indices) {
                         val item = SliderItem()
-                        item.urlImagen = urlImagenes[i]
+                        item.urlImagen = urlImagenes!![i]
                         listaSliderItem.add(item)
                     }
                     instanciarSlider()
@@ -156,13 +163,6 @@ class ActivityPublicacion : AppCompatActivity() {
                     edadAnimal.text = documentSnapshot.getString("edad")
                 }
 
-                if (documentSnapshot.contains("raza")) {
-                    nombreAnimal.text = documentSnapshot.getString("raza")
-                }
-
-                if (documentSnapshot.contains("tipo")) {
-                    nombreAnimal.text = documentSnapshot.getString("nombre")
-                }
 
                 if (documentSnapshot.contains("sexo")) {
                     val sexo = documentSnapshot.getString("sexo")
@@ -197,7 +197,6 @@ class ActivityPublicacion : AppCompatActivity() {
                     modificarMenu()
                     ocultarBotones()
                 }
-
             }
         }
     }
@@ -300,6 +299,10 @@ class ActivityPublicacion : AppCompatActivity() {
                     favoritoProvider.delete(d.id)
                 }
             }
+        }
+
+        for (i in urlImagenes!!.indices) {
+            imageProvider.deleteByUrl(urlImagenes!![i])
         }
 
         publicacionProvider.delete(idPublicacion).addOnCompleteListener { task ->
@@ -440,7 +443,10 @@ class ActivityPublicacion : AppCompatActivity() {
     fun botonChat(view: View) {
         val boton = view as Button
         if (boton.text == getString(R.string.eliminar)) {
-            mostrarConfirmacionBorrar(idPublicacion)
+            var intent = Intent(this,ActivityCrearPublicacion::class.java)
+            intent.putExtra("idPublicacion", idPublicacion)
+            startActivity(intent)
+            //mostrarConfirmacionBorrar(idPublicacion)
         } else if (boton.text == getString(R.string.chat)) {
             if (authProvider.auth.currentUser != null) {
                 val intent = Intent(this, ActivityChat::class.java)

@@ -10,6 +10,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 public class ImageProvider {
@@ -26,8 +27,18 @@ public class ImageProvider {
         return storageReference.putBytes(imageByte);
     }
 
+    public Task<Void> deleteByUrl(String urlImagen){
+        StorageReference desertRef = FirebaseStorage.getInstance().getReferenceFromUrl(urlImagen);
+        return desertRef.delete();
+    }
+
     public Task<Uri> getStorage() {
         return storage.getDownloadUrl();
+    }
+
+    public Task<byte[]> getImageFile(String urlImagen) throws IOException {
+        StorageReference desertRef = FirebaseStorage.getInstance().getReferenceFromUrl(urlImagen);
+        return desertRef.getBytes(1024*1024);
     }
 
 }
