@@ -24,6 +24,14 @@
         <item name="android:background">@color/white</item>
     </style>
 
+    <style name="fondoSnackBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@color/grisClaro</item>
+    </style>
+
+    <style name="colorTextoBotonesSnackBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/principal_app</item>
+    </style>
+
     <style name="colorLinea" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@color/black</item>
     </style>

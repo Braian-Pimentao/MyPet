@@ -4,14 +4,16 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.aplicacion.mypet.R
+import com.aplicacion.mypet.activities.perfil.EditarPerfil
 import com.aplicacion.mypet.activities.publicar.ActivityCrearPublicacion
 import com.aplicacion.mypet.activities.sesion.IniciarSesion
 import com.aplicacion.mypet.fragments.FragmentChats
@@ -21,9 +23,11 @@ import com.aplicacion.mypet.fragments.FragmentPerfil
 import com.aplicacion.mypet.providers.AuthProvider
 import com.aplicacion.mypet.providers.MensajeProvider
 import com.aplicacion.mypet.providers.UserProvider
+import com.aplicacion.mypet.utils.AppInfo
 import com.aplicacion.mypet.utils.ViewedMessageHelper
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -37,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mFirebaseAnalytics: FirebaseAnalytics
     private lateinit var mMensajeProvider: MensajeProvider
     private lateinit var mBadge: BadgeDrawable
-    private lateinit var mLayout : CoordinatorLayout
+    private lateinit var mSnackbar: Snackbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_MyPet)
@@ -45,14 +49,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), REQUEST_PERMISSION_UBICATION)
         }
         mBottomNavigation = findViewById(R.id.nav_view)
-        mBottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener)
+        mBottomNavigation.setOnItemSelectedListener(navigationItemSelectedListener)
         mBadge = mBottomNavigation.getOrCreateBadge(R.id.navigation_mensajes)
         mBadge.backgroundColor = getColor(R.color.secundario_app)
         mBadge.maxCharacterCount = 10
@@ -72,28 +74,55 @@ class MainActivity : AppCompatActivity() {
             if (documentSnapshot.exists()) {
                 if (documentSnapshot.contains("ubicacion")){
                     if(documentSnapshot.get("ubicacion") == null) {
-                        val rootView = window.decorView.findViewById<View>(R.id.container)
-                        val snackbar = Snackbar.make(this, rootView, getString(R.string.recomendacion), Snackbar.LENGTH_INDEFINITE)
-                        val snackbarLayout = snackbar.view as SnackbarLayout
-                        val params = snackbarLayout.layoutParams as CoordinatorLayout.LayoutParams
-                        snackbarLayout.layoutParams
-                        params.gravity = Gravity.TOP
-                        params.setMargins(
-                                params.leftMargin+20,
-                                params.topMargin+2600,
-                                params.rightMargin,
-                                params.bottomMargin
-                        )
-                        snackbar.show()
+                        if (!AppInfo.AVISO_REALIZADO)
+                            mostrarSnackBar()
+                    }
+                }
 
-                        println("--------------------------------kjhkh-------------------------------" + snackbar.isShown)
+                if (documentSnapshot.contains("urlPerfil")) {
+                    if (documentSnapshot.get("urlPerfil") == null) {
+                        if (!AppInfo.AVISO_REALIZADO)
+                            mostrarSnackBar()
                     }
                 }
             }
         }
     }
 
-    private var navigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    private fun mostrarSnackBar() {
+        if (!AppInfo.AVISO_REALIZADO) {
+            val rootView = window.decorView.findViewById<View>(R.id.main_activity)
+            mSnackbar = Snackbar.make(this, rootView, getString(R.string.recomendacion), Snackbar.LENGTH_INDEFINITE)
+            mSnackbar.anchorView = mBottomNavigation
+            val layout = mSnackbar.view as SnackbarLayout
+            val objLayoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            val parentParams = layout.layoutParams as CoordinatorLayout.LayoutParams
+            layout.setPadding(0, 0, 0, 0)
+            layout.layoutParams = parentParams
+            val snackView: View = layoutInflater.inflate(R.layout.snackbar, null)
+
+            snackView.findViewById<TextView>(R.id.first_text_view).setOnClickListener {
+                mSnackbar.dismiss()
+            }
+
+            snackView.findViewById<TextView>(R.id.second_text_view).setOnClickListener {
+                val editarPerfil = Intent(this, EditarPerfil::class.java)
+                startActivity(editarPerfil)
+            }
+
+            layout.addView(snackView, objLayoutParams)
+
+            println("-------------------------------------------------------------------" + AppInfo.AVISO_REALIZADO)
+            if (!mSnackbar.isShown) {
+                AppInfo.aviso(true)
+                mSnackbar.show()
+            }
+        }
+        else
+            mSnackbar.dismiss()
+    }
+
+    private var navigationItemSelectedListener = NavigationBarView.OnItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> openFragment(FragmentHome())
             R.id.navigation_fav -> openFragment(FragmentFavorito())
@@ -124,6 +153,7 @@ class MainActivity : AppCompatActivity() {
             ViewedMessageHelper.updateOnline(false, this)
         }
     }
+
 
     override fun onBackPressed() {
         val mBottomNavigationView = findViewById<BottomNavigationView>(R.id.nav_view)

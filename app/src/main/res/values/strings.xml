@@ -138,6 +138,8 @@
     <string name="actualizar_publicacion">Actualizar Publicacion</string>
     <string name="actualizar">Actualizar</string>
     <string name="recomendacion">Recomendamos editar el perfil</string>
+    <string name="despues">Después</string>
+    <string name="editar">Editar</string>
 
     <string-array name="lista_reportes">
         <item>Broma</item>

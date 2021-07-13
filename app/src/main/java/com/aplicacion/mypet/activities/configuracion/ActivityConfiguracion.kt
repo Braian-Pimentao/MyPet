@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.aplicacion.mypet.R
 import com.aplicacion.mypet.activities.perfil.EditarPerfil
 import com.aplicacion.mypet.providers.AuthProvider
+import com.aplicacion.mypet.utils.AppInfo
 import com.aplicacion.mypet.utils.ViewedMessageHelper
 
 class ActivityConfiguracion : AppCompatActivity() {
@@ -27,6 +28,7 @@ class ActivityConfiguracion : AppCompatActivity() {
         if (mAuthProvider.auth.currentUser != null) {
             mAuthProvider.auth.signOut()
             Toast.makeText(this, getString(R.string.sesion_cerrada), Toast.LENGTH_LONG).show()
+            AppInfo.aviso(false)
             finish()
         }
     }
