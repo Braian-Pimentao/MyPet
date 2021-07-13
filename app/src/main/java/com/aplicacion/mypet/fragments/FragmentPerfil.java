@@ -28,7 +28,10 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -46,6 +49,7 @@ public class FragmentPerfil extends Fragment {
     private LinearLayout linearLayoutConf;
 
     private LinearLayout layoutPerfil;
+    private transient CoordinatorLayout layout;
 
     private AuthProvider auth;
     private String nombre;
@@ -98,9 +102,6 @@ public class FragmentPerfil extends Fragment {
                     startActivity(perfil);
                 } else {
                     Intent iniciarSesion = new Intent(getContext(), IniciarSesion.class);
-                    Gson gson = new Gson();
-                    String myJson = gson.toJson(vista.getRootView().findViewById(R.id.main_activity));
-                    iniciarSesion.putExtra("layout", myJson);
                     startActivity(iniciarSesion);
                 }
             }

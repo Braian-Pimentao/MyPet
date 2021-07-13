@@ -26,14 +26,12 @@ class RegistroActivity : AppCompatActivity() {
     private lateinit var mAuth: AuthProvider
     private lateinit var mUserProvider: UserProvider
     private lateinit var mDialog: AlertDialog
-    private lateinit var mLayout : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)
 
 
-        mLayout = intent.extras?.get("layout").toString()
         mTextNombre = findViewById(R.id.campo_nombre)
         mTextEmail = findViewById(R.id.campo_email)
         mTextPassword = findViewById(R.id.campo_password)
@@ -100,15 +98,6 @@ class RegistroActivity : AppCompatActivity() {
         mUserProvider.create(user).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 mDialog.dismiss()
-                val gson = Gson()
-                val layout = gson.fromJson<CoordinatorLayout>(mLayout, CoordinatorLayout::class.java)
-                Snackbar.make(layout,R.string.recomendacion, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.actualizar) {v ->
-                            val intent = Intent(this, EditarPerfil::class.java)
-                            startActivity(intent)
-                        }
-                        .setAction("Despues", null)
-                        .show()
                 Toast.makeText(this@RegistroActivity, getString(R.string.register_complete), Toast.LENGTH_LONG).show()
                 finish()
             } else Toast.makeText(this@RegistroActivity, getString(R.string.register_incomplete), Toast.LENGTH_LONG).show()

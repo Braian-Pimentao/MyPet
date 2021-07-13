@@ -1,15 +1,15 @@
 package com.aplicacion.mypet.activities
 
 import android.Manifest
-import android.R.attr
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Parcelable
+import android.view.Gravity
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.aplicacion.mypet.R
 import com.aplicacion.mypet.activities.publicar.ActivityCrearPublicacion
@@ -24,8 +24,9 @@ import com.aplicacion.mypet.providers.UserProvider
 import com.aplicacion.mypet.utils.ViewedMessageHelper
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.google.firebase.analytics.FirebaseAnalytics
-import java.io.Serializable
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,8 +44,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mLayout = findViewById(R.id.main_activity)
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
+
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         mBadge = mBottomNavigation.getOrCreateBadge(R.id.navigation_mensajes)
         mBadge.backgroundColor = getColor(R.color.secundario_app)
         mBadge.maxCharacterCount = 10
+        mBadge.isVisible = false
 
 
         mAuth = AuthProvider()
@@ -63,6 +65,32 @@ class MainActivity : AppCompatActivity() {
 
         openFragment(FragmentHome())
         contadorMensajes()
+    }
+
+    private fun comprobarDatos() {
+        mUserProvider.getUser(mAuth.uid).addOnSuccessListener { documentSnapshot ->
+            if (documentSnapshot.exists()) {
+                if (documentSnapshot.contains("ubicacion")){
+                    if(documentSnapshot.get("ubicacion") == null) {
+                        val rootView = window.decorView.findViewById<View>(R.id.container)
+                        val snackbar = Snackbar.make(this, rootView, getString(R.string.recomendacion), Snackbar.LENGTH_INDEFINITE)
+                        val snackbarLayout = snackbar.view as SnackbarLayout
+                        val params = snackbarLayout.layoutParams as CoordinatorLayout.LayoutParams
+                        snackbarLayout.layoutParams
+                        params.gravity = Gravity.TOP
+                        params.setMargins(
+                                params.leftMargin+20,
+                                params.topMargin+2600,
+                                params.rightMargin,
+                                params.bottomMargin
+                        )
+                        snackbar.show()
+
+                        println("--------------------------------kjhkh-------------------------------" + snackbar.isShown)
+                    }
+                }
+            }
+        }
     }
 
     private var navigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -85,6 +113,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (mAuth.auth.currentUser != null) {
+            comprobarDatos()
             ViewedMessageHelper.updateOnline(true, this)
         }
     }

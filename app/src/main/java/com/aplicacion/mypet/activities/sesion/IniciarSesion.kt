@@ -38,14 +38,12 @@ class IniciarSesion : AppCompatActivity() {
     private lateinit var mUserProvider: UserProvider
     private lateinit var mDialog: AlertDialog
     private lateinit var mTokenProvider: TokenProvider
-    private lateinit var mLayout : String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_iniciar_sesion)
 
-
-        mLayout = intent.extras?.get("layout").toString()
         mTextInputEmail = findViewById(R.id.inicio_sesion_email)
         mTextInputPassword = findViewById(R.id.inicio_sesion_password)
 
@@ -67,7 +65,6 @@ class IniciarSesion : AppCompatActivity() {
 
     fun registrarUsuario(view: View?) {
         val registro = Intent(this, RegistroActivity::class.java)
-        registro.putExtra("layout", mLayout)
         startActivity(registro)
     }
 
@@ -149,15 +146,6 @@ class IniciarSesion : AppCompatActivity() {
                 user.email = email
                 user.username = nombreUsuario
                 mUserProvider.create(user)
-                val gson = Gson()
-                val layout = gson.fromJson<CoordinatorLayout>(mLayout, CoordinatorLayout::class.java)
-                Snackbar.make(layout, R.string.recomendacion, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.actualizar) { v ->
-                            val intent = Intent(this, EditarPerfil::class.java)
-                            startActivity(intent)
-                        }
-                        .setAction("Despues", null)
-                        .show()
             }
             Toast.makeText(this@IniciarSesion, getString(R.string.inicio_correcto_google), Toast.LENGTH_LONG).show()
             mTokenProvider.create(mAuth.uid)
