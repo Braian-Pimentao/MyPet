@@ -10,22 +10,23 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.aplicacion.mypet.R
-import com.aplicacion.mypet.activities.perfil.EditarPerfil
 import com.aplicacion.mypet.models.User
 import com.aplicacion.mypet.providers.AuthProvider
 import com.aplicacion.mypet.providers.TokenProvider
 import com.aplicacion.mypet.providers.UserProvider
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.AuthResult
-import com.google.gson.Gson
 import dmax.dialog.SpotsDialog
 
 
@@ -38,6 +39,7 @@ class IniciarSesion : AppCompatActivity() {
     private lateinit var mUserProvider: UserProvider
     private lateinit var mDialog: AlertDialog
     private lateinit var mTokenProvider: TokenProvider
+    private val mCallbackManager = CallbackManager.Factory.create()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +76,8 @@ class IniciarSesion : AppCompatActivity() {
             loginNormal()
         else if (botonPulsado == findViewById(R.id.boton_inicio_sesion_google))
             signInGoogle()
+        else if (botonPulsado == findViewById(R.id.boton_inicio_sesion_facebook))
+            signInFacebook()
     }
 
     private fun loginNormal() {
@@ -114,15 +118,62 @@ class IniciarSesion : AppCompatActivity() {
         }
     }
 
+    var resultFacebook = registerForActivityResult(
+            StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)
+                Log.d(TAG, "firebaseAuthWithGoogle:" + account!!.id)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(this@IniciarSesion.TAG, "Google sign in failed", e)
+            }
+        }
+    }
+
     private fun signInGoogle() {
         val signInIntent = mGoogleSignInClient.signInIntent
         resultGoogle.launch(signInIntent)
     }
 
+    private fun signInFacebook() {
+        LoginManager.getInstance().logInWithReadPermissions(this,listOf("email"))
+        LoginManager.getInstance().registerCallback(mCallbackManager,
+            object : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult?) {
+                    result?.let {
+                        val token = it.accessToken
+                        mAuth.loginFacebook(token.token).addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                checkUserExist(mAuth.uid)
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancel() {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onError(error: FacebookException?) {
+                    TODO("Not yet implemented")
+                }
+            })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        mCallbackManager.onActivityResult(requestCode,resultCode,data)
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     private fun firebaseAuthWithGoogle(idToken: String) {
         mDialog.show()
         mAuth.loginGoogle(idToken)
-                .addOnCompleteListener(this) { task ->
+                .addOnCompleteListener { task ->
                     mDialog.dismiss()
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information

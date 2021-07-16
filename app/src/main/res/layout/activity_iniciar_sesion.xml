@@ -112,6 +112,21 @@
             android:text="@string/google"
             android:textColor="@color/white" />
 
+        <Button
+            android:id="@+id/boton_inicio_sesion_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:drawableStart="@drawable/ic_facebook"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:onClick="pulsarIniciarSesion"
+            android:textColor="@color/white"
+            android:background="@drawable/pulsar_boton_facebook"
+            android:text="@string/facebook" />
+
     </LinearLayout>
 
     <LinearLayout

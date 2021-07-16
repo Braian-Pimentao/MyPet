@@ -2,6 +2,8 @@
     <string name="app_name">MyPet</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-6229697190551796/4776782710</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="facebook_app_id" translatable="false">522599922195409</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb522599922195409</string>
     <string name="recyclerview" translatable="false">RecyclerView</string>
     <string name="textview" translatable="false">TextView</string>
     <string name="desc_img_animal">Imagen del animal</string>
@@ -140,6 +142,8 @@
     <string name="recomendacion">Recomendamos editar el perfil</string>
     <string name="despues">Después</string>
     <string name="editar">Editar</string>
+    <string name="facebook">Facebook</string>
+
 
     <string-array name="lista_reportes">
         <item>Broma</item>

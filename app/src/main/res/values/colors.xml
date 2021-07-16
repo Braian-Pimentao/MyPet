@@ -18,6 +18,7 @@
     <!--Colores de botones-->
     <color name="negro_opaco">#34000000</color>
     <color name="color_google">#db4a39</color>
+    <color name="color_facebook">#3b5998</color>
     <color name="blanco">#FFFFFF</color>
 
 

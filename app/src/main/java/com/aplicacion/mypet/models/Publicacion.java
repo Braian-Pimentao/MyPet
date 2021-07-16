@@ -111,4 +111,20 @@ public class Publicacion {
     public void setFechaPublicacion(long fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
     }
+
+    @Override
+    public String toString() {
+        return "Publicacion{" +
+                "idUser='" + idUser + '\'' +
+                ", id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", edad='" + edad + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", raza='" + raza + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", sexo='" + sexo + '\'' +
+                ", imagenes=" + imagenes +
+                ", fechaPublicacion=" + fechaPublicacion +
+                '}';
+    }
 }
