@@ -23,7 +23,6 @@
     <string name="register_incomplete">No se pudo registrar</string>
     <string name="inicio_correcto">Se ha iniciado sesión</string>
     <string name="inicio_incorrecto">El email o contraseña incorrectos</string>
-    <string name="inicio_correcto_google">Se ha iniciado sesión con google</string>
     <string name="inicio_incorrecto_google">Sesión no iniciada con google</string>
     <string name="cargando_iniciar">Iniciando sesión…</string>
     <string name="cargando_registro">Creando usuario…</string>

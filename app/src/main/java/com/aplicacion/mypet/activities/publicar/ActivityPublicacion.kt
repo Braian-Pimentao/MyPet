@@ -329,9 +329,8 @@ class ActivityPublicacion : AppCompatActivity() {
     }
 
     private fun localizacion(latitude: Double, longitude: Double) {
-        val geocoder: Geocoder
         var direccion: List<Address>? = null
-        geocoder = Geocoder(this, Locale.getDefault())
+        val geocoder = Geocoder(this, Locale.getDefault())
         try {
             direccion = geocoder.getFromLocation(latitude, longitude, 1) // 1 representa la cantidad de resultados a obtener
         } catch (e: IOException) {
@@ -344,11 +343,7 @@ class ActivityPublicacion : AppCompatActivity() {
             if (city != null) {
                 ubicacion.text = String.format("%s, %s", city, postalCode)
             } else {
-                if (city != null) {
-                    ubicacion.text = String.format("%s, %s", city, country)
-                } else {
-                    ubicacion.text = String.format("%s", country)
-                }
+                ubicacion.text = String.format("%s", country)
             }
         } else {
             if (city != null) {

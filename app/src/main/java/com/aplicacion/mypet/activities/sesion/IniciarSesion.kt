@@ -101,7 +101,7 @@ class IniciarSesion : AppCompatActivity() {
     }
 
 
-    var resultGoogle = registerForActivityResult(
+    private var resultGoogle = registerForActivityResult(
             StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -122,16 +122,7 @@ class IniciarSesion : AppCompatActivity() {
             StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                val account = task.getResult(ApiException::class.java)
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account!!.id)
-                firebaseAuthWithGoogle(account.idToken!!)
-            } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(this@IniciarSesion.TAG, "Google sign in failed", e)
-            }
+            mCallbackManager.onActivityResult(1,result.resultCode,result.data)
         }
     }
 
@@ -141,7 +132,8 @@ class IniciarSesion : AppCompatActivity() {
     }
 
     private fun signInFacebook() {
-        LoginManager.getInstance().logInWithReadPermissions(this,listOf("email"))
+        val signInIntent = LoginManager.getInstance().logInWithReadPermissions(this,listOf("email"))
+
         LoginManager.getInstance().registerCallback(mCallbackManager,
             object : FacebookCallback<LoginResult> {
                 override fun onSuccess(result: LoginResult?) {
@@ -154,19 +146,14 @@ class IniciarSesion : AppCompatActivity() {
                         }
                     }
                 }
-
-                override fun onCancel() {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onError(error: FacebookException?) {
-                    TODO("Not yet implemented")
-                }
+                override fun onCancel() {}
+                override fun onError(error: FacebookException?) {}
             })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         mCallbackManager.onActivityResult(requestCode,resultCode,data)
+        @Suppress("DEPRECATION")
         super.onActivityResult(requestCode, resultCode, data)
     }
 
@@ -198,7 +185,7 @@ class IniciarSesion : AppCompatActivity() {
                 user.username = nombreUsuario
                 mUserProvider.create(user)
             }
-            Toast.makeText(this@IniciarSesion, getString(R.string.inicio_correcto_google), Toast.LENGTH_LONG).show()
+            Toast.makeText(this@IniciarSesion, getString(R.string.inicio_correcto), Toast.LENGTH_LONG).show()
             mTokenProvider.create(mAuth.uid)
             finish()
         }

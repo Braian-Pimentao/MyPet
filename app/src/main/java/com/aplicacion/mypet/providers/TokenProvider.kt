@@ -28,4 +28,8 @@ class TokenProvider() {
         return collectionReference.document(idUser!!).get()
     }
 
+    fun  deleteToken(idToken: String): Task<Void> {
+        return collectionReference.document(idToken).delete()
+    }
+
 }

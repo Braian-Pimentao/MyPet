@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.perfil.AvisoEliminar">
+    <ImageButton
+        android:theme="@style/coloresIconos"
+        android:id="@+id/cancelar_publicacion"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="5dp"
+        android:onClick="cerrarEliminarPerfil"
+        android:background="@drawable/pulsar_publicar"
+        android:contentDescription="@string/boton_publicar"
+        android:scaleType="center"
+        android:src="@drawable/ic_flecha_atras" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/aviso"
+        android:layout_marginTop="25dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="top|center"
+        android:src="@drawable/ic_warning"
+        android:theme="@style/coloresIconos" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/confirmacion_eliminar"
+            android:textSize="15sp"
+            android:theme="@style/colorDeTexto" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="5dp"
+            android:drawablePadding="10dp"
+            android:text="@string/usuario"
+            android:textSize="15sp"
+            android:theme="@style/colorDeTexto"
+            app:drawableStartCompat="@drawable/ic_punto" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="5dp"
+            android:drawablePadding="10dp"
+            android:text="@string/publicaciones_aviso"
+            android:textSize="15sp"
+            android:theme="@style/colorDeTexto"
+            app:drawableStartCompat="@drawable/ic_punto" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="5dp"
+            android:drawablePadding="10dp"
+            android:text="@string/favoritos"
+            android:textSize="15sp"
+            android:theme="@style/colorDeTexto"
+            app:drawableStartCompat="@drawable/ic_punto" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="5dp"
+            android:drawablePadding="10dp"
+            android:text="@string/mensajes"
+            android:textSize="15sp"
+            android:theme="@style/colorDeTexto"
+            app:drawableStartCompat="@drawable/ic_punto" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/boton_registro"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/pulsar_boton_eliminar"
+        android:onClick="eliminarPerfil"
+        android:text="@string/eliminar_usuario"
+        android:layout_gravity="bottom"
+        android:textColor="@color/white" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

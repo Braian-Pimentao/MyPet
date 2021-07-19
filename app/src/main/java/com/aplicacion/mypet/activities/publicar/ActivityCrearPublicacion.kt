@@ -127,7 +127,7 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
 
                     imageProvider.getImageFile(urlImagenes[i]).addOnSuccessListener { task ->
 
-                        var bitmap = BitmapFactory.decodeByteArray(task, 0, task.size)
+                        val bitmap = BitmapFactory.decodeByteArray(task, 0, task.size)
                         cuadrosDeImagenes[i].setImageBitmap(bitmap)
                         imagenSeleccionada = cuadrosDeImagenes[i]
 
@@ -166,10 +166,8 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
                 sexo = documentSnapshot.getString("sexo").toString()
                 if (sexo.equals(getString(R.string.desc_femenino), ignoreCase = true)) {
                     imagenFemenino.setBackgroundColor(resources.getColor(R.color.white, theme))
-                    imagenMasculino.setBackgroundColor(resources.getColor(R.color.principal_app, theme))
                 } else if (sexo.equals(getString(R.string.desc_masculino), ignoreCase = true)) {
                     imagenMasculino.setBackgroundColor(resources.getColor(R.color.white, theme))
-                    imagenFemenino.setBackgroundColor(resources.getColor(R.color.principal_app, theme))
                 }
 
 

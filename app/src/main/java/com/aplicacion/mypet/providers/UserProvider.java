@@ -48,6 +48,10 @@ public class UserProvider {
 
         return collectionReference.document(idUser).update(map);
     }
+
+    public Task<Void> deleteUser(String idUser) {
+        return collectionReference.document(idUser).delete();
+    }
 }
 
 

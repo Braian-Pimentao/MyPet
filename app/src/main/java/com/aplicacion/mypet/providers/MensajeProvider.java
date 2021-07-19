@@ -49,4 +49,8 @@ public class MensajeProvider {
         map.put("visto",estado);
         return  collectionReference.document(idDocument).update(map);
     }
+
+    public Task<Void> deleteMensaje(String idMensaje) {
+        return collectionReference.document(idMensaje).delete();
+    }
 }

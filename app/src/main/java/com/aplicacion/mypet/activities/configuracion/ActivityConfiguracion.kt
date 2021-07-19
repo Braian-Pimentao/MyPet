@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.aplicacion.mypet.R
+import com.aplicacion.mypet.activities.perfil.AvisoEliminar
 import com.aplicacion.mypet.activities.perfil.EditarPerfil
 import com.aplicacion.mypet.providers.AuthProvider
 import com.aplicacion.mypet.utils.AppInfo
@@ -51,5 +52,10 @@ class ActivityConfiguracion : AppCompatActivity() {
         if (mAuthProvider.auth.currentUser != null) {
             ViewedMessageHelper.updateOnline(false, this)
         }
+    }
+
+    fun eliminarUsuario(view: View) {
+        val eliminarUsuario = Intent(this, AvisoEliminar::class.java)
+        startActivity(eliminarUsuario)
     }
 }

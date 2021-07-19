@@ -33,7 +33,6 @@
     <string name="register_incomplete">No se pudo registrar</string>
     <string name="inicio_correcto">Se ha iniciado sesión</string>
     <string name="inicio_incorrecto">El email o contraseña incorrectos</string>
-    <string name="inicio_correcto_google">Se ha iniciado sesión con google</string>
     <string name="inicio_incorrecto_google">Sesión no iniciada con google</string>
     <string name="cargando_iniciar">Iniciando sesión…</string>
     <string name="cargando_registro">Creando usuario…</string>
@@ -105,6 +104,7 @@
     <string name="eliminar">Eliminar Publicación</string>
     <string name="publicacion_eliminada">Publicación eliminada</string>
     <string name="comprobar_eliminar">¿Desea eliminar la publicación?</string>
+    <string name="comprobar_eliminar_usuario">¿Estás seguro?</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
     <string name="busqueda">Buscar Animal</string>
@@ -143,6 +143,9 @@
     <string name="despues">Después</string>
     <string name="editar">Editar</string>
     <string name="facebook">Facebook</string>
+    <string name="confirmacion_eliminar">¿Estás seguro que quieres eliminar tu perfil?, se perderá los siguientes datos:</string>
+    <string name="publicaciones_aviso">Publicaciones</string>
+    <string name="eliminar_usuario">Eliminar Usuario</string>
 
 
     <string-array name="lista_reportes">
