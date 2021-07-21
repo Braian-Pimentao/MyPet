@@ -74,6 +74,7 @@ class AvisoEliminar : AppCompatActivity() {
         mUserProvider.deleteUser(mIdUser)
 
         mAuthProvider.auth.currentUser?.delete()
+        mAuthProvider.auth.signOut()
 
     }
 

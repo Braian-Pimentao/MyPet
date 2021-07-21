@@ -153,6 +153,7 @@ class ActivityCrearPublicacion : AppCompatActivity(),BottomSheetFragmentPersonal
             if (documentSnapshot.contains("tipo")) {
                 val tipo = documentSnapshot.getString("tipo")!!.toInt()
                 botonTipo.text = resources.getStringArray(R.array.lista_animales)[tipo]
+                posicionArraytipo = tipo
             }
 
             if (documentSnapshot.contains("descripcion")) {
