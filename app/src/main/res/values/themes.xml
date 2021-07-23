@@ -28,6 +28,11 @@
         <item name="android:background">@color/grisClaro</item>
     </style>
 
+    <style name="ColoresSlider" parent="Widget.MaterialComponents.Slider">
+        <item name="thumbColor">@color/principal_app</item>
+        <item name="tickColor">@color/principal_app</item>
+    </style>
+
     <style name="colorTextoBotonesSnackBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/principal_app</item>
     </style>
@@ -50,6 +55,10 @@
 
     <style name="LogoBuzon" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="srcCompat">@drawable/ic_buzon_negro</item>
+    </style>
+
+    <style name="LogoPerroWifi" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="srcCompat">@drawable/ic_perro_wifi_negro</item>
     </style>
 
     <style name="LogoFavorito" parent="Theme.AppCompat.Light.NoActionBar">

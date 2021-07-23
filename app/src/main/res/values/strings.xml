@@ -146,6 +146,8 @@
     <string name="confirmacion_eliminar">¿Estás seguro que quieres eliminar tu perfil?, se perderá los siguientes datos:</string>
     <string name="publicaciones_aviso">Publicaciones</string>
     <string name="eliminar_usuario">Eliminar Usuario</string>
+    <string name="no_internet">Vaya, parece que no tienes conexión a internet</string>
+    <string name="reconectar">Reconectar</string>
 
 
     <string-array name="lista_reportes">

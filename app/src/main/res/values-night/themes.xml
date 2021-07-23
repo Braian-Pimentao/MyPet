@@ -28,6 +28,15 @@
         <item name="android:background">@color/gris</item>
     </style>
 
+    <style name="LogoPerroWifi" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="srcCompat">@drawable/ic_perro_wifi_blanco</item>
+    </style>
+
+    <style name="ColoresSlider" parent="Widget.MaterialComponents.Slider">
+        <item name="thumbColor">@color/white</item>
+        <item name="tickColor">@color/white</item>
+    </style>
+
     <style name="colorTextoBotonesSnackBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColor">@color/purple_200</item>
     </style>

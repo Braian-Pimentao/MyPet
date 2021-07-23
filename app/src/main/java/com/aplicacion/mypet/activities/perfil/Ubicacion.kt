@@ -30,10 +30,10 @@ class Ubicacion : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickL
     private lateinit var locationManager: LocationManager
     private var ubicacionReal: Location? = null
 
-    private lateinit var ubicacionMarca: Location
-    private lateinit var marcador: Marker
+    private var ubicacionMarca: Location? = null
+    private var marcador: Marker?= null
     private lateinit var ocultarUbicacion: CheckBox
-    private lateinit var circuloMarca: Circle
+    private var circuloMarca: Circle? = null
     private var verificarOcultarUbicacion = false
 
     private var latLngRecibida: LatLng? = null
@@ -72,15 +72,15 @@ class Ubicacion : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickL
         mMap.setOnMapClickListener(this)
 
         if (latLngRecibida!= null) {
-            ubicacionMarca.latitude = latLngRecibida!!.latitude
-            ubicacionMarca.longitude = latLngRecibida!!.longitude
+            ubicacionMarca?.latitude = latLngRecibida!!.latitude
+            ubicacionMarca?.longitude = latLngRecibida!!.longitude
             if (!ocultarUbicacion.isChecked) {
                 marcador = mMap.addMarker(MarkerOptions().position(latLngRecibida)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true))
             } else {
                 circuloMarca = mMap.addCircle(CircleOptions().center(latLngRecibida).radius(RADIO))
-                circuloMarca.fillColor = getColor(R.color.negro_opaco)
-                circuloMarca.strokeColor = getColor(R.color.opaco)
+                circuloMarca?.fillColor = getColor(R.color.negro_opaco)
+                circuloMarca?.strokeColor = getColor(R.color.opaco)
             }
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngRecibida, 15F))
         }
@@ -117,8 +117,8 @@ class Ubicacion : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickL
         } else if (botonPulsado.id == R.id.boton_gurdar_marca) {
             if (ubicacionMarca != null) {
                 val data = Intent()
-                data.putExtra("latitude", ubicacionMarca.latitude)
-                data.putExtra("longitude", ubicacionMarca.longitude)
+                data.putExtra("latitude", ubicacionMarca?.latitude)
+                data.putExtra("longitude", ubicacionMarca?.longitude)
                 data.putExtra("ocultarUbicacion", verificarOcultarUbicacion)
                 setResult(RESULT_OK, data)
                 finish()
@@ -131,7 +131,7 @@ class Ubicacion : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickL
     override fun onMapClick(p0: LatLng) {
         if (!verificarOcultarUbicacion) {
             if (marcador!=null) {
-                marcador.remove()
+                marcador?.remove()
             }
 
             if (ubicacionMarca == null) {
@@ -142,18 +142,18 @@ class Ubicacion : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickL
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true))
         } else {
             if (circuloMarca != null) {
-                circuloMarca.remove()
+                circuloMarca?.remove()
             }
 
             if (ubicacionMarca == null) {
                 ubicacionMarca = Location("Marca")
             }
             circuloMarca = mMap.addCircle(CircleOptions().center(p0).radius(RADIO))
-            circuloMarca.fillColor = getColor(R.color.negro_opaco)
-            circuloMarca.strokeColor = getColor(R.color.opaco)
-            ubicacionMarca.latitude = p0.latitude
-            ubicacionMarca.longitude = p0.longitude
+            circuloMarca?.fillColor = getColor(R.color.negro_opaco)
+            circuloMarca?.strokeColor = getColor(R.color.opaco)
         }
+            ubicacionMarca?.latitude = p0.latitude
+            ubicacionMarca?.longitude = p0.longitude
     }
 
     fun cambiarOcultarUbicacion(view: View?) {
@@ -161,17 +161,17 @@ class Ubicacion : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMapClickL
         if (verificarOcultarUbicacion) {
             if (marcador != null) {
                 circuloMarca = mMap.addCircle(CircleOptions()
-                        .center(marcador.position)
+                        .center(marcador?.position)
                         .radius(RADIO))
-                circuloMarca.fillColor = getColor(R.color.negro_opaco)
-                circuloMarca.strokeColor = getColor(R.color.opaco)
-                marcador.remove()
+                circuloMarca?.fillColor = getColor(R.color.negro_opaco)
+                circuloMarca?.strokeColor = getColor(R.color.opaco)
+                marcador?.remove()
             }
         } else {
             if (circuloMarca != null) {
-                marcador = mMap.addMarker(MarkerOptions().position(circuloMarca.center)
+                marcador = mMap.addMarker(MarkerOptions().position(circuloMarca?.center)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).draggable(true))
-                circuloMarca.remove()
+                circuloMarca?.remove()
             }
         }
     }

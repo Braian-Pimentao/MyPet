@@ -1,8 +1,13 @@
 package com.aplicacion.mypet.activities
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +48,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mBadge: BadgeDrawable
     private lateinit var mSnackbar: Snackbar
 
+    private lateinit var mLayoutInformativo: LinearLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_MyPet)
         super.onCreate(savedInstanceState)
@@ -54,38 +61,52 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), REQUEST_PERMISSION_UBICATION)
         }
         mBottomNavigation = findViewById(R.id.nav_view)
-        mBottomNavigation.setOnItemSelectedListener(navigationItemSelectedListener)
         mBadge = mBottomNavigation.getOrCreateBadge(R.id.navigation_mensajes)
         mBadge.backgroundColor = getColor(R.color.secundario_app)
         mBadge.maxCharacterCount = 10
         mBadge.isVisible = false
 
-
         mAuth = AuthProvider()
         mUserProvider = UserProvider()
         mMensajeProvider = MensajeProvider()
 
-        openFragment(FragmentHome())
+        mLayoutInformativo = findViewById(R.id.mensaje_informativo_internet)
+
+        if (isNetworkAvailable(this)) {
+            mBottomNavigation.setOnItemSelectedListener(navigationItemSelectedListener)
+            openFragment(FragmentHome())
+        } else {
+            mLayoutInformativo.visibility = View.VISIBLE
+        }
+
         contadorMensajes()
     }
 
     private fun comprobarDatos() {
-        mUserProvider.getUser(mAuth.uid).addOnSuccessListener { documentSnapshot ->
-            if (documentSnapshot.exists()) {
-                if (documentSnapshot.contains("ubicacion")){
-                    if(documentSnapshot.get("ubicacion") == null) {
-                        if (!AppInfo.AVISO_REALIZADO)
-                            mostrarSnackBar()
-                    }
-                }
-
-                if (documentSnapshot.contains("urlPerfil")) {
-                    if (documentSnapshot.get("urlPerfil") == null) {
-                        if (!AppInfo.AVISO_REALIZADO)
-                            mostrarSnackBar()
+        if (isNetworkAvailable(this)) {
+            mUserProvider.getUser(mAuth.uid).addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    if (documentSnapshot.contains("ubicacion") || documentSnapshot.contains("urlPerfil")) {
+                        if (documentSnapshot.get("ubicacion") == null || documentSnapshot.get("urlPerfil") == null) {
+                            if (!AppInfo.AVISO_REALIZADO)
+                                mostrarSnackBar()
+                        }
                     }
                 }
             }
+        }
+    }
+
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val nw      = connectivityManager.activeNetwork ?: return false
+        val actNw = connectivityManager.getNetworkCapabilities(nw) ?: return false
+        return when {
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+            else -> false
         }
     }
 
@@ -111,8 +132,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             layout.addView(snackView, objLayoutParams)
-
-            println("-------------------------------------------------------------------" + AppInfo.AVISO_REALIZADO)
             if (!mSnackbar.isShown) {
                 AppInfo.aviso(true)
                 mSnackbar.show()
@@ -166,12 +185,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun botonPublicar(view: View?) {
-        if (mAuth.auth.currentUser != null) {
-            val publicar = Intent(this, ActivityCrearPublicacion::class.java)
-            startActivity(publicar)
-        } else {
-            val items = Intent(this, IniciarSesion::class.java)
-            startActivity(items)
+        if (isNetworkAvailable(this)) {
+            if (mAuth.auth.currentUser != null) {
+                val publicar = Intent(this, ActivityCrearPublicacion::class.java)
+                startActivity(publicar)
+            } else {
+                val items = Intent(this, IniciarSesion::class.java)
+                startActivity(items)
+            }
         }
     }
 
@@ -187,5 +208,11 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    fun conectarInternet(view: View) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
     }
 }

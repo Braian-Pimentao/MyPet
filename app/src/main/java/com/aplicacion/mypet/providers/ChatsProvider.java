@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class ChatsProvider {
     private CollectionReference collectionReference;
 
+
     public ChatsProvider() {
         collectionReference = FirebaseFirestore.getInstance().collection("Chats");
     }

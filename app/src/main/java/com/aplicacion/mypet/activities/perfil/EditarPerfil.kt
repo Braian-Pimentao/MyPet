@@ -23,10 +23,13 @@ import com.aplicacion.mypet.fragments.BottomSheetFragmentPersonalizado
 import com.aplicacion.mypet.models.User
 import com.aplicacion.mypet.providers.AuthProvider
 import com.aplicacion.mypet.providers.ImageProvider
+import com.aplicacion.mypet.providers.PublicacionProvider
 import com.aplicacion.mypet.providers.UserProvider
 import com.aplicacion.mypet.utils.FileUtil
 import com.aplicacion.mypet.utils.ViewedMessageHelper
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.GeoPoint
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import dmax.dialog.SpotsDialog
@@ -44,6 +47,8 @@ class EditarPerfil : AppCompatActivity(), BottomSheetFragmentPersonalizado.Botto
 
     private lateinit var imageProvider: ImageProvider
     private lateinit var userProvider: UserProvider
+    private lateinit var auth: AuthProvider
+    private lateinit var publicacionProvider: PublicacionProvider
     private var urlFotoPerfil : String? = ""
 
     private var latitude: Double? = null
@@ -54,7 +59,6 @@ class EditarPerfil : AppCompatActivity(), BottomSheetFragmentPersonalizado.Botto
     private lateinit var nombreUsuario: TextInputEditText
     private lateinit var botonSubirFoto: ImageButton
 
-    private lateinit var auth: AuthProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +81,7 @@ class EditarPerfil : AppCompatActivity(), BottomSheetFragmentPersonalizado.Botto
         imageProvider = ImageProvider()
         userProvider = UserProvider()
         auth = AuthProvider()
+        publicacionProvider = PublicacionProvider()
 
         getUser()
     }
@@ -135,6 +140,18 @@ class EditarPerfil : AppCompatActivity(), BottomSheetFragmentPersonalizado.Botto
             } catch (e: Exception) {
                 Log.d("ERROR: ", e.message!!)
                 Toast.makeText(this@EditarPerfil, "Error: " + e.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun updateUbicacionPublicacion() {
+        publicacionProvider.getPostByUser(auth.uid).get().addOnSuccessListener { querySnapshot ->
+            if (!querySnapshot.isEmpty) {
+                val geoPoint = GeoPoint(latitude!!, longitude!!)
+                val querySnapshotList: List<DocumentSnapshot> = querySnapshot.documents
+                for (d in querySnapshotList) {
+                    publicacionProvider.updateUbicacion(d.id, geoPoint)
+                }
             }
         }
     }
@@ -225,6 +242,7 @@ class EditarPerfil : AppCompatActivity(), BottomSheetFragmentPersonalizado.Botto
                 ubicacion.add(longitude!!)
                 usuario.ubicacion = ubicacion
                 usuario.ocultarUbicacion = ocultarUbicacion
+                updateUbicacionPublicacion()
             }
             userProvider.update(usuario).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
