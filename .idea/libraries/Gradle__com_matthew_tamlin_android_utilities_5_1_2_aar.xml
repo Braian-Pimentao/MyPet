@@ -4,6 +4,9 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e5b4d7c4d2462be18f05c93b8cd44f2a/jetified-android-utilities-5.1.2/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e5b4d7c4d2462be18f05c93b8cd44f2a/jetified-android-utilities-5.1.2/AndroidManifest.xml" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e5b4d7c4d2462be18f05c93b8cd44f2a/jetified-android-utilities-5.1.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4e881e92ba6095e5321f7d7ee9a46e51/jetified-android-utilities-5.1.2/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4e881e92ba6095e5321f7d7ee9a46e51/jetified-android-utilities-5.1.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/4e881e92ba6095e5321f7d7ee9a46e51/jetified-android-utilities-5.1.2/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.matthew-tamlin/android-utilities/5.1.2/2e165c3520670b75093fe5cfdaa1dcdde42b9451/android-utilities-5.1.2-javadoc.jar!/" />

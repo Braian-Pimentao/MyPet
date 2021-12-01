@@ -1,5 +1,6 @@
 package com.aplicacion.mypet.activities.chat
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,10 +15,7 @@ import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import com.aplicacion.mypet.R
 import com.aplicacion.mypet.activities.perfil.ActivityUsuario
 import com.aplicacion.mypet.adaptadores.MessageAdapter
-import com.aplicacion.mypet.models.Chat
-import com.aplicacion.mypet.models.FCMBody
-import com.aplicacion.mypet.models.FCMResponse
-import com.aplicacion.mypet.models.Mensaje
+import com.aplicacion.mypet.models.*
 import com.aplicacion.mypet.providers.*
 import com.aplicacion.mypet.utils.AppInfo
 import com.aplicacion.mypet.utils.RelativeTime
@@ -200,6 +198,7 @@ class ActivityChat : AppCompatActivity() {
             }
         }
     }
+
 
     override fun onStart() {
         super.onStart()

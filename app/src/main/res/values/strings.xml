@@ -104,7 +104,7 @@
     <string name="eliminar">Eliminar Publicación</string>
     <string name="publicacion_eliminada">Publicación eliminada</string>
     <string name="comprobar_eliminar">¿Desea eliminar la publicación?</string>
-    <string name="comprobar_eliminar_usuario">¿Estás seguro?</string>
+    <string name="comprobar_eliminar_usuario" translatable="false">¿Estás seguro?</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
     <string name="busqueda">Buscar Animal</string>

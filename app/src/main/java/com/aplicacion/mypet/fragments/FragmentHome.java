@@ -182,12 +182,12 @@ public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearch
             @Override
             public void onGeoQueryReady() {
                 if (ids.size()> 0) {
+                    System.out.println("--------------------------holaaa----------------------"+ids);
                     linearLayoutNoBusqueda.setVisibility(View.GONE);
                     Query query = publicacionProvider.getPublicacionByUbication(ids);
                     FirestoreRecyclerOptions<Publicacion> options = new FirestoreRecyclerOptions.Builder<Publicacion>()
                             .setQuery(query,Publicacion.class)
                             .build();
-
 
                     adaptadorPublicacion = new AdaptadorPublicacion(options,getContext());
                     adaptadorPublicacion.notifyDataSetChanged();

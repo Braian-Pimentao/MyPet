@@ -91,7 +91,7 @@ public class PublicacionProvider {
     }
 
     public Query getPublicacionByUbication(ArrayList<String> publicaciones) {
-        return collectionReference.whereIn("id",publicaciones).orderBy("fechaPublicacion",Query.Direction.DESCENDING);
+        return collectionReference.whereArrayContainsAny("id",publicaciones).orderBy("fechaPublicacion",Query.Direction.DESCENDING);
     }
 
     public Query getPostByUser(String id) {

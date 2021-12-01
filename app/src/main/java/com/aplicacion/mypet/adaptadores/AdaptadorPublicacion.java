@@ -76,6 +76,8 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         return new ViewHolderPost(view);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull final ViewHolderPost holder, int position, @NonNull final Publicacion publicacion) {
         String[] listaAnimales = context.getResources().getStringArray(R.array.lista_animales);
