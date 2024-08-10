@@ -1,11 +1,10 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.android.gms:play-services-measurement-sdk:18.0.2@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1f08679f5fa4db437a14729817ee6007/jetified-play-services-measurement-sdk-18.0.2/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/997224b12c74a34787c5ca3aa629709c/jetified-play-services-measurement-sdk-18.0.2/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c6de88218e83cd98ccd67640c88dd83f/jetified-play-services-measurement-sdk-18.0.2/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c6de88218e83cd98ccd67640c88dd83f/jetified-play-services-measurement-sdk-18.0.2/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c6de88218e83cd98ccd67640c88dd83f/jetified-play-services-measurement-sdk-18.0.2/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3ca87f7a96f51ea58b5f3def2f86b6dd/jetified-play-services-measurement-sdk-18.0.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/16e62af7fe806e3dd7cc692d17f3b870/jetified-play-services-measurement-sdk-18.0.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/16e62af7fe806e3dd7cc692d17f3b870/jetified-play-services-measurement-sdk-18.0.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/16e62af7fe806e3dd7cc692d17f3b870/jetified-play-services-measurement-sdk-18.0.2/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.gms/play-services-measurement-sdk/18.0.2/27037f967d955876b3e29db6de6a24458c5b6080/play-services-measurement-sdk-18.0.2-javadoc.jar!/" />

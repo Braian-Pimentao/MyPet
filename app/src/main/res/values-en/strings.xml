@@ -23,7 +23,6 @@
     <string name="register_incomplete">Failed to register</string>
     <string name="inicio_correcto">Login</string>
     <string name="inicio_incorrecto">Incorrect mail or password</string>
-    <string name="inicio_correcto_google">Login with google</string>
     <string name="inicio_incorrecto_google">Login failed with google</string>
     <string name="cargando_iniciar">Login session…</string>
     <string name="cargando_registro">Creating user…</string>
@@ -117,6 +116,8 @@
     <string name="precaucion4">When delivering the pet, it is recommended to stay in a crowded place.</string>
     <string name="colocar_marcador">Place a marker</string>
     <string name="informacion_app">This application was made altruistically to be able to give a home to the pets that need it most. For this, it will be possible to publish post of animals that are for adoption and to be able to contact the user and this give the animal a home. We want this animal to have a good home so we ask if you are thinking of adopting an animal, please do so wisely and not be a whim.</string>
+    <string name="publicacion_actualizada">Post Update</string>
+    <string name="actualizar_publicacion">Update Post</string>
     <string-array name="lista_reportes">
         <item>Joke</item>
         <item>Animal sale</item>

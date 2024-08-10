@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,8 +22,13 @@ import com.aplicacion.mypet.models.Publicacion;
 import com.aplicacion.mypet.providers.AuthProvider;
 import com.aplicacion.mypet.providers.FavoritoProvider;
 import com.aplicacion.mypet.providers.UserProvider;
+import com.firebase.ui.firestore.FirestoreArray;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.firebase.ui.firestore.ObservableSnapshotArray;
+import com.firebase.ui.firestore.SnapshotParser;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -34,7 +40,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, AdaptadorPublicacion.ViewHolder> {
+import static com.google.android.gms.ads.AdSize.BANNER;
+
+public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, AdaptadorPublicacion.ViewHolderPost> {
     private Context context;
     private UserProvider userProvider;
     private FavoritoProvider favoritoProvider;
@@ -50,6 +58,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         authProvider = new AuthProvider();
     }
 
+
     public AdaptadorPublicacion(@NonNull FirestoreRecyclerOptions<Publicacion> options, Context context, TextView contadorPublicaciones) {
         super(options);
         this.context = context;
@@ -61,20 +70,20 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderPost onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cardview_publicacion,parent,false);
-        return new ViewHolder(view);
+        return new ViewHolderPost(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position,  @NonNull final Publicacion publicacion) {
+    public void onBindViewHolder(@NonNull final ViewHolderPost holder, int position, @NonNull final Publicacion publicacion) {
         String[] listaAnimales = context.getResources().getStringArray(R.array.lista_animales);
         DocumentSnapshot document = getSnapshots().getSnapshot(position);
 
         final String idPublicacion = document.getId();
 
-        if (contadorPublicaciones != null){
+        if (contadorPublicaciones != null) {
             int number = getSnapshots().size();
             contadorPublicaciones.setText(String.valueOf(number));
         }
@@ -99,7 +108,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ActivityPublicacion.class);
-                intent.putExtra("id",idPublicacion);
+                intent.putExtra("id", idPublicacion);
                 context.startActivity(intent);
             }
         });
@@ -107,7 +116,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         holder.favorito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (authProvider.getAuth().getCurrentUser()!=null){
+                if (authProvider.getAuth().getCurrentUser() != null) {
                     Favorito favorito = new Favorito();
                     favorito.setIdUser(authProvider.getUid());
                     favorito.setIdPublicacion(idPublicacion);
@@ -120,12 +129,12 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
             }
         });
 
-        if (authProvider.getAuth().getCurrentUser()!=null){
-            checkIsExistFavorite(idPublicacion,authProvider.getUid(),holder);
+        if (authProvider.getAuth().getCurrentUser() != null) {
+            checkIsExistFavorite(idPublicacion, authProvider.getUid(), holder);
         }
 
-        if (authProvider.getAuth().getCurrentUser()!=null){
-            ocultarBotones(publicacion.getIdUser(),holder);
+        if (authProvider.getAuth().getCurrentUser() != null) {
+            ocultarBotones(publicacion.getIdUser(), holder);
         }
 
         if (publicacion.getIdUser() != null) {
@@ -133,7 +142,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         }
     }
 
-    private void getUserInfo(String idUser, ViewHolder holder) {
+    private void getUserInfo(String idUser, ViewHolderPost holder) {
         userProvider.getUser(idUser).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -149,7 +158,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         });
     }
 
-    private void localizacion(double latitude, double longitude, ViewHolder holder){
+    private void localizacion(double latitude, double longitude, ViewHolderPost holder){
         Geocoder geocoder;
         List<Address> direccion = null;
         geocoder = new Geocoder(context, Locale.getDefault());
@@ -171,7 +180,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
 
     }
 
-    private void favorito(final Favorito favorito, final ViewHolder holder) {
+    private void favorito(final Favorito favorito, final ViewHolderPost holder) {
         favoritoProvider.getFavoriteByPostAndUser(favorito.getIdPublicacion(),authProvider.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -188,7 +197,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         });
     }
 
-    private void ocultarBotones(String idUserPublicacion, ViewHolder holder) {
+    private void ocultarBotones(String idUserPublicacion, ViewHolderPost holder) {
         if (authProvider.getAuth().getCurrentUser()!=null) {
             if (idUserPublicacion.equals(authProvider.getUid())) {
                 holder.favorito.setVisibility(View.INVISIBLE);
@@ -196,11 +205,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         }
     }
 
-
-
-
-
-    private void checkIsExistFavorite(String idPublicacion, String idUser, final ViewHolder holder) {
+    private void checkIsExistFavorite(String idPublicacion, String idUser, final ViewHolderPost holder) {
         favoritoProvider.getFavoriteByPostAndUser(idPublicacion,idUser).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -214,8 +219,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         });
     }
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolderPost extends RecyclerView.ViewHolder {
         TextView nombre;
         TextView tipo;
         TextView raza;
@@ -226,7 +230,7 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         ImageView sexo;
         View viewHolder;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolderPost(@NonNull View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.nombre);
             tipo = itemView.findViewById(R.id.tipo_animal);
@@ -240,6 +244,4 @@ public class AdaptadorPublicacion extends FirestoreRecyclerAdapter<Publicacion, 
         }
 
     }
-
-
 }

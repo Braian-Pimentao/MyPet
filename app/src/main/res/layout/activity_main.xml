@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main_activity"
     tools:context=".activities.MainActivity"
     android:fitsSystemWindows="true">
 
@@ -16,11 +17,11 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
+        style="@style/myBottomNavigationStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:labelVisibilityMode="labeled"
-        android:background="?android:attr/windowBackground"
         app:menu="@menu/bottom_navigation_menu">
 
 
@@ -35,5 +36,12 @@
             android:onClick="botonPublicar"
             android:scaleType="center"/>
     </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/placeSnackBar">
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

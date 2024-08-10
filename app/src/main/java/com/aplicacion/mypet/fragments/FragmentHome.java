@@ -97,6 +97,7 @@ public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearch
 
     private void getTodasPublicaciones() {
         Query query = publicacionProvider.getAll();
+
         query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -108,9 +109,13 @@ public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearch
             }
         });
 
+
         FirestoreRecyclerOptions<Publicacion> options = new FirestoreRecyclerOptions.Builder<Publicacion>()
                 .setQuery(query,Publicacion.class)
+
                 .build();
+
+        System.out.println("--------------------------options------------------------------" + options.getSnapshots().size());
 
         adaptadorPublicacion = new AdaptadorPublicacion(options,getContext());
         adaptadorPublicacion.notifyDataSetChanged();
@@ -198,6 +203,4 @@ public class FragmentHome extends Fragment implements MaterialSearchBar.OnSearch
         intentFiltrar.putExtra("tipo", tipo);
         startActivity(intentFiltrar);
     }
-
-
 }

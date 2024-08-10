@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">MyPet</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-6229697190551796/4776782710</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="facebook_app_id" translatable="false">522599922195409</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb522599922195409</string>
     <string name="recyclerview" translatable="false">RecyclerView</string>
     <string name="textview" translatable="false">TextView</string>
     <string name="desc_img_animal">Imagen del animal</string>
@@ -30,7 +33,6 @@
     <string name="register_incomplete">No se pudo registrar</string>
     <string name="inicio_correcto">Se ha iniciado sesión</string>
     <string name="inicio_incorrecto">El email o contraseña incorrectos</string>
-    <string name="inicio_correcto_google">Se ha iniciado sesión con google</string>
     <string name="inicio_incorrecto_google">Sesión no iniciada con google</string>
     <string name="cargando_iniciar">Iniciando sesión…</string>
     <string name="cargando_registro">Creando usuario…</string>
@@ -102,6 +104,7 @@
     <string name="eliminar">Eliminar Publicación</string>
     <string name="publicacion_eliminada">Publicación eliminada</string>
     <string name="comprobar_eliminar">¿Desea eliminar la publicación?</string>
+    <string name="comprobar_eliminar_usuario">¿Estás seguro?</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
     <string name="busqueda">Buscar Animal</string>
@@ -133,6 +136,17 @@
     <string name="precaucion3">No acepte intercambios por otros animales u objetos.</string>
     <string name="precaucion4">A la hora de entregar la mascota, se recomienda quedar en un lugar concurrido.</string>
     <string name="colocar_marcador">Coloca un marcador</string>
+    <string name="publicacion_actualizada">Publicacion Actualizada</string>
+    <string name="actualizar_publicacion">Actualizar Publicacion</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="recomendacion">Recomendamos editar el perfil</string>
+    <string name="despues">Después</string>
+    <string name="editar">Editar</string>
+    <string name="facebook">Facebook</string>
+    <string name="confirmacion_eliminar">¿Estás seguro que quieres eliminar tu perfil?, se perderá los siguientes datos:</string>
+    <string name="publicaciones_aviso">Publicaciones</string>
+    <string name="eliminar_usuario">Eliminar Usuario</string>
+
 
     <string-array name="lista_reportes">
         <item>Broma</item>

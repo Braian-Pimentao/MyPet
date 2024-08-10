@@ -33,7 +33,7 @@ public class UserProvider {
         map.put("username",user.getUsername());
         map.put("ubicacion",user.getUbicacion());
         map.put("urlPerfil",user.getUrlPerfil());
-        map.put("ocultarUbicacion",user.isOcultarUbicacion());
+        map.put("ocultarUbicacion",user.getOcultarUbicacion());
         return collectionReference.document(user.getId()).update(map);
     }
 
@@ -47,6 +47,10 @@ public class UserProvider {
         map.put("ultimaConexion",new Date().getTime());
 
         return collectionReference.document(idUser).update(map);
+    }
+
+    public Task<Void> deleteUser(String idUser) {
+        return collectionReference.document(idUser).delete();
     }
 }
 

@@ -3,6 +3,7 @@ package com.aplicacion.mypet.providers;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
@@ -19,6 +20,11 @@ public class AuthProvider {
 
     public Task<AuthResult> loginGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        return auth.signInWithCredential(credential);
+    }
+
+    public Task<AuthResult> loginFacebook(String idToken) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(idToken);
         return auth.signInWithCredential(credential);
     }
 

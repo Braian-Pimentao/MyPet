@@ -44,9 +44,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginTop="10dp">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <ImageView
             android:layout_width="50dp"
@@ -57,109 +57,114 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:theme="@style/colorDeTexto"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:textSize="15sp"
-            android:justificationMode="inter_word"
             android:layout_marginEnd="15dp"
-            android:text="@string/informacion_app"/>
+            android:justificationMode="inter_word"
+            android:text="@string/informacion_app"
+            android:textSize="15sp"
+            android:theme="@style/colorDeTexto" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_gravity="end"
             android:layout_marginEnd="15sp"
-            android:layout_gravity="end">
+            android:orientation="horizontal">
+
             <ImageView
                 android:id="@+id/boton_instagram"
-                android:onClick="pulsarBotonRedesSociales"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_instagram"/>
+                android:onClick="pulsarBotonRedesSociales"
+                android:src="@drawable/ic_instagram" />
+
             <ImageView
                 android:id="@+id/boton_twitter"
-                android:onClick="pulsarBotonRedesSociales"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="10dp"
-                android:src="@drawable/ic_twitter"/>
+                android:onClick="pulsarBotonRedesSociales"
+                android:src="@drawable/ic_twitter" />
         </LinearLayout>
 
         <Button
-            android:background="@drawable/pulsar_boton_app"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/pulsar_boton_app"
+            android:onClick="enviarCorreo"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:layout_marginEnd="15dp"
-            android:onClick="enviarCorreo"
-            android:layout_gravity="end"
-            android:layout_marginBottom="20dp"
-            android:textColor="@color/white"
-            android:text="@string/contactar" />
+            android:text="@string/contactar"
+            android:textColor="@color/white" />
+
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_warning"
             android:theme="@style/coloresIconos" />
+
         <TextView
             android:layout_width="match_parent"
-            android:theme="@style/colorDeTexto"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:textSize="15sp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/precauciones" />
-        <TextView
-            android:layout_width="match_parent"
-            android:theme="@style/colorDeTexto"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:textSize="15sp"
             android:layout_marginBottom="5dp"
+            android:text="@string/precauciones"
+            android:textSize="15sp"
+            android:theme="@style/colorDeTexto" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="5dp"
+            android:drawablePadding="10dp"
             android:text="@string/precaucion1"
-            android:drawablePadding="10dp"
+            android:textSize="15sp"
+            android:theme="@style/colorDeTexto"
             app:drawableStartCompat="@drawable/ic_punto" />
 
         <TextView
             android:layout_width="match_parent"
-            android:theme="@style/colorDeTexto"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:textSize="15sp"
             android:layout_marginBottom="5dp"
+            android:drawablePadding="10dp"
             android:text="@string/precaucion2"
-            android:drawablePadding="10dp"
+            android:textSize="15sp"
+            android:theme="@style/colorDeTexto"
             app:drawableStartCompat="@drawable/ic_punto" />
 
         <TextView
             android:layout_width="match_parent"
-            android:theme="@style/colorDeTexto"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:textSize="15sp"
             android:layout_marginBottom="5dp"
+            android:drawablePadding="10dp"
             android:text="@string/precaucion3"
-            android:drawablePadding="10dp"
+            android:textSize="15sp"
+            android:theme="@style/colorDeTexto"
             app:drawableStartCompat="@drawable/ic_punto" />
 
         <TextView
             android:layout_width="match_parent"
-            android:theme="@style/colorDeTexto"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:textSize="15sp"
             android:layout_marginBottom="5dp"
-            android:text="@string/precaucion4"
             android:drawablePadding="10dp"
+            android:text="@string/precaucion4"
+            android:textSize="15sp"
+            android:theme="@style/colorDeTexto"
             app:drawableStartCompat="@drawable/ic_punto" />
 
     </LinearLayout>

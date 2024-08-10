@@ -23,7 +23,6 @@
     <string name="register_incomplete">No se pudo registrar</string>
     <string name="inicio_correcto">Se ha iniciado sesión</string>
     <string name="inicio_incorrecto">El email o contraseña incorrectos</string>
-    <string name="inicio_correcto_google">Se ha iniciado sesión con google</string>
     <string name="inicio_incorrecto_google">Sesión no iniciada con google</string>
     <string name="cargando_iniciar">Iniciando sesión…</string>
     <string name="cargando_registro">Creando usuario…</string>
@@ -118,6 +117,8 @@
     <string name="precaucion3">No acepte intercambios por otros animales u objetos.</string>
     <string name="precaucion4">A la hora de entregar la mascota, se recomienda quedar en un lugar concurrido.</string>
     <string name="colocar_marcador">Coloca un marcador</string>
+    <string name="publicacion_actualizada">Publicacion Actualizada</string>
+    <string name="actualizar_publicacion">Actualizar Publicacion</string>
 
     <string-array name="lista_reportes">
         <item>Broma</item>

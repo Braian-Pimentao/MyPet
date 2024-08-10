@@ -4,6 +4,7 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home"
+        android:iconTint="@color/white"
         android:title="@string/inicio" />
     <item
         android:id="@+id/navigation_fav"

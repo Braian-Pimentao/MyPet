@@ -45,44 +45,61 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/principal_app"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/principal_app"/>
 
-            <Button
-                android:id="@+id/editar_perfil"
-                android:theme="@style/colorDeTexto"
-                android:background="?android:attr/selectableItemBackground"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:onClick="editarPerfil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="textStart"
-                app:drawableEndCompat="@drawable/ic_flecha"
-                android:text="@string/editar_perfil" />
+        <Button
+            android:id="@+id/editar_perfil"
+            style="@style/colorDeTexto"
+            android:background="?android:attr/selectableItemBackground"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:onClick="editarPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            app:drawableEndCompat="@drawable/ic_flecha"
+            android:text="@string/editar_perfil" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/principal_app"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/principal_app"/>
 
-            <Button
-                android:id="@+id/cerrar_sesion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:onClick="cerrarSesion"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:text="@string/signOut"
-                android:textAlignment="textStart"
-                android:theme="@style/colorDeTexto"/>
+        <Button
+            android:id="@+id/cerrar_sesion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="cerrarSesion"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/signOut"
+            android:textAlignment="textStart"
+            android:theme="@style/colorDeTexto"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/principal_app"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/principal_app"/>
+
+        <Button
+            android:id="@+id/eliminar_Perfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="eliminarUsuario"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/eliminar_usuario"
+            android:textAlignment="textStart"
+            android:textColor="@color/rojo"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/principal_app"/>
         </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

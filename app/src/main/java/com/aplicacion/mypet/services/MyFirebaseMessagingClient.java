@@ -35,6 +35,7 @@ public class MyFirebaseMessagingClient extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         Map<String,String> data = remoteMessage.getData();
+        System.out.println("-----------------------Recibir-------------------------------" + data);
 
         if (!AppInfo.IN_ACTIVITY_CHAT){
             if (data.get("title") != null) {
